@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO">
+
+	<!--
+	컬럼명 변경 ( 2021.07.21 남윤재 )
+		DB 테이블의 컬럼명들은 visit_year, visit_month, ... 로 되어 있고
+		여기 AuditVisitSQL.xml 의 컬럼명들이 view_year, view_month 로 되어 있어서,
+		여기 AuditVisitSQL.xml 의 컬럼명들을 view_year, view_month... 를 visit_year, visit_month, ... 로 수정함
+
+	컬럼 추가 ( 2021.07.22 남윤재 )
+		VISIT_URL, VISIT_PAGE_NAME 추가 ( KCCAM histVisit 기능 추가 건 )
+	-->
+	<sql id="column">
+		OID									oid						/* OID */
+		, VISIT_YEAR     					visitYear               /* 등록 년 */
+		, VISIT_MONTH						visitMonth              /* 등록 월 */
+		, VISIT_WEEK						visitWeek               /* 등록 주 */
+		, VISIT_DAY							visitDay                /* 등록 일 */
+
+		, USER_IP							userIp					/* 사용자IP */
+		, USER_AGENT						userAgent          		/* 로그인한 사용자의 브라우저 */
+		, INPUT_DATE						inputDate           	/* 등록일시 */
+		, VISIT_URL							visitURL				/* 방문 URL */
+		, VISIT_PAGE_NAME					visitPageName			/* 방문 화면 이름 */
+
+	</sql>
+	
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(visitYear)"> AND VISIT_YEAR = #{visitYear} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(visitMonth)"> AND VISIT_MONTH = #{visitMonth} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(visitWeek)"> AND VISIT_WEEK = #{visitWeek} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(visitDay)"> AND VISIT_DAY = #{visitDay} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(searchText)">
+			AND UPPER(VISIT_PAGE_NAME) LIKE UPPER('%' || #{searchText} || '%')
+		</if>
+
+		
+    	<!-- 연결타입 -->
+	    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userAgent)"> AND USER_AGENT = #{userAgent} </if>
+    	
+    	<!-- USER_IP -->
+    	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userIp)" > AND USER_IP LIKE '%' || #{userIp} || '%' </if>
+
+	    <if test='searchDateType == "FWPOSC1D"'> AND INPUT_DATE <![CDATA[>=]]> TO_DATE(SYSDATE) -1 </if>
+	    <if test='searchDateType == "FWPOSC1W"'> AND INPUT_DATE <![CDATA[>=]]> TO_DATE(SYSDATE) - 7 </if>
+    	<if test='searchDateType == "FWPOSC1M"'> AND INPUT_DATE <![CDATA[>=]]> ADD_MONTHS(SYSDATE, -1) </if>
+    	<if test='searchDateType == "FWPOSC3M"'> AND INPUT_DATE <![CDATA[>=]]> ADD_MONTHS(SYSDATE, -3) </if>
+		
+    	<!-- 날짜범위 검색 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fromDate)"> AND INPUT_DATE <![CDATA[>=]]> TO_DATE( #{fromDate}, 'yyyy-mm-dd' )</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(toDate)"> AND INPUT_DATE <![CDATA[<]]> TO_DATE( #{toDate}, 'yyyy-mm-dd' ) + 1</if>
+
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitInfo">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.insert(AuditVisitInfo) || '남윤재' || '2021-07-21' */
+	
+		INSERT INTO TS02_TB_AUDIT_VISIT (
+			OID									
+			, VISIT_YEAR								
+			, VISIT_MONTH								
+			, VISIT_WEEK								
+			, VISIT_DAY
+
+			, USER_IP
+			, USER_AGENT
+			, INPUT_DATE
+			, VISIT_URL
+			, VISIT_PAGE_NAME
+		) VALUES (
+			#{oid}
+			, #{visitYear}                
+			, #{visitMonth}               
+			, #{visitWeek}              
+			, #{visitDay}
+
+			, #{userIp}
+			, #{userAgent}
+			, #{inputDate}
+			, #{visitURL}
+			, #{visitPageName}
+		)
+	</insert>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitCnd" resultType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitInfo">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.insert(AuditViewInfo) || '최대한' || '2020-09-11' */
+		
+		SELECT
+			<include refid="column"/>
+		FROM TS02_TB_AUDIT_VISIT
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+	
+	<insert id="insertBulk" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.insertBulk(List AuditVisitInfo ) || '최대한' || '2020-09-14' */
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(list)">
+			INSERT ALL
+			<foreach collection="list" item="item">
+			INTO TS02_TB_AUDIT_VISIT
+			(
+				OID									
+				, VISIT_YEAR								
+				, VISIT_MONTH								
+				, VISIT_WEEK								
+				, VISIT_DAY								
+		
+				, USER_IP								
+				, USER_AGENT
+				, INPUT_DATE
+				, VISIT_URL
+				, VISIT_PAGE_NAME
+				)
+			VALUES
+				(
+				  #{item.oid}
+					, #{item.visitYear}                
+					, #{item.visitMonth}               
+					, #{item.visitWeek}              
+					, #{item.visitDay}                 
+
+					, #{item.userIp}					
+					, #{item.userAgent}
+					, #{item.inputDate}
+					, #{item.visitURL}
+					, #{item.visitPageNum}
+				)
+			</foreach>
+			SELECT * FROM DUAL
+		</if>
+	</insert>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitCnd" resultType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitInfo">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.listAll(AuditVisitCnd) || '최대한' || '2020-09-11' */
+		SELECT
+			<include refid="column"/>
+		FROM TS02_TB_AUDIT_VISIT
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+	
+	<select id="list" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitCnd" resultType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitInfo">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.list(AuditVisitCnd) || '최대한' || '2020-09-14' */
+		SELECT * FROM
+		(
+			SELECT ROW_NUMBER() OVER(ORDER BY INPUT_DATE DESC) RNUM,
+			<include refid="column"/>
+			FROM TS02_TB_AUDIT_VISIT
+			WHERE 1=1
+			<include refid="searchCnd"/>
+		) X
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitCnd" resultType="int">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.listCount(AuditVisitCnd) || '최대한' || '2020-09-14' */
+		SELECT COUNT(*) 
+		FROM TS02_TB_AUDIT_VISIT
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+	
+	<update id="update" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitInfo">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.update(AuditVisitInfo) || '최대한' || '2020-09-11' */
+		UPDATE TS02_TB_AUDIT_VISIT
+		<trim prefix="SET" suffixOverrides=",">
+	    	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userAgent)"> USER_AGENT = #{userAgent}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userIp)"> USER_IP = #{userIp},</if>
+		</trim>
+		WHERE 1=1
+			AND OID = #{oid}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.delete(String) || '최대한' || '2020-09-11' */
+		DELETE
+		FROM TS02_TB_AUDIT_VISIT
+		WHERE OID = #{oid}
+	</delete>
+
+	<delete id="deleteAll" parameterType="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitCnd">
+		/* com.remarkablesoft.framework.service.audit.visit.model.impl.AuditVisitDAO.deleteAll(AuditVisitCnd) || '최대한' || '2020-09-11' */
+		DELETE
+		FROM TS02_TB_AUDIT_VISIT
+		WHERE 1 = 1
+			<include refid="searchCnd"/>
+	</delete>
+	
+</mapper>

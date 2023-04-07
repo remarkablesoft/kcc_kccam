@@ -1,0 +1,5 @@
+--  TS02_AM_LANG : 다국어 테이블
+DROP TABLE TS02_AM_LANG;
+
+--  TS02_AM_LANG_ITEM : 다국어 아이템 테이블
+DROP TABLE TS02_AM_LANG_ITEM;

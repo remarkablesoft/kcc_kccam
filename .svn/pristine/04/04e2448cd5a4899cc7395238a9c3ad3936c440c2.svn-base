@@ -1,0 +1,121 @@
+---------------------------------------------------------------
+-- TS02_TB_DOC  : 문서정보 테이블
+---------------------------------------------------------------
+CREATE TABLE TS02_TB_DOC
+(
+    OID                         VARCHAR2(11)            NOT NULL,
+    COMPANY_OID                 VARCHAR2(11)            NULL,
+    SYSTEM_OID                  VARCHAR2(11)            NULL,
+    CATEGORY_OID                VARCHAR2(11)            NULL,
+    TITLE                       VARCHAR2(255)           NULL,
+
+    DOC_TYPE                    VARCHAR2(8)             NULL,
+    CURRENT_VERSION_OID         VARCHAR2(11)            NULL,
+    SECRET_YN                   VARCHAR2(1)             NULL,
+    PWD                         VARCHAR2(255)           NULL,
+    INPUT_USER_INFO_LIST        VARCHAR2(255)           NULL,
+
+    INPUT_USER                  VARCHAR2(11)            NULL,
+  	INPUT_DATE	 				DATE DEFAULT SYSDATE 	NOT NULL,
+    MOD_USER                    VARCHAR2(11)            NULL,
+    MOD_DATE                    DATE                    NULL,
+    DEL_USER                    VARCHAR2(11)            NULL,
+    DEL_DATE                    DATE                    NULL,
+
+    CUSTOM_FIELD1               VARCHAR2(255)           NULL,
+    CUSTOM_FIELD2               VARCHAR2(255)           NULL,
+    CUSTOM_FIELD3               VARCHAR2(255)           NULL,
+    CUSTOM_FIELD4               VARCHAR2(255)           NULL,
+    CUSTOM_FIELD5               VARCHAR2(255)           NULL,
+
+    CONSTRAINT TS02_TB_DOC PRIMARY KEY( OID )
+);
+
+COMMENT ON TABLE TS02_TB_DOC IS '문서정보 테이블';
+
+COMMENT ON COLUMN TS02_TB_DOC.OID IS 'OID';
+COMMENT ON COLUMN TS02_TB_DOC.COMPANY_OID IS '회사 OID';
+COMMENT ON COLUMN TS02_TB_DOC.SYSTEM_OID IS '시스템 OID';
+COMMENT ON COLUMN TS02_TB_DOC.CATEGORY_OID IS '카테고리 OID';
+COMMENT ON COLUMN TS02_TB_DOC.TITLE IS '제목';
+
+COMMENT ON COLUMN TS02_TB_DOC.DOC_TYPE IS '문서타입';
+COMMENT ON COLUMN TS02_TB_DOC.CURRENT_VERSION_OID IS '현재 버전 문서 OID';
+COMMENT ON COLUMN TS02_TB_DOC.SECRET_YN IS '비밀글 여부';
+COMMENT ON COLUMN TS02_TB_DOC.PWD IS '비밀글 비밀번호';
+COMMENT ON COLUMN TS02_TB_DOC.INPUT_USER_INFO_LIST IS '등록자의 사용자정보';
+
+COMMENT ON COLUMN TS02_TB_DOC.INPUT_USER IS '등록자';
+COMMENT ON COLUMN TS02_TB_DOC.INPUT_DATE IS '등록일';
+COMMENT ON COLUMN TS02_TB_DOC.MOD_USER IS '수정자';
+COMMENT ON COLUMN TS02_TB_DOC.MOD_DATE IS '수정일';
+COMMENT ON COLUMN TS02_TB_DOC.DEL_USER IS '삭제자';
+COMMENT ON COLUMN TS02_TB_DOC.DEL_DATE IS '삭제일';
+
+COMMENT ON COLUMN TS02_TB_DOC.CUSTOM_FIELD1 IS '커스텀 필드1';
+COMMENT ON COLUMN TS02_TB_DOC.CUSTOM_FIELD2 IS '커스텀 필드2';
+COMMENT ON COLUMN TS02_TB_DOC.CUSTOM_FIELD3 IS '커스텀 필드3';
+COMMENT ON COLUMN TS02_TB_DOC.CUSTOM_FIELD4 IS '커스텀 필드4';
+COMMENT ON COLUMN TS02_TB_DOC.CUSTOM_FIELD5 IS '커스텀 필드5';
+
+
+
+---------------------------------------------------------------
+-- TS02_TB_DOC_REL  : 문서정보 관계 테이블
+---------------------------------------------------------------
+CREATE TABLE TS02_TB_DOC_REL
+(
+    DOC_OID                 VARCHAR2(11) NOT NULL,
+    TARGET_OID              VARCHAR2(11) NOT NULL,
+    TARGET_OBJECT           VARCHAR2(8),
+  	INPUT_DATE	 			DATE DEFAULT SYSDATE 	NOT NULL,
+    LAST_OPEN_DATE          DATE,
+
+    CONSTRAINT TS02_TB_DOC_REL PRIMARY KEY( DOC_OID, TARGET_OID )
+);
+
+COMMENT ON TABLE TS02_TB_DOC_REL IS '문서정보 관계 테이블';
+
+COMMENT ON COLUMN TS02_TB_DOC_REL.DOC_OID IS '문서 OID';
+COMMENT ON COLUMN TS02_TB_DOC_REL.TARGET_OID IS '문서 관계정보 OID';
+COMMENT ON COLUMN TS02_TB_DOC_REL.TARGET_OBJECT IS '문서 관계정보 객체';
+COMMENT ON COLUMN TS02_TB_DOC_REL.INPUT_DATE IS '등록일시';
+COMMENT ON COLUMN TS02_TB_DOC_REL.LAST_OPEN_DATE IS '마지막 열람 일시';
+
+---------------------------------------------------------------
+-- TS02_TB_DOC_VERSION  : 문서 버전정보 테이블
+---------------------------------------------------------------
+CREATE TABLE TS02_TB_DOC_VERSION
+(
+    OID                     VARCHAR2(11) NOT NULL,
+    DOC_OID                 VARCHAR2(11) NOT NULL,
+    DOC_NO                  VARCHAR2(25),
+    VERSION                 VARCHAR2(25),
+    STATUS_TYPE_FLAG        CHAR(1),
+
+    OUT_LINK_URL            VARCHAR2(255),
+    DESCR                   VARCHAR2(4000),
+    INPUT_USER              VARCHAR2(11),
+  	INPUT_DATE	 			DATE DEFAULT SYSDATE 	NOT NULL,
+
+    MOD_USER                VARCHAR2(11),
+    MOD_DATE                DATE,
+
+    CONSTRAINT TS02_TB_DOC_VERSION PRIMARY KEY( OID )
+);
+
+COMMENT ON TABLE TS02_TB_DOC_VERSION IS '문서 버전 테이블';
+
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.OID IS 'OID';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.DOC_OID IS '문서 OID';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.DOC_NO IS '문서 번호';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.VERSION IS '문서 버전';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.STATUS_TYPE_FLAG IS '문서 상태 Y 배포, S 중지, E 만료, B 차단';
+
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.OUT_LINK_URL IS '외부 문서 다운로드 링크 URL';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.DESCR IS '비고';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.INPUT_USER IS '등록자';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.INPUT_DATE IS '등록일';
+
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.MOD_USER IS '수정자';
+COMMENT ON COLUMN TS02_TB_DOC_VERSION.MOD_DATE IS '수정일';

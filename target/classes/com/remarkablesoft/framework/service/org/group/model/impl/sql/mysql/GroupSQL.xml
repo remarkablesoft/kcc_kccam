@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO">
+
+
+	<sql id="column">
+		OID 				oid,
+		NAME 				name,
+	    OWNER 				owner,
+	    PARENT_OID			parentOid,
+	    FULL_PATH_INDEX		fullPathIndex,
+
+	    SUB_LAST_INDEX		subLastIndex,
+		INPUT_USER 			inputUser,
+		INPUT_DATE			inputDate,
+		BRANCH_OID			branchOid,
+		COMPANY_OID			companyOid,
+
+		CUSTOM_FIELD1		customField1,
+		CUSTOM_FIELD2		customField2,
+		CUSTOM_FIELD3		customField3,
+		CUSTOM_FIELD4		customField4,
+		CUSTOM_FIELD5		customField5
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> AND COMPANY_OID = #{companyOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME LIKE CONCAT('%',#{name},'%') </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(owner)"> AND OWNER = #{owner} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)">
+
+			<choose>
+				<when test="isWithChildGroup">
+					AND FULL_PATH_INDEX LIKE CONCAT( ( SELECT FULL_PATH_INDEX FROM TS02_TB_GROUP WHERE OID = #{parentOid} ),'%')
+					<if test="isOnlyChildGroup"> AND OID != #{parentOid} </if>	<!-- 자신은 제외하고 하위만 가져옴 -->
+				</when>
+				<otherwise> AND PARENT_OID = #{parentOid}</otherwise>
+			</choose>
+
+		</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fullPathIndex)"> AND FULL_PATH_INDEX LIKE CONCAT( #{fullPathIndex},'%') </if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(groupOidList)">
+			AND OID IN
+			<foreach item="groupOid" index="index" collection="groupOidList" open="(" close=")" separator=",">
+		 		#{groupOid}
+		   	</foreach>
+		</if>
+
+		<!-- 지점정보를 사용할 때 최상위 부모 또는 지점정보가 있는 팀정보만 가져온다 -->
+		<if test='branchUseYn == "Y"'> AND ( ( PARENT_OID IS NULL OR PARENT_OID = '' ) OR ( BRANCH_OID IS NOT NULL AND BRANCH_OID != ''  ) ) </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> AND BRANCH_OID = #{branchOid} </if>
+	</sql>
+
+
+    <select id="existByOid" resultType="int" parameterType="string">
+		/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.existByOid(String) || ’황선영’ || ’2018-04-10’ */
+		SELECT COUNT(*)
+		FROM TS02_TB_GROUP
+		WHERE OID = #{oid}
+	</select>
+	
+	<select id="existDuplicate" resultType="int" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+		/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.existDuplicate(GroupInfo) || ’황선영’ || ’2020-01-08’ */
+		SELECT COUNT(*)
+		FROM TS02_TB_GROUP
+		WHERE 1=1
+		<!-- 자신을 제외하고는 이름중복체크 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID != #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME = #{name} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)"> AND PARENT_OID = #{parentOid} </if>
+	</select>
+
+	<!-- 그룹명과  parentOid로 중복여부를 확인합니다. -->
+	<select id="checkExist" resultType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+		/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.checkExist(GroupInfo) || ’황선영’ || ’2019-10-28’ */
+		SELECT
+			<include refid="column"/>
+		FROM TS02_TB_GROUP
+		WHERE 1=1
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID != #{oid} </if><!-- 자기 자신과는 중복여부를 비교하지 않기 위해 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME = #{name} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)"> AND PARENT_OID = #{parentOid} </if>
+		LIMIT 1
+	</select>
+
+	<delete id="delete" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupCnd">
+		DELETE
+		FROM TS02_TB_GROUP
+		WHERE 1 = 1
+		<include refid="searchCnd"/>
+	</delete>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+		/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.insert(GroupInfo) || ’황선영’ || ’2018-04-10’ */
+		INSERT INTO TS02_TB_GROUP (
+			     OID
+		       , NAME
+			   , OWNER
+			   , PARENT_OID
+			   , FULL_PATH_INDEX
+
+			   , SUB_LAST_INDEX
+			   , INPUT_USER
+			   , INPUT_DATE
+			   , BRANCH_OID
+			   , COMPANY_OID
+
+			   , CUSTOM_FIELD1
+			   , CUSTOM_FIELD2
+			   , CUSTOM_FIELD3
+			   , CUSTOM_FIELD4
+			   , CUSTOM_FIELD5
+		) VALUES (
+		         #{oid}
+		       , #{name}
+		       , #{owner}
+		       , #{parentOid}
+		       , #{fullPathIndex}
+
+		       , #{subLastIndex}
+		       , #{inputUser}
+			   , #{inputDate}
+			   , #{branchOid}
+			   , #{companyOid}
+
+			   , #{customField1}
+			   , #{customField2}
+			   , #{customField3}
+			   , #{customField4}
+			   , #{customField5}
+		)
+	</insert>
+
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+	  	/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.update(GroupInfo) || ’황선영’ || ’2018-04-10’ */
+		UPDATE TS02_TB_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)">  NAME = #{name}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(owner)"> OWNER = #{owner}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)"> PARENT_OID = #{parentOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> BRANCH_OID = #{branchOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fullPathIndex)"> FULL_PATH_INDEX = #{fullPathIndex}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> CUSTOM_FIELD4 = #{customField4}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> CUSTOM_FIELD5 = #{customField5}, </if>
+
+			<if test="subLastIndex gt -2">SUB_LAST_INDEX = #{subLastIndex}, </if>
+
+		</trim>
+		WHERE OID = #{oid}
+   	</update>
+
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupCnd" resultType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+		/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.list(GroupCnd) || ’이균환’ || ’2019-09-29’ */
+		SELECT
+			<include refid="column"/>
+		FROM TS02_TB_GROUP
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			ORDER BY FULL_PATH_INDEX
+		LIMIT #{startIndexBaseZero}, #{pageSize}
+	</select>
+
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.mgnt.menu.vo.MenuCnd" resultType="int">
+		 SELECT COUNT(*)
+		 FROM TS02_TB_GROUP
+		 WHERE 1=1
+		 <include refid="searchCnd"/>
+	</select>
+
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.org.group.vo.GroupCnd" resultType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+	  	/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.listAll(GroupCnd) || ’황선영’ || ’2018-04-10’ */
+		 SELECT <include refid="column"/>
+		 FROM TS02_TB_GROUP
+		 WHERE  1 = 1
+		 <include refid="searchCnd"/>
+			ORDER BY FULL_PATH_INDEX
+	</select>
+
+	<select id="get" parameterType="string" resultType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+	  	/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.getGroupByOid(String) || ’황선영’ || ’2018-04-10’ */
+		 SELECT <include refid="column"/>
+		 FROM TS02_TB_GROUP
+		 WHERE OID = #{oid}
+	</select>
+
+
+	<select id="getByCnd" parameterType="string" resultType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+	  	/* com.remarkablesoft.framework.service.org.group.model.impl.GroupDAO.getGroup(GroupCnd) || ’황선영’ || ’2018-04-10’ */
+		 SELECT <include refid="column"/>
+		 FROM TS02_TB_GROUP G
+		 WHERE 1 = 1
+		 <include refid="searchCnd"/>
+		 LIMIT 1
+	</select>
+
+    <!-- string 파라메터를 바로 쓸때에는 _parameter를 이용하면 됩니다. -->
+	<!-- 그룹의 사용자 카운트는 사용자테이블에서 정보를 가져와서 처리  -->
+	<select id="listUserCntByGroup" parameterType="string" resultType="com.remarkablesoft.framework.service.org.group.vo.GroupInfo">
+		SELECT GROUP_OID oid, COUNT(*) userCnt
+		FROM TS02_TB_USER
+		GROUP BY GROUP_OID
+		HAVING GROUP_OID != ''
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(_parameter)"> AND GROUP_OID = #{_parameter} </if>
+	</select>
+
+</mapper>

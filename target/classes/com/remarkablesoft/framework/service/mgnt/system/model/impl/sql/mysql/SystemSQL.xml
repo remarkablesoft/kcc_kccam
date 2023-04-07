@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO">
+
+	<sql id="systemColumn">
+		OID							oid
+		, COMPANY_OID				companyOid
+		, NAME						name
+		, DESCR						descr
+		, ORDER_NO					orderNo
+		
+		, USE_YN					useYn
+		, MANAGER_OID				managerOid
+		, INPUT_DATE				inputDate
+		, INPUT_USER				inputUser
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)">AND OID = #{oid}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)">AND COMPANY_OID = #{companyOid}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)">AND USE_YN = #{useYn}</if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+			AND OID IN
+			<foreach collection="oidList" item="oid" index="index" separator="," open="(" close=")">
+				#{oid}
+			</foreach>
+		</if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(searchQuery)">
+	    	 AND UPPER(NAME) LIKE UPPER(CONCAT('%', #{searchQuery}, '%'))
+	    </if>
+
+	   <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyName)">
+	   		AND COMPANY_OID IN
+	   		(
+	   			SELECT OID
+	   			FROM TS02_TB_COMPANY
+	    	 	WHERE UPPER( COMPANY_NAME ) LIKE UPPER(CONCAT('%', #{companyName}, '%'))
+	    	 )
+	    </if>
+
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemInfo">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.insert(SystemInfo) || '이균환' || '2019-12-04'*/
+		INSERT INTO TS02_TB_SYSTEM (
+			OID
+			, COMPANY_OID
+			, NAME
+			, DESCR
+			, ORDER_NO
+			
+			, USE_YN
+			, MANAGER_OID
+			, INPUT_DATE
+			, INPUT_USER
+			)
+		VALUES (
+			#{oid}
+			, #{companyOid}
+			, #{name}
+			, #{descr}
+			, #{orderNo}
+			
+			, #{useYn}
+			, #{managerOid}
+			, #{inputDate}
+			, #{inputUser}
+			)
+	</insert>
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemInfo">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.update(SystemInfo) || '이균환' || '2019-12-04'*/
+		UPDATE TS02_TB_SYSTEM
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> COMPANY_OID = #{companyOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> NAME = #{name}, </if>
+			<if test="sendTypeMode gt 0"> SEND_TYPE_MODE = #{sendTypeMode}, </if>
+			<if test="orderNo gt 0"> ORDER_NO = #{orderNo}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> USE_YN = #{useYn}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(managerOid)"> MANAGER_OID = #{managerOid}, </if>
+		</trim>
+		WHERE 1=1
+		  AND OID = #{oid}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.delete(String) || '이균환' || '2019-12-04'*/
+		DELETE
+		FROM
+			TS02_TB_SYSTEM
+		WHERE
+			OID = #{oid}
+	</delete>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemCnd" resultType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemInfo">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.get(SystemCnd) || '이균환' || '2019-12-04'*/
+		SELECT
+			<include refid="systemColumn"/>
+		FROM
+			TS02_TB_SYSTEM
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemCnd" resultType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemInfo">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.list(SystemCnd) || '이균환' || '2019-12-04'*/
+		SELECT
+			<include refid="systemColumn"/>
+		FROM TS02_TB_SYSTEM
+		WHERE 1=1
+		<include refid="searchCnd"/>
+		ORDER BY ORDER_NO DESC
+		LIMIT #{startIndexBaseZero}, #{pageSize}
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemCnd" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TS02_TB_SYSTEM
+		WHERE 1=1
+		<include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemCnd" resultType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemInfo">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.listAll(SystemCnd) || '이균환' || '2019-12-04'*/
+		SELECT
+			<include refid="systemColumn"/>
+		FROM
+			TS02_TB_SYSTEM
+		WHERE 1=1
+		<include refid="searchCnd"/>
+	</select>
+
+
+	<select id="getMaxOrderNo" parameterType="com.remarkablesoft.framework.service.mgnt.system.vo.SystemCnd" resultType="int">
+		/* com.remarkablesoft.framework.service.mgnt.system.model.impl.SystemDAO.getMaxOrderNo(SystemCnd) || '이균환' || '2019-12-04'*/
+		SELECT IFNULL( MAX( ORDER_NO ), 0 ) AS orderNo
+		FROM TS02_TB_SYSTEM
+		WHERE 1=1
+		AND COMPANY_OID = #{companyOid}
+	</select>
+
+
+</mapper>

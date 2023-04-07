@@ -1,0 +1,16 @@
+/*-------------------------------------------------------------------
+    파일정의 : _functions.scss # sass 함수
+-------------------------------------------------------------------*/
+
+// 전체에서 나눈 수를 구한 함수입니다
+// ( defult : 50% )
+@function getWidthWithMargin($all: 100, $number: 2, $margin: 1, $unit: 0%) {
+    $result: calc(($all / $number) - $margin) + $unit;
+    @return $result;
+}
+
+// ( defult : 33.333333% )
+@function getWidth($all: 100, $number: 3, $unit: 0%) {
+    $result: ($all / $number) + $unit;
+    @return $result;
+}

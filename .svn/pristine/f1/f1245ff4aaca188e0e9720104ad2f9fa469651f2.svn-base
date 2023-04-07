@@ -1,0 +1,231 @@
+/*-------------------------------------------------------------------
+    파일정의 : _sidebar.scss # 사이드바 (side nav)
+-------------------------------------------------------------------*/
+
+.side-nav-container {
+	position: fixed;
+	z-index: 100;
+	width: $sideNavWidth;
+	transform: translate(0, 0);
+	transition: 0.3s;
+
+	&.active {
+		transform: translate(0, -26rem);
+
+		.scroll-element {
+			height: calc(100vh - 36rem);
+		}
+	}
+}
+
+.side-nav {
+	.scroll-element {
+		height: calc(100vh - 45rem);
+
+		> div {
+			padding-right: 0 !important;
+		}
+	}
+
+	.el-menu {
+		border-right: 0 none;
+	}
+
+	.el-submenu__title {
+		@include flex-item($justify: space-between);
+		padding: 5rem 0;
+		border-bottom: 0.2rem solid #636363 !important;
+		background: #f8f8f8;
+		font-size: 2.1rem;
+		font-weight: 700;
+		color: #000;
+
+		.el-submenu__icon-arrow {
+			margin-top: -1rem;
+			font-size: 2.5rem;
+			color: $primaryColor;
+
+			&:before {
+				content: "\e7a0";
+			}
+		}
+	}
+
+	.el-submenu.is-opened {
+
+		> .el-submenu__title {
+			.el-submenu__icon-arrow {
+				color: #000;
+
+				&:before {
+					content: "\e7a2";
+				}
+			}
+		}
+
+
+		.el-submenu.is-opened {
+			background-color: $primaryColor;
+
+			.el-submenu__title {
+				> span {
+
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	.el-submenu {
+		.el-menu-item,
+		.el-submenu .el-submenu__title {
+			height: 100%;
+			padding: 0 !important;
+			border-bottom: 0.2rem solid $defaultGrayBorderColor !important;
+			font-size: 1.5rem;
+			font-weight: 500;
+			line-height: 1.4;
+			color: #0c0c0c;
+			background-color: transparent;
+			white-space: normal;
+			word-break: break-all;
+
+
+		}
+
+		.el-submenu {
+			.el-submenu__icon-arrow {
+				display: none;
+			}
+
+			&.is-opened .el-submenu__title {
+				background-color: transparent;
+				color: $primaryColor;
+			}
+
+			.el-submenu__title {
+				&:focus,
+				&:hover {
+					background-color: transparent;
+					color: $primaryColor;
+				}
+
+				span {
+					padding: 1.5rem;
+					width: 100%;
+					display: block;
+				}
+			}
+
+			.el-menu-item {
+				background-color: $bgLgrayColor;
+				border-bottom: 0 none !important;
+				padding: 1.2rem 1.5rem !important;
+				font-size: 1.4rem;
+				word-break: keep-all;
+
+				&:focus,
+				&:hover {
+					background-color: #eeeeff;
+					color: $primaryColor;
+				}
+
+				&.is-opened {
+					background-color: #ccccf6;
+					color: $primaryColor;
+				}
+
+				&:last-child {
+					border-bottom: 0.2rem solid $defaultGrayBorderColor !important;
+				}
+
+				// span {
+				// 	display: inline-block;
+				// 	padding: 0 1rem;
+				// }
+			}
+		}
+	}
+
+	// .el-menu-item {
+	//     &:focus,
+	//     &:hover {
+	//         background-color: transparent;
+	//         color: $primaryColor;
+	//     }
+	// }
+}
+
+/*=== tablet ===*/
+@mixin sidebar-tablet() {
+	.side-nav-container {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1000;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.6);
+		overflow: hidden;
+		visibility: hidden;
+		opacity: 0;
+		display: flex;
+		justify-content: flex-end;
+
+		&.open {
+			opacity: 1;
+			visibility: visible;
+
+			.side-nav {
+				transform: translate(0, 0);
+			}
+		}
+	}
+
+	.side-nav {
+		width: 60%;
+		height: 100%;
+		background: #fff;
+		box-shadow: 4px 7px 24.7px 1.3px rgba(0, 0, 0, 0.3);
+		transform: translate(100%, 0);
+		transition: 0.2s linear;
+
+		.el-submenu__title {
+			background: $primaryColor;
+			font-size: 2.8rem;
+			color: #fff;
+			border-bottom: 0.4rem solid #000 !important;
+
+			i {
+				color: #000 !important;
+			}
+		}
+
+		.btn-wrap {
+			// position: absolute;
+			// top: 1rem;
+			// right: 1rem;
+			padding: 1.5rem 2rem;
+			background: $primaryColor;
+			text-align: right;
+		}
+
+		.btn-close {
+			.material-icons {
+				font-size: 4rem;
+				// font-weight: 400;
+				color: #fff;
+			}
+		}
+
+		.scroll-element {
+			height: calc(100vh - 7rem);
+		}
+
+		.el-submenu .el-menu-item {
+			font-size: 1.8rem;
+		}
+	}
+}

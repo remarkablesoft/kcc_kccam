@@ -1,0 +1,78 @@
+
+-- KCC AM 코어 소스 변경
+
+1. service > board > board
+    1) BoardPropertyInfo, BLO, DAO, SQL, BoardSQL
+     - 삭제
+    2) BoardInfo
+     - 삭제 : 멤버 변수 중 보드 속성 리스트를 나타내는 propertyList
+    3) BoardBLO
+     - 추가 : insert 메소드 내 조건 추가
+     - 삭제 : boardpropertyBLO 관련 메소드 일체
+
+2. service > board > posting
+    1) PostingInfo
+     - 삭제 : tagList, receiveCheckInfoList, addReceiveCheckInfo()
+     - 추가 : FileInfo iconFile, FILE_TYPE_ICON = "FWPO00IC" ( 대표 이미지아이콘 타입 )
+    2) PostingService, PostingServiceImpl
+     - 삭제 : likePosting, pickPosting, actionPosting
+    3) PostingBLO
+     - 변경 :  insert, update, get, delete, terminateWithRelObject 메소드 내부 로직 변경
+     - 삭제 : likePosting, pickPosting, actionPosting, fillNewYn 메소드
+    4) PostingCnd
+     - 추가 : SEARCH_QUERY_TYPE_TITLE_PRODUCT, SEARCH_QUERY_TYPE_TITLE_OR_TITLE_PRODUCT, isFillIconFile, lang
+
+
+3. service > board > audit
+    1) PostingAUditViewCnd
+     - 멤버 변수 추가 : year, month, week, day, hour
+
+4. service > board > contents
+    1) ContentsInfo
+     - 멤버 변수 추가 : contentsTitle, orderNo
+    2) ContentsBLO, DAO, SQL
+     - 추가 : insertBulk
+
+5. service > board > comment
+    1) vo, model 전부 삭제
+
+6. service > doc > doc
+    1) 문서 정보, 관계정보, 문서 버전 정보를 나타내는 DocInfo, DocRelInfo, DocVersionInfo 와 해당 객체별 서비스 생성
+    2) 파일 첨부하여 템플릿 적용한 메일 전송 기능 추가
+
+
+7. service > toolkit > drawcell
+    1) 표를 그리기 위한 ( 셀 생성, 삭제, 수정, 병합 ) 객체와 서비스 생성
+
+8. service > audit > view
+    1) AuditViewInfo
+    - 멤버변수 추가
+        : 조회 날짜 멤버변수 viewYear, viewMonth, viewWeek, viewDay
+        : targetOidList
+    - 멤버변수 삭제 : loginUserVC
+    2) AuditViewCnd
+    - 신규 생성
+    3) AuditViewBLO, AuditViewService, AuditViewServiceImpl, AuditViewSQL 변경
+    - 서비스 추가 : groupByCountList
+    - sql : 조회 날짜 변수명 변경
+
+9. service > audit > visit
+    1) AuditVisitCnd
+    - 변경
+        : userDeviceTypeFlag/userOsFlag, userBrowser -> userAgent 로 통합
+        : 통계 관련 멤버변수명 변경 year, month, week, day -> visitYear, visitMonth, visitWeek, visitDay
+    2) AuditVisitSQL
+    - 변경 : 조회 날짜 변수명
+
+10. service > mgnt > category
+    1) CategoryInfo
+    - 추가 : modUser, modDate, lang, langCategoryList, lang
+    - 삭제 : delUser, delDate
+    2) CategoryCnd
+    - 추가 : lang
+    3) CategoryBLO
+    - 변경 : insert, update, delete
+    - 삭제 : deleteByCnd
+    4) CategoryService, CategoryDAO, CategoryServiceImpl, CategorySQL
+    - 삭제 : deleteFlagUpdate, deleteByCnd
+

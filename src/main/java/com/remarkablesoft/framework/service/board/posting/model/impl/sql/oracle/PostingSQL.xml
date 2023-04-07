@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO">
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.insert(PostingInfo) || ’김웅기’ || ’2021-06-02’ */
+		INSERT INTO TS02_TB_POSTING (
+			 OID
+			 , BOARD_OID
+			 , NOTICE_LEVEL
+
+			 , TEMP_YN
+			 , FROM_DATE
+			 , TO_DATE
+
+			 , DEL_USER
+			 , DEL_DATE
+
+			 , THREAD_OID
+			 , THREAD_PARENT_OID
+			 , THREAD_FULL_PATH_OID
+			 , THREAD_DEPTH
+			 , THREAD_ORDER_NO
+
+			 , RE_CNT
+			 , CMT_CNT
+			 , RCMD_CNT
+			 , LIKE_CNT
+			 , VIEW_CNT
+			 
+			 , ANONYMOUS_PWD
+			 , PICK_YN
+
+			 , CUSTOM_FIELD1
+			 , CUSTOM_FIELD2
+			 , CUSTOM_FIELD3
+			 , CUSTOM_FIELD4
+			 , CUSTOM_FIELD5
+		) VALUES (
+		     #{oid}
+			 , #{boardOid}
+		     , #{noticeLevel}
+
+			 , #{tempYn}
+			 , #{fromDate}
+			 , #{toDate}
+
+			 , #{delUser}
+			 , #{delDate}
+
+			 , #{threadOid}
+			 , #{threadParentOid}
+			 , #{threadFullPathOid}
+			 , #{threadDepth}
+			 , #{threadOrderNo}
+
+			 , #{replyCount}
+			 , #{commentCount}
+			 , #{recommendCount}
+			 , #{likeCount}
+			 , #{viewCount}
+			 
+			 , #{anonymousPwd}
+			 , #{pickYn}
+
+			 , #{customField1}
+			 , #{customField2}
+			 , #{customField3}
+			 , #{customField4}
+			 , #{customField5}
+		)
+	</insert>
+
+
+	<sql id="postingColumn">
+		 OID 						oid
+		 , BOARD_OID 				boardOid
+		 , LANG						lang
+	     , TITLE 					title
+	     , CONTENTS					contents
+	     , NOTICE_LEVEL 			noticeLevel
+
+		 , TEMP_YN					tempYn
+		 , FROM_DATE				fromDate
+		 , TO_DATE					toDate
+		 , INPUT_USER_INFO_LIST		inputUserInfoList
+
+		 , INPUT_USER 				inputUser
+		 , INPUT_DATE 				inputDate
+		 , MOD_USER 				modUser
+		 , MOD_DATE 				modDate
+		 , DEL_USER 				delUser
+		 , DEL_DATE 				delDate
+
+		 , THREAD_OID				threadOid
+		 , THREAD_PARENT_OID		threadParentOid
+		 , THREAD_FULL_PATH_OID		threadFullPathOid
+		 , THREAD_DEPTH 			threadDepth
+		 , THREAD_ORDER_NO 			threadOrderNo
+
+		 , RE_CNT					replyCount
+		 , CMT_CNT					commentCount
+		 , RCMD_CNT					recommendCount
+		 , LIKE_CNT					likeCount
+		 , VIEW_CNT					viewCount
+		 , ANONYMOUS_PWD			anonymousPwd
+		 , PICK_YN					pickYn
+
+		 , CUSTOM_FIELD1			customField1
+		 , CUSTOM_FIELD2			customField2
+		 , CUSTOM_FIELD3			customField3
+		 , CUSTOM_FIELD4			customField4
+		 , CUSTOM_FIELD5			customField5
+	</sql>
+
+	<sql id="normalCnd">
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(searchQuery)">
+	    	<if test='searchQueryType == "FWPOSQ00"'>
+	    	 AND (
+		            UPPER(TITLE) LIKE UPPER( '%' || #{searchQuery} || '%' )
+		            OR
+		            OID IN (  SELECT TARGET_OID FROM TS02_TB_CONTENTS WHERE TARGET_OBJECT = 'FWPO' AND CONTENTS LIKE '%' || #{searchQuery} || '%'  )
+		            OR
+		            INPUT_USER IN (  SELECT OID FROM TS02_TB_USER WHERE NAME LIKE '%' || #{searchQuery} || '%'  )
+	    	 	)
+	    	</if>
+	    	<if test='searchQueryType == "FWPOSQ01"'>
+	    	 AND UPPER(TITLE) LIKE UPPER( '%' || #{searchQuery} || '%' )
+	    	</if>
+	    	<if test='searchQueryType == "FWPOSQ02"'>
+	    	 AND OID IN (  SELECT TARGET_OID FROM TS02_TB_CONTENTS WHERE TARGET_OBJECT = 'FWPO' AND CONTENTS LIKE '%' || #{searchQuery} || '%'  )
+	    	</if>
+	    	<if test='searchQueryType == "FWPOSQ03"'>
+	    	 AND INPUT_USER IN (  SELECT OID FROM TS02_TB_USER WHERE NAME LIKE '%' || #{searchQuery} || '%'  )
+	    	</if>
+			<if test='searchQueryType == "FWPOSQ04"'>
+	    	 AND OID IN (  SELECT TARGET_OID FROM TS02_TB_TAG WHERE TAG_NAME LIKE '%' || #{searchQuery} || '%'  )
+	    	</if>	    	
+	    	
+	    	<if test='searchQueryType == "FWPOSQ05"'>
+			AND (
+		            UPPER(TITLE) LIKE UPPER( '%' || #{searchQuery} || '%' )
+		            OR
+		            INPUT_USER IN (  SELECT OID FROM TS02_TB_USER WHERE NAME LIKE '%' || #{searchQuery} || '%'  )
+	    	 	)
+	    	</if>
+	  
+	    	<if test='searchQueryType == "FWPOSQ06"'>
+	    	 AND (
+		            UPPER(TITLE) LIKE UPPER( '%' || #{searchQuery} || '%' )
+		            OR
+		            OID IN (  SELECT TARGET_OID FROM TS02_TB_CONTENTS WHERE TARGET_OBJECT = 'FWPO' AND CONTENTS LIKE '%' || #{searchQuery} || '%'  )
+		            OR
+		            INPUT_USER IN (  SELECT OID FROM TS02_TB_USER WHERE NAME LIKE '%' || #{searchQuery} || '%' )
+		            OR 
+		            OID IN (  SELECT TARGET_OID FROM TS02_TB_TAG WHERE TAG_NAME LIKE '%' || #{searchQuery} || '%' )
+	    	 	)
+	    	</if>
+	    	
+	    	<if test='searchQueryType == "FWPOSQ07"'>
+	    	 AND (
+		            UPPER(TITLE) LIKE UPPER( '%' || #{searchQuery} || '%' )
+		            OR
+		            OID IN (  SELECT TARGET_OID FROM TS02_TB_CONTENTS WHERE TARGET_OBJECT = 'FWPO' AND CONTENTS LIKE '%' || #{searchQuery} || '%'  )
+	    	 	)
+	    	</if>
+
+	    	<if test='searchQueryType == "FWPOSQ08"'>
+			AND (
+					OID IN ( SELECT TARGET_OID from VS02_PRODUCT_REL WHERE TARGET_OBJECT = 'FWPO' AND NAME LIKE UPPER('%' || #{searchQuery} || '%') )
+				)
+			</if>
+
+			<if test='searchQueryType == "FWPOSQ09"' >
+			AND (
+					OID IN ( SELECT TARGET_OID from VS02_PRODUCT_REL WHERE TARGET_OBJECT = 'FWPO' AND UPPER(NAME) LIKE UPPER('%' || #{searchQuery} || '%') )
+				)
+			OR UPPER(TITLE) LIKE UPPER( '%' || #{searchQuery} || '%' )
+			</if>
+		</if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(inputUserOidList)">
+			AND INPUT_USER IN
+			<foreach collection="inputUserOidList" item="inputUser" index="index" separator="," open="(" close=")">
+				#{inputUser}
+			</foreach>
+		</if>
+		
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(boardOidList)">
+			AND BOARD_OID IN
+			<foreach collection="boardOidList" item="boardOid" index="index" separator="," open="(" close=")">
+				#{boardOid}
+			</foreach>
+		</if>
+		
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(threadOidList)">
+			AND THREAD_OID IN
+			<foreach collection="threadOidList" item="threadOid" index="index" separator="," open="(" close=")">
+				#{threadOid}
+			</foreach>
+		</if>			
+
+	    <if test='searchDateType == "FWPOSC1D"'> AND INPUT_DATE <![CDATA[>=]]> TO_DATE(SYSDATE) -1 </if>
+	    <if test='searchDateType == "FWPOSC1W"'> AND INPUT_DATE <![CDATA[>=]]> TO_DATE(SYSDATE) - 7 </if>
+    	<if test='searchDateType == "FWPOSC1M"'> AND INPUT_DATE <![CDATA[>=]]> ADD_MONTHS(SYSDATE, -1) </if>
+    	<if test='searchDateType == "FWPOSC3M"'> AND INPUT_DATE <![CDATA[>=]]> ADD_MONTHS(SYSDATE, -3) </if>
+
+    	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(boardOid)"> AND BOARD_OID = #{boardOid} </if>
+    	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> AND INPUT_USER = #{inputUser} </if>
+    	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> AND LANG = #{lang} </if>
+
+    	<!-- 날짜범위 검색 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputDateFrom)"> AND INPUT_DATE <![CDATA[>=]]> TO_DATE( #{inputDateFrom}, 'yyyy-mm-dd' )</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputDateTo)"> AND INPUT_DATE <![CDATA[<]]> TO_DATE( #{inputDateTo}, 'yyyy-mm-dd' ) + 1</if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(threadOid)"> AND THREAD_OID = #{threadOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(threadParentOid)"> AND THREAD_PARENT_OID = #{threadParentOid} </if>
+		<if test="threadDepth gte 0"> AND THREAD_DEPTH = #{threadDepth} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(threadFullPathOid)"> AND THREAD_FULL_PATH_OID LIKE '%' || #{threadFullPathOid} || '%' </if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(tempYn)"> AND TEMP_YN = #{tempYn} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pickYn)"> AND PICK_YN = #{pickYn} </if>
+		
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> AND CUSTOM_FIELD1 = #{customField1} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> AND CUSTOM_FIELD2 = #{customField2} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> AND CUSTOM_FIELD3 = #{customField3} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> AND CUSTOM_FIELD4 = #{customField4} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> AND CUSTOM_FIELD5 = #{customField5} </if>
+		
+		<if test="likeCount gt 0"> AND LIKE_CNT = #{likeCount} </if>
+
+    	<if test="postingOidList.size != 0">
+		   	  AND OID IN
+		   	  <foreach collection="postingOidList" item="oid" index="index" separator="," open="(" close=")">
+				#{oid}
+			 </foreach>
+   	    </if>
+    	 
+    	<if test="postingInfo != null">
+    	 
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(postingInfo.anonymousPwd)"> AND ANONYMOUS_PWD = #{postingInfo.anonymousPwd} </if>
+    	 
+    	</if>
+    	
+ 	 	<if test="groupByList.size != 0">
+			GROUP BY
+			<foreach collection="groupByList" item="groupBy" index="index" separator=",">
+				${groupBy}
+			</foreach>
+		</if>
+
+	</sql>
+
+	<sql id="searchCnd">
+		<include refid="normalCnd"/>
+	    AND DEL_DATE IS NULL
+	</sql>
+
+	<sql id="searchAllCnd">
+		<include refid="normalCnd"/>
+	</sql>	
+	
+	
+	<sql id="searchPickCnd">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> AND LANG = #{lang} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(boardOid)"> AND BOARD_OID = #{boardOid} </if>    	
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> AND INPUT_USER = #{inputUser} </if>    	
+			AND THREAD_DEPTH = 0 
+			AND DEL_USER IS NULL 
+			
+			<if test='pickYn == "Y"'>
+		   	AND OID IN (
+				SELECT THREAD_PARENT_OID 
+			    FROM VS02_POSTING 
+			    WHERE 1=1
+		       	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(boardOid)"> AND BOARD_OID = #{boardOid} </if>    	
+		       	AND PICK_YN = 'Y' 
+			    AND THREAD_DEPTH != 0 
+			    AND DEL_USER IS NULL
+			    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> AND LANG = #{lang} </if>
+			) 
+		   	</if>
+			<if test='pickYn == "N"'>
+			AND OID NOT IN (
+				SELECT THREAD_PARENT_OID 
+			    FROM VS02_POSTING 
+			    WHERE 1=1
+		       	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(boardOid)"> AND BOARD_OID = #{boardOid} </if>
+		       	AND PICK_YN = 'Y' 
+			    AND THREAD_DEPTH != 0 
+			    AND DEL_USER IS NULL
+			    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> AND LANG = #{lang} </if>
+			) 	    	
+		   	</if>
+		   	
+	</sql>
+	
+	<sql id="rankCnd">
+		
+   		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(exceptUserOidList)">
+    		AND INPUT_USER NOT IN
+			<foreach collection="exceptUserOidList" item="exceptUserOid" separator="," open="(" close=")">
+				#{exceptUserOid}
+			</foreach>
+   		</if>
+				
+		<include refid="normalCnd"/>
+	</sql>
+	
+	<resultMap id="groupByMap" type="HashMap" >
+		<result column="INPUT_USER" 	property="inputUser" />
+		<result column="SUM(LIKE_CNT)" 	property="likeCount" />
+		<result column="COUNT(OID)" 	property="postingCount" />
+		<result column="RANKING" 		property="rank" />
+	</resultMap>
+	
+	
+	<update id="update" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.update(PostingInfo) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(boardOid)"> BOARD_OID = #{boardOid}, </if>
+			<if test="noticeLevel > 0"> NOTICE_LEVEL = #{noticeLevel}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(tempYn)"> TEMP_YN = #{tempYn}, </if>
+
+			<if test="commentCount > 0"> CMT_CNT = #{commentCount}, </if>
+			<if test="recommendCount > 0"> RCMD_CNT = #{recommendCount}, </if>
+			<if test="likeCount > 0"> LIKE_CNT = #{likeCount}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(anonymousPwd)"> ANONYMOUS_PWD = #{anonymousPwd}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pickYn)"> PICK_YN = #{pickYn}, </if>
+
+			
+		    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+         	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+         	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> CUSTOM_FIELD4 = #{customField4}, </if>
+         	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> CUSTOM_FIELD5 = #{customField5}, </if>
+		
+		</trim>
+	    WHERE OID = #{oid}
+	</update>
+
+
+	<update id="updateCount" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.updateCount(PostingInfo) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		<trim prefix="SET" suffixOverrides=",">
+
+			<if test="commentCount > -1"> CMT_CNT = #{commentCount}, </if>
+			<if test="recommendCount > -1"> RCMD_CNT = #{recommendCount}, </if>
+			<if test="likeCount > -1"> LIKE_CNT = #{likeCount}, </if>
+			<if test="replyCount > -1"> RE_CNT = #{replyCount}, </if>
+
+		</trim>
+	    WHERE OID = #{oid}
+	</update>
+	
+	
+	<update id="incrementViewCount" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.incrementViewCount(PostingInfo) || '김웅기' || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		   SET VIEW_CNT = VIEW_CNT + 1
+		WHERE 1=1
+		  AND OID = #{oid}
+	</update> 
+
+
+	<update id="updateCommentCount" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.updateCommentCount(PostingInfo) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+				SET CMT_CNT = #{commentCount}
+		WHERE OID = #{oid}
+	</update>
+
+
+	<update id="updateReplyCount" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.updateReplyCount(PostingInfo) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+				SET RE_CNT = #{replyCount}
+		WHERE OID = #{oid}
+	</update>
+
+	<update id="updateThread" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.updateForPack(PostingInfo) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(threadFullPathOid)"> THREAD_FULL_PATH_OID = #{threadFullPathOid}, </if>
+			<if test="replyCount > 0"> RE_CNT = #{replyCount}, </if>
+		</trim>
+	    WHERE OID = #{oid}
+	</update>
+
+
+	<update id="updateThreadOrderNo" parameterType="map">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.updateThreadOrderNo(map) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		SET THREAD_ORDER_NO = THREAD_ORDER_NO + 1
+	    WHERE 1 = 1
+	     AND THREAD_OID = #{threadOid}
+	     AND THREAD_ORDER_NO <![CDATA[>]]> #{threadOrderNo}
+	</update>
+	
+	<select id="get" parameterType="String" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.get(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		 SELECT
+		 		<include refid="postingColumn"/>
+		 FROM VS02_POSTING
+		 WHERE OID = #{oid}
+		 AND LANG = #{lang}
+	</select>
+
+
+	 <update id="deleteFlagUpdate" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.deleteFlagUpdate(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(delUser)"> DEL_USER = #{delUser}, </if>
+			<if test="delDate != null"> DEL_DATE = #{delDate}, </if>
+		</trim>
+	    WHERE OID = #{oid}
+	 </update>
+
+	 <delete id="delete" parameterType="String">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.delete(String) || ’김웅기’ || ’2021-06-02’ */
+		DELETE FROM
+		TS02_TB_POSTING
+	    WHERE OID = #{oid}
+	 </delete>
+
+	 <update id="deleteFlagUpdateByThreadOid" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.deleteFlagUpdateByThreadOid(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(delUser)"> DEL_USER = #{delUser}, </if>
+			<if test="delDate != null"> DEL_DATE = #{delDate}, </if>
+		</trim>
+	    WHERE THREAD_OID = #{threadOid}
+	 </update>
+
+	<update id="restoreByThreadOid" parameterType="String">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.restoreByThreadOid(String) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		SET DEL_USER = NULL, DEL_DATE = NULL
+	    WHERE THREAD_OID = #{threadOid}
+	 </update>
+
+
+	<update id="restorePosting" parameterType="String">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.restorePosting(String) || ’김웅기’ || ’2021-06-02’ */
+		UPDATE TS02_TB_POSTING
+		SET DEL_USER = NULL, DEL_DATE = NULL
+	    WHERE OID = #{oid}
+	 </update>
+
+
+	 <delete id="deleteByThreadOid" parameterType="String">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.deleteByThreadOid(String) || ’김웅기’ || ’2021-06-02’ */
+		DELETE FROM
+		TS02_TB_POSTING
+	    WHERE THREAD_OID = #{threadOid}
+	 </delete>
+
+	<select id="getPrev" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" >
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.getPrev(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		SELECT * FROM 
+		(
+			SELECT 
+		 		<include refid="postingColumn"/>
+			 FROM VS02_POSTING
+			 WHERE  1 = 1 
+			        <!-- AND OID <![CDATA[>]]> #{oid} -->
+			        AND INPUT_DATE <![CDATA[>]]> ( SELECT INPUT_DATE FROM VS02_POSTING WHERE OID = #{oid} AND LANG = #{lang} )
+			 	    AND THREAD_DEPTH = 0
+			 <include refid="searchCnd"/>
+			 ORDER BY
+			 <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(orderByList)">
+				 <foreach item="orderBy" index="index" collection="orderByList" separator=",">
+				    		${orderBy}
+				 </foreach>,
+			 </if>
+			 OID ASC
+		) X
+		WHERE ROWNUM = 1
+	</select>
+
+	<select id="getNext" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" >
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.getNext(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		 SELECT * FROM 
+		 (
+		 	SELECT 
+		 		<include refid="postingColumn"/>
+			 FROM VS02_POSTING
+			 WHERE 1= 1
+			 		<!-- AND OID <![CDATA[<]]> #{oid} -->
+			 		AND INPUT_DATE <![CDATA[<]]> ( SELECT INPUT_DATE FROM VS02_POSTING WHERE OID = #{oid} AND LANG = #{lang} )
+			 	    AND THREAD_DEPTH = 0
+			 <include refid="searchCnd"/>
+			 ORDER BY
+			 <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(orderByList)">
+				 <foreach item="orderBy" index="index" collection="orderByList" separator=",">
+				    		${orderBy}
+				 </foreach>,
+			 </if>
+			 OID DESC
+		 ) X
+		 WHERE ROWNUM = 1
+	</select>
+
+	 <select id="exist" resultType="java.lang.Integer">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.exist(String) || ’김웅기’ || ’2021-06-02’ */
+		 SELECT COUNT(*)
+		 FROM TS02_TB_POSTING
+		 WHERE OID = #{oid}
+	</select>
+
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listAll(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		 SELECT
+		 	<include refid="postingColumn"/>
+		 FROM VS02_POSTING
+		 WHERE 1=1
+		<include refid="searchAllCnd"/>
+
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.list(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		 SELECT * FROM 
+		 (
+			SELECT
+				ROW_NUMBER() OVER
+				(
+					ORDER BY
+					 <choose>
+						<when test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(orderByList)">
+							 <foreach item="orderBy" index="index" collection="orderByList" separator=",">
+							    		${orderBy}
+							 </foreach>
+						</when>
+						<otherwise>
+						  NOTICE_LEVEL DESC, THREAD_OID DESC, THREAD_ORDER_NO ASC, INPUT_DATE DESC
+						</otherwise>
+					</choose> 
+				) RNUM,
+		 		<include refid="postingColumn"/>
+			 FROM VS02_POSTING
+			 WHERE 1=1
+				<include refid="searchCnd"/>
+		 ) X
+		 WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="int">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listCount(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		 SELECT COUNT(*)
+		 FROM VS02_POSTING
+		 WHERE 1=1
+		 <include refid="searchCnd"/>
+	</select>
+
+
+	<select id="getNumber" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="int">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.getNumber(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		SELECT ( COUNT(*) + 1 ) AS result
+		FROM VS02_POSTING
+		WHERE 1 = 1
+		   AND BOARD_OID = #{boardOid}
+		   AND DEL_DATE IS NULL
+   	 	   <!-- AND OID <![CDATA[<]]> #{oid} -->
+   	 	   AND INPUT_DATE <![CDATA[<]]> ( SELECT INPUT_DATE FROM VS02_POSTING WHERE OID = #{oid} AND LANG = #{lang} )
+		   <include refid="searchCnd"/>
+		ORDER BY INPUT_DATE DESC
+	</select>
+	
+	
+	<select id="checkAnonymousPwd"  parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="java.lang.Integer">
+		 /* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.checkAnonymousPwd(PostingCnd) || '김웅기' || ’2021-06-02’ */
+		 SELECT COUNT(1)
+		 FROM VS02_POSTING
+		 WHERE 1=1
+		<include refid="normalCnd"/>
+	</select>
+	
+	<select id="listRank" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultMap="groupByMap">
+		 /* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listRank(PostingCnd) || '김웅기' || ’2021-06-02’ */
+		SELECT * FROM 
+		(
+			SELECT
+				ROW_NUMBER() OVER
+				(
+					<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(orderByList)">
+					ORDER BY
+						 <foreach item="orderBy" index="index" collection="orderByList" separator=",">
+				    		${orderBy}
+						 </foreach>
+						 DESC
+					</if>
+				) RNUM,
+				<foreach collection="columnList" item="column" index="index" separator="," >
+					${column}
+					<if test="index == columnList.size - 1">
+						, ROW_NUMBER() OVER(ORDER BY ${column} DESC) RANKING
+					</if>
+				</foreach>
+			FROM VS02_POSTING
+			WHERE 1 = 1
+			<include refid="rankCnd"/>
+		) X
+		WHERE 1=1
+		<if test="searchCount > 0">
+			AND RNUM <![CDATA[<=]]> #{searchCount}
+		</if>
+	</select>
+
+	<select id="listMyAnswerOfParent" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listMyAnswerOfParent(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		SELECT * FROM 
+		(
+			SELECT
+				ROW_NUMBER() OVER
+				(
+					ORDER BY
+					 <choose>
+						<when test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(orderByList)">
+							 <foreach item="orderBy" index="index" collection="orderByList" separator=",">
+							    		${orderBy}
+							 </foreach>
+						</when>
+						<otherwise>
+						  NOTICE_LEVEL DESC, THREAD_OID DESC, THREAD_ORDER_NO ASC, INPUT_DATE DESC
+						</otherwise>
+					</choose>
+				) RNUM, 
+				<include refid="postingColumn"/>
+			FROM VS02_POSTING
+			WHERE OID IN ( SELECT THREAD_PARENT_OID
+							 FROM VS02_POSTING
+							 WHERE 1=1
+							<include refid="searchCnd"/> ) 
+		) X
+	    WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+	
+	<select id="listMyAnswerOfParent_count" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="int">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listMyAnswerOfParentCount(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		SELECT COUNT(*)
+		FROM VS02_POSTING
+		WHERE OID IN ( SELECT THREAD_PARENT_OID
+						 FROM VS02_POSTING
+						 WHERE 1=1
+						<include refid="searchCnd"/>) 
+	</select>
+
+
+	<select id="listPick" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo">
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listPick(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		SELECT * FROM
+		(
+			SELECT
+				ROW_NUMBER() OVER
+				(
+					ORDER BY
+					 <choose>
+						<when test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(orderByList)">
+							 <foreach item="orderBy" index="index" collection="orderByList" separator=",">
+							    		${orderBy}
+							 </foreach>
+						</when>
+						<otherwise>
+						  NOTICE_LEVEL DESC, THREAD_OID DESC, THREAD_ORDER_NO ASC, INPUT_DATE DESC
+						</otherwise>
+					</choose>
+				) RNUM,
+				<include refid="postingColumn"/> 
+			FROM VS02_POSTING 
+			WHERE 1=1
+				<include refid="searchPickCnd"></include>
+		) X
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+	
+	<select id="listPick_count" parameterType="com.remarkablesoft.framework.service.board.posting.vo.PostingCnd" resultType="int">	
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.listPickCount(PostingCnd) || ’김웅기’ || ’2021-06-02’ */
+		SELECT COUNT(*) FROM VS02_POSTING 
+		WHERE 1=1
+		   	<include refid="searchPickCnd"></include>
+	</select>
+
+</mapper>

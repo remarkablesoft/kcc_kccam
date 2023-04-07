@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.site.kccam.service.integratedsearch.model.impl.IntegratedSearchDAO">
+
+    <sql id="productListColumn">
+        OID                                 oid
+        , NAME                              productName
+        , MATERIAL_OID                      materialOid
+        , PRODUCT_CLASSIFICATION_OIDS       productClassificationOids
+        , APPLICATION_OIDS                  applicationOids
+        
+        , MARKET_OIDS                       marketOids
+        , FUNCTION_OIDS                     functionOids
+    </sql>
+
+    <sql id="applicationColumn">
+        OID                                 oid
+        , PART_OID                          materialOid
+        , CATEGORY_TYPE                     categoryType
+        , NAME                              applicationName
+        , FULL_PATH_INDEX                   fullPathIndex
+
+        , DETAIL_APPLICATION_OIDS           detailApplicationOids
+        , PRODUCT_OIDS                      productOids
+    </sql>
+
+    <sql id="marketColumn">
+        OID                                 oid
+        , PART_OID                          materialOid
+        , CATEGORY_TYPE                     categoryType
+        , NAME                              marketName
+        , FULL_PATH_INDEX                   fullPathIndex
+
+        , PRODUCT_OIDS                      productOids
+        , MATERIAL_NAMES					materialNames
+    </sql>
+
+    <sql id="functionColumn">
+        OID                                 oid
+        , PART_OID                          materialOid
+        , CATEGORY_TYPE                     categoryType
+        , NAME                              functionName
+        , FULL_PATH_INDEX                   fullPathIndex
+
+        , PRODUCT_OIDS                      productOids
+    </sql>
+
+    <sql id="searchCnd">
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(productSearchText)">AND UPPER(NAME) LIKE '%' || UPPER( #{productSearchText} ) || '%'</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(applicationSearchText)">AND UPPER(NAME) LIKE '%' || UPPER( #{applicationSearchText} ) || '%'</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(marketSearchText)">AND UPPER(NAME) LIKE '%' || UPPER( #{marketSearchText} ) || '%'</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(functionSearchText)">AND UPPER(NAME) LIKE '%' || UPPER( #{functionSearchText} ) || '%'</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">AND LANG = #{lang}</if>
+    </sql>
+    
+    <sql id="productCnd">
+    	<if test="(@com.remarkablesoft.framework.util.StringUtils@hasText(searchText))and(@com.remarkablesoft.framework.util.StringUtils@hasText(lang))">
+        	OR ( 
+	        	MATERIAL_OID IN ( SELECT OID FROM VS02_MATERIAL WHERE UPPER(NAME) LIKE '%' || UPPER( #{searchText} ) || '%' )
+	        	AND LANG = #{lang}
+        	) 
+        </if>
+    </sql>
+    
+    <sql id="classificationCnd">
+    	<if test="(@com.remarkablesoft.framework.util.StringUtils@hasText(searchText))and(@com.remarkablesoft.framework.util.StringUtils@hasText(lang))">
+        	OR (
+        		PART_OID IN ( SELECT OID FROM VS02_MATERIAL WHERE UPPER(NAME) LIKE '%' || UPPER( #{searchText} ) || '%' )
+        		AND LANG = #{lang} 
+        	) 
+        </if>
+    </sql>
+    
+    <sql id="marketCnd">
+    	<if test="(@com.remarkablesoft.framework.util.StringUtils@hasText(searchText))and(@com.remarkablesoft.framework.util.StringUtils@hasText(lang))">
+        		OR ( UPPER(MATERIAL_NAMES) LIKE '%' || UPPER( #{searchText} ) || '%' AND LANG = #{lang} )
+        </if>
+    </sql>
+
+    <select id="productList" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchInfo">
+        /* com.remarkablesoft.site.kccam.service.integratedsearch.model.impl.integratedSearchDAO.productList(IntegratedSearchCnd) || '최원준' || '2021-04-11' */
+        SELECT 
+            *
+        FROM
+        (
+            SELECT
+                ROW_NUMBER() OVER( ORDER BY INPUT_DATE ) RNUM,
+                <include refid="productListColumn"/>
+            FROM VS02_IS_PRODUCT
+            WHERE 1=1
+                <include refid="searchCnd"/>
+                <include refid="productCnd"/>
+        ) X
+        WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+    </select>
+
+    <select id="productList_count" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="int">
+        SELECT COUNT(*)
+        FROM VS02_IS_PRODUCT
+        WHERE 1=1
+            <include refid="searchCnd"/>
+            <include refid="productCnd"/>
+    </select>
+
+    <select id="applicationList" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchInfo">
+        /* com.remarkablesoft.site.kccam.service.integratedsearch.model.impl.integratedSearchDAO.applicationList(IntegratedSearchCnd) || '최원준' || '2021-04-11' */
+        SELECT
+            *
+        FROM
+        (
+            SELECT
+                ROW_NUMBER() OVER( ORDER BY INPUT_DATE ) RNUM,
+                <include refid="applicationColumn"/>
+            FROM VS02_IS_APPLICATION
+            WHERE 1=1
+                <include refid="searchCnd"/>
+                <include refid="classificationCnd"/>
+        ) X
+        WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+    </select>
+
+    <select id="applicationList_count" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="int">
+        SELECT COUNT(*)
+        FROM VS02_IS_APPLICATION
+        WHERE 1=1
+            <include refid="searchCnd"/>
+            <include refid="classificationCnd"/>
+    </select>
+
+    <select id="marketList" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchInfo">
+        /* com.remarkablesoft.site.kccam.service.integratedsearch.model.impl.integratedSearchDAO.marketList(IntegratedSearchCnd) || '최원준' || '2021-04-11' */
+        SELECT
+        *
+        FROM
+        (
+            SELECT
+                ROW_NUMBER() OVER( ORDER BY INPUT_DATE ) RNUM,
+                <include refid="marketColumn"/>
+            FROM VS02_IS_MARKET
+            WHERE 1=1
+                <include refid="searchCnd"/>
+                <include refid="marketCnd"/>
+        ) X
+        WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+    </select>
+
+    <select id="marketList_count" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="int">
+        SELECT COUNT(*)
+        FROM VS02_IS_MARKET
+        WHERE 1=1
+            <include refid="searchCnd"/>
+            <include refid="marketCnd"/>
+    </select>
+
+    <select id="functionList" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchInfo">
+        /* com.remarkablesoft.site.kccam.service.integratedsearch.model.impl.integratedSearchDAO.functionList(IntegratedSearchCnd) || '최원준' || '2021-04-11' */
+        SELECT
+            *
+        FROM
+        (
+            SELECT
+                ROW_NUMBER() OVER( ORDER BY INPUT_DATE ) RNUM,
+                <include refid="functionColumn"/>
+            FROM VS02_IS_FUNCTION
+            WHERE 1=1
+                <include refid="searchCnd"/>
+                <include refid="classificationCnd"/>
+        ) X
+        WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+    </select>
+
+    <select id="functionList_count" parameterType="com.remarkablesoft.site.kccam.service.integratedsearch.vo.IntegratedSearchCnd" resultType="int">
+        SELECT COUNT(*)
+        FROM VS02_IS_FUNCTION
+        WHERE 1=1
+            <include refid="searchCnd"/>
+            <include refid="classificationCnd"/>
+    </select>
+</mapper>

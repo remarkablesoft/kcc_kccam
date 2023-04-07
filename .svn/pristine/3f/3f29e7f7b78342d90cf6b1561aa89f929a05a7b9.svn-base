@@ -1,0 +1,195 @@
+/*-------------------------------------------------------------------
+    파일정의 : _table.scss # 테이블 스타일
+-------------------------------------------------------------------*/
+/*=== table wrap ===*/
+.table-wrap {
+    // width: 100%;
+    // overflow-x: auto;
+    border-bottom: 0.2rem solid $defaultGrayBorderColor;
+
+    .inner-head {
+        .tit {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+    }
+
+    .inner-body {
+        overflow-x: auto;
+    }
+
+    // &.scroll-x {
+    //     width: 100%;
+    //     overflow-x: auto;
+    // }
+
+    &.data-sheet {
+        .inner-body {
+            overflow: auto;
+            max-height: 50rem;
+        }
+    }
+}
+
+/*=== table style ===*/
+.table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    caption {
+        width: 0;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        visibility: hidden;
+        font-size: 0;
+    }
+
+    tr {
+        + tr {
+            th {
+                border-top: 0.2rem solid $defaultGrayBorderColor;
+            }
+
+            &.bt-none {
+                th {
+                    border-top: 0 none;
+                }
+            }
+        }
+    }
+
+    th,
+    td {
+        padding: 0.7rem;
+        border-right: 0.2rem solid $defaultGrayBorderColor;
+        font-size: 1.5rem;
+        text-align: center;
+        vertical-align: middle;
+        word-break: break-all;
+
+        &:last-child {
+            border-right: 0 none;
+        }
+
+        > span {
+            vertical-align: middle;
+        }
+    }
+
+    th {
+        &.bg-dgray {
+            background: #dbdbdb;
+        }
+
+        &.bg-lblue {
+            background: #becff2;
+        }
+
+        &.cursor {
+            cursor: pointer;
+        }
+
+        .align-btn-group {
+            // @include flex-item();
+            position: relative;
+            padding-right: 1rem;
+
+            .btn-group {
+                position: absolute;
+                top: 50%;
+                right: -0.6rem;
+                transform: translateY(-50%);
+                @include flex-item($direction: column, $justify: flex-start);
+                width: 1.6rem;
+                min-height: 1.6rem;
+
+                .material-icons-round {
+                    @include flex-item();
+                    // width: 1.6rem;
+                    height: 0.7rem;
+                    font-size: 2.8rem;
+                    color: #858585;
+
+                    &.active {
+                        color: $primaryColor;
+                    }
+                }
+            }
+
+            // &:hover,
+            // &.active {
+            //     .material-icons-round {
+            //         color: $primaryColor;
+            //     }
+            // }
+        }
+    }
+
+    td {
+        padding: 0.7rem 1rem;
+    }
+
+    /* thead 높이 사이즈 */
+    &.thead-lg thead th {
+        height: 7rem;
+    }
+
+    /* td text align left padding */
+    // &.td-left-pad td.tl {
+    //     padding: 0.7rem 1.5rem;
+    // }
+
+    /* normal style :: black */
+    &-normal {
+        th {
+            background: #252525;
+            color: #fff;
+            // font-weight: 400;
+        }
+
+        tbody tr:nth-child(even) td {
+            background: #f7f7f7;
+        }
+    }
+
+    &-gray {
+        th {
+            background: #f7f7f7;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        tbody tr {
+            border-bottom: 0.2rem solid $defaultGrayBorderColor;
+
+            &:last-child {
+                border-bottom: 0 none;
+            }
+        }
+    }
+}
+
+/*=== tablet ===*/
+@mixin table-tablet() {
+    /*=== table wrap ===*/
+    .table-wrap {
+        .inner-head {
+            .tit {
+            }
+        }
+
+        .inner-body {
+            table {
+                // min-width: 102.4rem;
+                min-width: 64rem;
+
+                &.no-scroll {
+                    min-width: auto;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,354 @@
+/*-------------------------------------------------------------------
+    파일정의 : _managerPages.scss # 관리자 페이지 스타일
+-------------------------------------------------------------------*/
+
+/*=== 관리자 로그인 ===*/
+.manager-login-container {
+    background: #f5f5ff;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    .login {
+        &-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 0.2em;
+            width: 520px;
+            height: 280px;
+        }
+        &-form {
+            display: flex;
+            background: #fff;
+            border: 0.2em solid #5551f7;
+            box-shadow: 0.6em 0.6em 0.6em #dedede;
+            padding: 1.4em;
+            border-radius: 0.6em;
+        }
+        &-logo {
+            margin-bottom: 0.6em;
+            display: block;
+            width: 350px;
+        }
+        &-logo img {
+            width: 100%;
+        }
+        &-form-label {
+            flex: 1;
+            // float: left;
+            //   width: calc(100% - 100px);
+        }
+        &-button {
+            font-size: 1.3em;
+            width: 135px;
+            height: 100%;
+            background-color: #5551f7;
+            color: #fff;
+            border-radius: 0.5em;
+            margin-left: 1.15em;
+        }
+        &-form-label label {
+            display: block;
+            margin-bottom: 0.6em;
+            font-weight: 700;
+        }
+        &-id {
+            font-size: 1.1em;
+            padding: 0;
+            margin-left: 5px;
+        }
+        &-password {
+            font-size: 1.1em;
+            padding-top: 1em;
+            margin-left: 5px;
+        }
+    }
+}
+
+/*=== 관리자 페이지 공통 ===*/
+.manager-container {
+    /*=== 기본 수정 페이지 ===*/
+    .input-area {
+        .input-row-md {
+            display: flex;
+            // align-items: center;
+            min-height: 5.2rem;
+            padding-bottom: 1.2rem;
+            .input {
+                &-label {
+                    flex: none;
+                    width: 15rem;
+                    padding: 1rem 0;
+                    font-weight: 500;
+                    color: #333;
+                    line-height: 1;
+                }
+                &-data {
+                    .select-half {
+                        width: 30%;
+                    }
+                    .input-dropzone {
+                        width: 100%;
+                    }
+
+                    .el-button {
+                        flex: none;
+                    }
+                }
+            }
+            .left-area {
+                display: flex;
+                width: 50%;
+            }
+            .right-area {
+                display: flex;
+                width: 50%;
+                margin-left: 1rem;
+            }
+
+            .left-area,
+            .right-area {
+                .el-input,
+                .el-select {
+                    width: 100%;
+                }
+            }
+
+			&.column {
+				flex-direction: column;
+			}
+        }
+    }
+
+    /*=== chart ===*/
+    .chart-area {
+        // cnt
+        .cnt-txt-group {
+            @include flex-item($justify: flex-start);
+            padding: 2rem;
+            background: #f8f8f8;
+            border-radius: 0.5rem;
+
+            .cnt-item {
+                flex: 1;
+                @include flex-item($direction: column);
+
+                .cnt-wrap {
+                    .cnt {
+                        font-size: 2.6rem;
+                        font-weight: 500;
+                        // color: $primaryColor;
+                    }
+                }
+            }
+
+            + .chart-wrap {
+                margin-top: 2rem;
+            }
+        }
+
+        // chart (graph)
+        .chart-wrap {
+            position: relative;
+
+            .chart {
+            }
+        }
+    }
+
+    /*=== editor ===*/
+    .editor-area {
+        margin-top: 1rem;
+        // padding: 0 2rem;
+
+        .editor-item {
+            background: #f8f8f8;
+            border-radius: 0.5rem;
+
+            + .editor-item {
+                margin-top: 1rem;
+            }
+
+            .input-data {
+                > div {
+                    flex: 1;
+                    width: 100%;
+                }
+            }
+        }
+
+        .fr-toolbar {
+            position: static !important;
+        }
+
+        .fr-sticky-dummy {
+            display: none !important;
+        }
+    }
+
+    /*=== tree ===*/
+    .tree-area {
+        padding: 2rem;
+    }
+
+    /*=== lang icon ===*/
+    .icon-lang {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        background-size: cover !important;
+        vertical-align: middle;
+        font-size: 0;
+
+        &-kor {
+            background: url(../images/icon/lang/icon_kor.png);
+        }
+        &-eng {
+            background: url(../images/icon/lang/icon_eng.png);
+        }
+        &-chn {
+            background: url(../images/icon/lang/icon_chn.png);
+        }
+
+        + .icon-lang {
+            margin-left: 0.2rem;
+        }
+    }
+
+    /*=== 제품 정보 ===*/
+    .product-info-area {
+        @include default-box($padding: 0, $borderColor: #ddd);
+        margin-bottom: 2rem;
+    }
+
+    /*=== datasheet ===*/
+    .datasheet-edit-area {
+        // padding: 0 2rem;
+        padding: 2rem 0;
+
+        // .input-area {
+        //     padding: 0;
+        // }
+    }
+
+    /*=== contact ===*/
+    .contact-edit-area {
+        padding: 2rem 0;
+    }
+
+    .contact-box-group {
+        $boxHeaderMinHeight: 3rem;
+
+        @include flex-item($align: stretch);
+        width: 100%;
+
+        .box {
+            &-item {
+                flex: 1;
+
+                &:first-child {
+                    .contact-list {
+                        > li {
+                            cursor: pointer;
+
+                            &:hover {
+                                background: #f7f7f7;
+                            }
+
+                            &.active {
+                                background: $secondaryColor;
+                                color: $primaryColor;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &-header {
+                @include flex-item($justify: space-between);
+                min-height: $boxHeaderMinHeight;
+                margin-bottom: 0.5rem;
+
+                .tit {
+                    font-weight: 500;
+                }
+            }
+
+            &-body {
+                height: 22rem;
+                @include default-box($padding: 0, $borderColor: #ddd);
+
+                .scroll-element {
+                    > div {
+                        max-height: 22rem;
+                        padding-right: 0 !important;
+                    }
+                }
+            }
+        }
+
+        .btn-item {
+            flex: none;
+            height: 100%;
+            // padding-top: 5rem;
+            margin: auto 1rem;
+            padding-top: $boxHeaderMinHeight;
+        }
+
+        .contact-list {
+            > li {
+                @include flex-item($justify: flex-start);
+                width: 100%;
+                border-bottom: 2px solid #ddd;
+
+                .tit {
+                    font-size: 1.4rem;
+                    font-weight: 500;
+                }
+                .txt {
+                    color: #666;
+                }
+            }
+        }
+    }
+
+    .main-txt-group {
+        padding: 2rem 4rem;
+
+        .tit {
+            margin-bottom: 3rem;
+        }
+
+        strong {
+            font-weight: 500;
+        }
+
+        .txt {
+            font-size: 1.7rem;
+            color: #665;
+        }
+    }
+
+
+	.inner-row-column {
+		border-top: 0 none;
+
+		.el-collapse-item__wrap,
+		.el-collapse-item__header.is-active {
+			border-bottom-color : transparent;
+		}
+
+		.input-label {
+			font-size: 1.4rem;
+		}
+	}
+	// preview components
+	.prev-box{
+		border: 0.2rem solid #ddd;
+		border-radius: 4px;
+		padding: 1rem;
+		width: 100%;
+		min-height: 32rem;
+	}
+}

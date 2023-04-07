@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO">
+
+	<sql id="branchColumn">
+		OID									oid
+		, COMPANY_OID						companyOid
+		, AREA_CODE							areaCode
+		, OWNER								owner
+		, NAME								name
+
+		, ADDR								addr
+		, POST_CODE							postCode
+		, TEL								tel
+		, DESCR								descr
+		, INPUT_USER						inputUser
+
+		, INPUT_DATE						inputDate
+		, ORDER_NO							orderNo
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> AND COMPANY_OID = #{companyOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(areaCode)"> AND AREA_CODE = #{areaCode} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND UPPER(NAME) LIKE ( '%' || UPPER(#{name}) || '%' ) </if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(branchOidList)">
+			AND OID IN
+				<foreach item="branchOid" index="index" collection="branchOidList" open="(" close=")" separator=",">
+				    	#{branchOid}
+			    </foreach>
+		</if>
+
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.org.branch.vo.BranchInfo">
+		/* com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO.insert(BranchInfo) ||'최원준'|| '2019-01-22' */
+		INSERT INTO TS02_TB_BRANCH
+		(
+			OID
+			, COMPANY_OID
+			, AREA_CODE
+			, OWNER
+			, NAME
+
+			, ADDR
+			, POST_CODE
+			, TEL
+			, DESCR
+			, INPUT_USER
+
+			, INPUT_DATE
+			, ORDER_NO
+		)
+		VALUES
+		(
+			#{oid}
+			, #{companyOid}
+			, #{areaCode}
+			, #{owner}
+			, #{name}
+
+			, #{addr}
+			, #{postCode}
+			, #{tel}
+			, #{descr}
+			, #{inputUser}
+
+			, #{inputDate}
+			, #{orderNo}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.org.branch.vo.BranchInfo">
+		/* com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO.update(BranchInfo) ||'최원준'|| '2019-01-22' */
+		UPDATE TS02_TB_BRANCH
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> COMPANY_OID = #{companyOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(areaCode)"> AREA_CODE = #{areaCode}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(owner)"> OWNER = #{owner}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> NAME = #{name}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(addr)"> ADDR = #{addr}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(postCode)"> POST_CODE = #{postCode}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(tel)"> TEL = #{tel}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(descr)"> DESCR = #{descr}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> INPUT_USER = #{inputUser}, </if>
+			<if test="inputDate != null"> INPUT_DATE = #{inputDate}, </if>
+		</trim>
+		WHERE 1=1
+			AND OID = #{oid}
+	</update>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.org.branch.vo.BranchCnd" resultType="com.remarkablesoft.framework.service.org.branch.vo.BranchInfo">
+		/* com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO.get(BranchCnd) || '최원준' || '2019-01-22' */
+		SELECT
+			<include refid="branchColumn"/>
+		FROM TS02_TB_BRANCH
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.org.branch.vo.BranchCnd" resultType="com.remarkablesoft.framework.service.org.branch.vo.BranchInfo">
+		/* com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO.listAll(BranchCnd) || '최원준' || '2019-01-22' */
+		SELECT
+			<include refid="branchColumn"/>
+		FROM TS02_TB_BRANCH
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.org.branch.vo.BranchCnd" resultType="com.remarkablesoft.framework.service.org.branch.vo.BranchInfo">
+		/* com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO.list(BranchCnd) || '안희홍' || '2019-03-20' */
+		
+		SELECT * FROM
+		(
+		SELECT
+			ROW_NUMBER() OVER( 
+			 	ORDER BY
+				 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					    ${orderBy} DESC
+				 </if>
+				 <if test="!@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					   INPUT_DATE DESC
+				 </if>	 
+			 ) RNUM, 
+			<include refid="branchColumn"/>
+		FROM TS02_TB_BRANCH
+		WHERE 1=1
+			<include refid="searchCnd"/>
+		) x
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.org.branch.vo.BranchCnd" resultType="int">
+		SELECT COUNT(*)
+		FROM TS02_TB_BRANCH
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+
+	<delete id="delete" parameterType="String">
+		 /* com.remarkablesoft.framework.service.org.branch.model.impl.BranchDAO.delete(String) || ’이균환’ || ’2019-03-22’ */
+	    DELETE FROM TS02_TB_BRANCH
+	    WHERE OID = #{oid}
+	</delete>
+
+</mapper>

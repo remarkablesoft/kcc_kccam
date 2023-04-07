@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupDAO">
+
+	<sql id="messageGroupColumn">
+		OID						oid
+		, BRANCH_OID			branchOid
+		, PART_OID				partOid
+		, NAME					name
+		, DESCR					descr
+
+		, ORDER_NO				orderNo
+		, INPUT_USER			inputUser
+		, INPUT_DATE			inputDate
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> AND BRANCH_OID = #{branchOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> AND PART_OID = #{partOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME = #{name} </if>
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupInfo">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupDAO.insert(MessageGroupInfo) ||'최원준'|| '2019-12-06' */
+		INSERT INTO TS02_TB_MSG_GROUP
+		(
+			OID
+			, BRANCH_OID
+			, PART_OID
+			, NAME
+			, DESCR
+
+			, ORDER_NO
+			, INPUT_USER
+			, INPUT_DATE
+		)
+		VALUES
+		(
+			#{oid}
+			, #{branchOid}
+			, #{partOid}
+			, #{name}
+			, #{descr}
+
+			, #{orderNo}
+			, #{inputUser}
+			, #{inputDate}
+		)
+	</insert>
+
+ 	<update id="update" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupInfo">
+ 		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupDAO.update(MessageGroupInfo) ||'최원준'|| '2019-12-06' */
+ 		UPDATE TS02_TB_MSG_GROUP
+ 		<trim prefix="SET" suffixOverrides=",">
+ 			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> NAME = #{name}, </if>
+ 			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(descr)"> DESCR = #{descr}, </if>
+ 			<if test="orderNo gt 0"> ORDER_NO = #{orderNo}, </if>
+
+ 			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> INPUT_USER = #{inputUser}, </if>
+ 			<if test="inputDate != null"> INPUT_DATE = #{inputDate}, </if>
+ 		</trim>
+		WHERE 1=1
+			AND OID = #{oid}
+ 	</update>
+
+	<delete id="delete" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupCnd">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupDAO.delete(MessageGroupCnd) ||'최원준'|| '2019-12-06' */
+		DELETE FROM TS02_TB_MSG_GROUP
+		WHERE OID = #{oid}
+	</delete>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupCnd" resultType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupInfo">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupDAO.get(MessageGroupCnd) ||'최원준'|| '2019-12-06' */
+		SELECT
+			<include refid="messageGroupColumn"/>
+		FROM TS02_TB_MSG_GROUP
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupCnd" resultType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupInfo">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupDAO.listAll(MessageGroupCnd) ||'최원준'|| '2019-12-06' */
+		SELECT
+			<include refid="messageGroupColumn"/>
+		FROM TS02_TB_MSG_GROUP
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+</mapper>

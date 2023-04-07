@@ -1,0 +1,342 @@
+/*-------------------------------------------------------------------
+    파일정의 : _modal.scss # 모달
+-------------------------------------------------------------------*/
+
+/*=== 메인 페이지 모달(custom) ===*/
+
+.custom-popup-container {
+	$defalutPadding: 1.5rem;
+	position: fixed;
+	top: 20%;
+	right: 10%;
+	z-index: 900;
+	overflow: hidden;
+	width: 40rem;
+	background: #fff;
+	border-radius: 0.5rem;
+	box-shadow: 0.4rem 0.6rem 1.3rem 0.1rem rgba(0, 0, 0, 0.14);
+
+	+ .custom-popup-container {
+		// 2개째일 경우
+		transform: translateX(-45rem);
+		+ .custom-popup-container {
+			// 3개째일 경우
+			transform: translateX(-90rem);
+		}
+	}
+
+	.popup {
+		&-header {
+			@include flex-item($justify: space-between);
+			padding: 1rem 1.5rem;
+			background: #252525;
+			.tit {
+				font-size: 1.7rem;
+				color: #fff;
+			}
+			.btn-close {
+			}
+		}
+		&-body {
+			padding: $defalutPadding;
+			.content {
+				font-size: 1.5rem;
+				img {
+					display: block;
+					width: 100%;
+					max-width: 100%;
+					margin: 0 auto 1rem;
+					text-align: center;
+				}
+
+				// 미리보기
+				&.content-preview {
+
+					.content-header {
+						@include flex-item($align: flex-start, $justify: space-between);
+						height: 100%;
+						padding: 2rem 1rem;
+						color: #161616;
+						border-bottom: 2px solid $defaultGrayBorderColor;
+
+						.tit-area {
+							margin-right: 4rem;
+
+							.tit {
+								@include font-define($fontSize: 1.8rem, $fontWeight: 600, $textAlign: left);
+							}
+						}
+
+						.sub-info-area {
+							.sub-info-group {
+								@include flex-item($align: center, $justify: flex-start);
+
+								.info-item {
+									margin-right: 2rem;
+
+									&:last-child {
+										margin-right: 0;
+									}
+								}
+							}
+							.info-item {
+								@include flex-item($align: flex-start, $justify: flex-start);
+								height: 100%;
+								margin-bottom: 0.5rem;
+								@include font-define($fontSize: 1.5rem, $fontWeight: 500, $textAlign: left);
+
+								.data {
+									max-width: 26.2rem;
+								}
+								//&:last-child {
+								//    margin-bottom: 0;
+								//}
+
+								.item-label {
+									margin-right: 0.7rem;
+									min-width: 9rem;
+									// display: ;
+									color: $txtGrayColor;
+
+									&.item-label-small {
+										min-width: 5rem;
+									}
+								}
+							}
+						}
+					}
+					.content-body {
+						padding: 2.2rem 0 1rem 0;
+					}
+				}
+			}
+		}
+		&-footer {
+			@include flex-item($justify: space-between);
+			padding: $defalutPadding;
+			.custom-checkbox + .btn-close {
+				@include flex-item();
+				&::before {
+					display: inline-block;
+					content: "";
+					width: 0.2rem;
+					height: 1.6rem;
+					margin-right: 1rem;
+					background: #e1e1e1;
+				}
+			}
+
+			&.flex-end {
+				@include flex-item($justify: flex-end);
+			}
+		}
+	}
+
+	&.wide-size {
+		width: 120rem;
+	}
+}
+
+/*=== 서브 페이지 일반 모달 ===*/
+
+.el-dialog {
+	&__header {
+		@include flex-item($justify: space-between);
+		padding: 1.5rem;
+		background: $primaryColor;
+
+		.dialog-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+
+			.tit {
+				color: #fff;
+				font-size: 1.8rem;
+			}
+
+			.btn-area {
+				margin-right: 2rem;
+			}
+		}
+	}
+	&__title {
+		color: #fff;
+		font-size: 1.8rem;
+	}
+	&__headerbtn,
+	&__close {
+		color: #fff !important;
+	}
+	&__headerbtn {
+		position: static;
+		font-size: 2rem;
+	}
+	&__body {
+		padding: 2rem;
+		font-size: 1.6rem;
+		color: #333;
+	}
+	&__footer {
+		text-align: center;
+	}
+	&__wrapper.video-container {
+		.el-dialog {
+			background: transparent;
+			&__header {
+				display: none;
+			}
+			&__body {
+				padding: 0rem;
+			}
+			.btn-close {
+				position: absolute;
+				top: -4.5rem;
+				right: -0.5rem;
+				padding: 0;
+				background: transparent;
+				border: none;
+				.cl {
+					color: $primaryColor;
+					font-size: 4rem;
+				}
+			}
+		}
+
+		.video-content {
+			height: 100%;
+		}
+	}
+
+
+	.prev-box{
+		min-height: 52rem !important;
+		.no-data {
+			height: 50rem;
+		}
+	}
+}
+
+/*=== overlay container(모바일용 직접 만든 모달) ===*/
+
+.overlay-container {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1040;
+	/* display: none; */
+	overflow: hidden;
+	visibility: hidden;
+	opacity: 0;
+	transition: 0.2s linear;
+	outline: 0;
+	.inner-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
+	.inner-content {
+		position: relative;
+		z-index: 10;
+		width: 50rem;
+		height: auto;
+		transform: translate(0, 0);
+		transition: transform 0.3s ease-out;
+		.btn-close-round {
+			display: flex;
+			align-items: center;
+			padding: 1rem 1.5rem;
+			background: #000;
+			color: #fff;
+			border-radius: 3rem;
+			i {
+				margin: 0 -0.3rem 0 0.5rem;
+				font-size: 2rem;
+			}
+		}
+		.content-footer {
+			margin-top: 1.5rem;
+		}
+	}
+	.close-backdrop {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+	}
+	/* right side 용 */
+	&.right-side {
+		.inner-wrap {
+			align-items: stretch;
+			justify-content: flex-end;
+		}
+		.inner-content {
+			width: 65%;
+			height: 100%;
+			background: #fff;
+			transform: translate(100%, 0);
+		}
+	}
+	/* layer popup 용 */
+	&.layer-popup {
+		.inner-content {
+			display: flex;
+			flex-direction: column;
+			background: transparent;
+			.content-body {
+				flex: 1;
+				.contents-box {
+					padding: 1.5rem;
+					background: #fff;
+					border-radius: 1rem;
+					.scroll-element > div {
+						max-height: calc(100vh - 20rem);
+						padding-right: 0 !important;
+					}
+					&.img-only {
+						background: transparent;
+						padding: 0;
+						border-radius: 0;
+					}
+					&.img-only img {
+						max-height: calc(100vh - 20rem);
+					}
+				}
+				img {
+					width: 100%;
+					max-height: 40rem;
+					/* height: 100%; */
+				}
+			}
+		}
+	}
+	/* visible */
+	&.visible {
+		opacity: 1;
+		visibility: visible;
+		.inner-content {
+			transform: translate(0, 0) !important;
+		}
+	}
+}
+
+/*=== tablet ===*/
+@mixin modal-tablet() {
+	.el-dialog {
+		&__wrapper.video-container {
+			.el-dialog {
+				width: 85% !important;
+			}
+		}
+	}
+}

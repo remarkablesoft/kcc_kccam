@@ -1,0 +1,33 @@
+---------------------------------------------------------------
+--  VS02_CATEGORY :
+---------------------------------------------------------------
+CREATE OR REPLACE VIEW VS02_CATEGORY AS
+SELECT
+    C.OID               AS OID,
+    L.LANG              AS LANG,
+    C.PART_OID      	AS PART_OID,
+    C.CATEGORY_TYPE  	AS CATEGORY_TYPE,
+    L.NAME              AS NAME,
+    C.PARENT_OID      	AS PARENT_OID,
+
+    C.FULL_PATH_INDEX   AS FULL_PATH_INDEX,
+    C.SUB_LAST_INDEX    AS SUB_LAST_INDEX,
+    C.ORDER_NO    		AS ORDER_NO,
+    C.DISPLAY_YN    	AS DISPLAY_YN,
+
+    L.DESCR             AS DESCR,
+    L.INPUT_USER        AS INPUT_USER,
+    L.INPUT_DATE        AS INPUT_DATE,
+
+    L.MOD_USER          AS MOD_USER,
+    L.MOD_DATE          AS MOD_DATE,
+
+    C.CUSTOM_FIELD1     AS CUSTOM_FIELD1,
+    C.CUSTOM_FIELD2     AS CUSTOM_FIELD2,
+    C.CUSTOM_FIELD3     AS CUSTOM_FIELD3,
+    C.CUSTOM_FIELD4     AS CUSTOM_FIELD4,
+    C.CUSTOM_FIELD5     AS CUSTOM_FIELD5
+
+FROM TS02_TB_CATEGORY C
+JOIN TS02_TB_CATEGORY_LANG L
+ON C.OID = L.OID;

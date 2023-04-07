@@ -1,0 +1,508 @@
+###################### 공통
+common.baromatch=바로매치
+common.11=바로매치
+
+
+#### : 페이지 (*.vue) 단위
+## : 페이지 내 컨텐츠 단위
+
+####공통  
+## KCC소개  
+user.common.kccIntro = KCC 소개
+user.common.kccIntro.kccam = KCC Advanced Materials
+user.common.kccIntro.globalNetwork = 글로벌 네트워크
+user.common.kccIntro.newsRoom = 뉴스룸
+## product 정보  
+user.common.product = 제품
+  
+user.common.product.application.etc = 기타
+user.common.product.mouseover.txt = 더 알아보기
+user.product.guide.Package = 패키지
+user.product.guide.Product = 제품
+user.product.guide.Features = Features
+  
+user.common.next = 다음
+user.common.complete = 완료
+## Technical DataSheet  
+user.common.product.technicalDataSheet = Technical DataSheet
+  
+## product dataSheet 제목  
+user.common.product.productDataSheet = Product Datasheet
+  
+## datasheet 하단 버튼  
+user.common.product.dataSheet.compareBtn = 제품 비교하기
+  
+## Similar Product  
+user.common.product.similarProduct = Similary Product
+user.common.product.similarProduct.no = No.
+user.common.product.similarProduct.series = Series
+user.common.product.similarProduct.name = 제품명
+user.common.product.similarProduct.summary = 요약
+  
+## classification 관련 내용  
+user.common.productClassification = 제품 분류
+user.common.application = Application
+
+# markets  
+user.common.market = 마켓
+  
+## function  
+user.common.function = function
+  
+## page footer  
+user.common.footer.lang = 언어
+user.common.footer.repreNumber = 대표번호
+user.common.footer.familySite = 패밀리사이트
+user.common.footer.familySite.subTxt1 = KCC의 패밀리 사이트를 소개합니다.
+user.common.footer.familySite.subTxt2 = 아래 계열사를 선택하시면 해당 홈페이지로 이동합니다.
+user.common.footer.familySite.facebook = KCC 공식 페이스북
+user.common.footer.familySite.blog = KCC 공식 블로그
+user.common.footer.familySite.automobileMt = KCC 자동차보수용도료
+user.common.footer.familySite.shipPaint = KCC 선박도료
+user.common.footer.familySite.basketballTeam = KCC 이지스 프로농구단
+user.common.footer.familySite.colorDesign = KCC 컬러&디자인센터
+user.common.footer.familySite.glass = KCC 글라스
+user.common.footer.familySite.homecc = 홈씨씨
+user.common.footer.familySite.construction = KCC 건설
+user.common.footer.familySite.kac = KAC
+user.common.footer.familySite.genmgang = 금강레저
+user.common.footer.familySite.basildon = 바실돈
+user.common.footer.policyPrivacy = 개인정보처리방침
+  
+#### Main페이지  
+## popup  
+user.main.popup.header = 신제품 출시
+user.main.popup.footer = 일주일동안 팝업을 띄우지 않습니다.
+user.main.popup.close = 닫기
+  
+## 헤더  
+user.main.slider.header1.tit = EMC Organic Material
+user.main.slider.header1.subtxt = Electromagnetic Compatibility
+  
+user.main.slider.header2.tit = EMI Radiation
+user.main.slider.header2.subtxt = Electromagnetic Interference
+  
+user.main.slider.header3.tit = EMS Sensivity
+user.main.slider.header3.subtxt = Electromagnetic Susceptibility
+  
+#### KCC 소개 페이지  
+## 헤더  
+user.intro.introKcc.header.tit = KCC 소개
+user.intro.introKcc.header.subtxt = KCC 소개 상세 내용입니다.
+  
+## body  
+user.intro.introKcc.introSection.roundSpan.addr = 본사주소
+user.intro.introKcc.introSection.roundSpan.establish = 설립일
+user.intro.introKcc.introSection.roundSpan.establish.contxt = 1958년 8월 12일
+user.intro.introKcc.introSection.roundSpan.employees = 임직원 수
+user.intro.introKcc.introSection.roundSpan.employees.number = 명
+user.intro.introKcc.introSection.roundSpan.criteriaAsDate1 = 2020년 9월 30일 기준
+user.intro.introKcc.introSection.roundSpan.sales = 매출액
+user.intro.introKcc.introSection.roundSpan.criteriaAsDate2 = 2019년 별도 기준
+user.intro.introKcc.introSection.roundSpan.unit = 단위 : 백만원
+  
+user.intro.introKcc.detail.tit = KCC 사업내용
+user.intro.introKcc.detail.header1.tit = 건축내장재
+user.intro.introKcc.detail.header1.contxt1 = 천장재, 보온단열재, 석고보드
+user.intro.introKcc.detail.header2.tit = 창호재
+user.intro.introKcc.detail.header2.contxt1 = 일반창호, 발코니 창호, 시스템 창호
+user.intro.introKcc.detail.header3.tit = 도료
+user.intro.introKcc.detail.header3.contxt1 = 건축용 도료, 자동차용 도료, 선박용 도료
+user.intro.introKcc.detail.header3.contxt2 = 플랜트용 도료, 공업용 도료
+user.intro.introKcc.detail.header4.tit = 첨단소재
+user.intro.introKcc.detail.header4.contxt1 = 유기소재(EMC), 무기소재(AM, DCB)
+user.intro.introKcc.detail.header4.contxt2 = 복합소재
+  
+#### global Network 페이지  
+## 헤더  
+user.intro.globalNetwork.title = Global Network
+user.intro.globalNetwork.title.subTxt = Global Network 상세내용입니다.
+  
+## Country & branch 정보들  
+user.intro.GlobalNetwork.Korea = 대한민국
+user.intro.GlobalNetwork.Japan = 일본
+user.intro.GlobalNetwork.China = 중국
+user.intro.GlobalNetwork.China.Shanghai = 상하이
+user.intro.GlobalNetwork.China.Beijing = 베이징
+user.intro.GlobalNetwork.China.Guangzhou = 광저우
+user.intro.GlobalNetwork.China.Chongqing = 충칭
+user.intro.GlobalNetwork.UK = 영국
+user.intro.GlobalNetwork.Germany = 독일
+user.intro.GlobalNetwork.Turkey = 터키
+user.intro.GlobalNetwork.UAE = 아랍에미리트
+user.intro.GlobalNetwork.India = 인도
+user.intro.GlobalNetwork.Malaysia = 말레이시아
+user.intro.GlobalNetwork.Vietnam = 베트남
+user.intro.GlobalNetwork.Singapore = 싱가포르
+user.intro.GlobalNetwork.Indonesia = 인도네시아
+user.intro.GlobalNetwork.Headquarters = 본사
+user.intro.GlobalNetwork.RAndD = R&D
+#user.intro.GlobalNetwork.CentralResearchInstitute = 중앙연구소
+user.intro.GlobalNetwork.Plant = 공장
+user.intro.GlobalNetwork.BusinessOffice = 영업소
+user.intro.GlobalNetwork.OverseasSubsidiaries = 해외 법인
+user.intro.GlobalNetwork.OverseasResearchCenter = 해외 연구 센터
+  
+## branch Items ( 각 지점 담당 아이템 )  
+user.intro.GlobalNetwork.Plant.Contents.CerakWool = 세라크울
+user.intro.GlobalNetwork.Plant.Contents.GlassWool = 그라스울
+user.intro.GlobalNetwork.Plant.Contents.MineralWool = 미네랄울
+user.intro.GlobalNetwork.Plant.Contents.GypsumBoard = 석고보드
+user.intro.GlobalNetwork.Plant.Contents.Silicone = 실리콘
+user.intro.GlobalNetwork.Plant.Contents.BuildingCoatings = 건축룡도료
+user.intro.GlobalNetwork.Plant.Contents.AutoRefinish = 자동차보수용도료
+user.intro.GlobalNetwork.Plant.Contents.IndustrialCoatings = 공업용도료
+user.intro.GlobalNetwork.Plant.Contents.PlantCoatings = 플랜트용도료
+user.intro.GlobalNetwork.Plant.Contents.MarineCoatings = 선박용도료
+user.intro.GlobalNetwork.Plant.Contents.AutoCoatings = 자동차용도료
+user.intro.GlobalNetwork.Plant.Contents.WindowProfiles = 창호
+user.intro.GlobalNetwork.Plant.Contents.MetallicBondingCeramic = 금속접합세라믹
+  
+## branch 별 공장 정보 ( 이름, 주소, 전화번호 )  
+user.intro.GlobalNetwork.Korea.Headquarters = 서울본사
+user.intro.GlobalNetwork.Korea.Headquarters.Address = 서울특별시 서초구 사평대로 344 (서초동 1301-4)
+user.intro.GlobalNetwork.Korea.Headquarters.Call = 02-3480-5000
+  
+user.intro.GlobalNetwork.CentralResearchInstitute = 중앙연구소
+user.intro.GlobalNetwork.korea.CentralResearchInstitute.Address = 서울특별시 서초구 사평대로 344 (서초동 1301-4)
+user.intro.GlobalNetwork.korea.CentralResearchInstitute.Call = 02-3480-5000
+  
+user.intro.GlobalNetwork.Korea.Plant.Gimcheon = 김천공장
+user.intro.GlobalNetwork.Korea.Plant.Gimcheon.Address = 경상북도 김천시 어오면 산업단지로 39(남산리 1936번지)
+user.intro.GlobalNetwork.Korea.Plant.Gimcheon.Call = 054-420-1700
+user.intro.GlobalNetwork.Korea.Plant.DaejukGypsumBoard = 대죽석고보드공장
+user.intro.GlobalNetwork.Korea.Plant.DaejukGypsumBoard.Address = 충청남도 서산시 대산읍 대죽2로 15(대죽리 11-1)
+user.intro.GlobalNetwork.Korea.Plant.DaejukGypsumBoard.Call = 041-660-7000
+user.intro.GlobalNetwork.Korea.Plant.DaejukSiliconePlant = 대죽실리콘공장
+user.intro.GlobalNetwork.Korea.Plant.DaejukSiliconePlant.Address = 충청남도 서산시 대산읍 대죽2로 35(대죽리 11-4)
+user.intro.GlobalNetwork.Korea.Plant.DaejukSiliconePlant.Call = 041-660-8700
+user.intro.GlobalNetwork.Korea.Plant.Munmak = 문막공장
+user.intro.GlobalNetwork.Korea.Plant.Munmak.Address = 강원도 원주시 문막읍 문막공단길 106(반계리 2239)
+user.intro.GlobalNetwork.Korea.Plant.Munmak.Call = 033-749-4500
+user.intro.GlobalNetwork.Korea.Plant.Anseong = 안성공장
+user.intro.GlobalNetwork.Korea.Plant.Anseong.Address = 경기도 안성시 서운면 제4산단로 100 (동촌리 300)
+user.intro.GlobalNetwork.Korea.Plant.Anseong.Call = 031-670-7777
+user.intro.GlobalNetwork.Korea.Plant.Yeocheon = 여천공장
+user.intro.GlobalNetwork.Korea.Plant.Yeocheon.Address = 전라남도 여수시 상암로 830-7(낙포동 880)
+user.intro.GlobalNetwork.Korea.Plant.Yeocheon.Call = 061-680-7800
+user.intro.GlobalNetwork.Korea.Plant.Ulsan = 울산공장
+user.intro.GlobalNetwork.Korea.Plant.Ulsan.Address = 울산광역시 동구 방어진순환도로 30(방어동 1234)
+user.intro.GlobalNetwork.Korea.Plant.Ulsan.Call = 052-280-1717
+user.intro.GlobalNetwork.Korea.Plant.JeonjuBuildingMaterials = 전주건재공장
+user.intro.GlobalNetwork.Korea.Plant.JeonjuBuildingMaterials.Address = 전라북도 완주군 봉동읍 완주산단4로 19(용암리 820)
+user.intro.GlobalNetwork.Korea.Plant.JeonjuBuildingMaterials.Call = 063-260-8800
+  
+user.intro.GlobalNetwork.BusinessOffice.Korea.Seongnam = 성남 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Seongnam.Address = 경기도 성남시 분당구 대왕판교로 210 (금곡동 92-7)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Seongnam.Call = 031-728-6800
+user.intro.GlobalNetwork.BusinessOffice.Korea.NorthernGyeonggi = 경기북부 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.NorthernGyeonggi.Address = 경기도 고양시 덕양구 고양대로 2014 (동산동 50-28)
+user.intro.GlobalNetwork.BusinessOffice.Korea.NorthernGyeonggi.Call = 031-841-0208
+user.intro.GlobalNetwork.BusinessOffice.Korea.Namyangju = 남양주 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Namyangju.Address = 경기도 남양주시 다산중앙로172번길 44, 201호(다산동 5779-1)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Namyangju.Call = 031-554-4326
+user.intro.GlobalNetwork.BusinessOffice.Korea.Suwon = 수원 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Suwon.Address = 경기도 수원시 팔달구 경수대로 472 (인계동 1018)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Suwon.Call = 031-235-5001
+user.intro.GlobalNetwork.BusinessOffice.Korea.Ansan = 안산 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Ansan.Address = 경기도 안산시 단원구 선부광장1로 92 메이퀸오피스텔 206호 (선부동 1076-21)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Ansan.Call = 031-487-7534
+user.intro.GlobalNetwork.BusinessOffice.Korea.Hwaseong = 화성 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Hwaseong.Address = 경기도 화성시 향남읍 발안만세길 14 (제암리 186)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Hwaseong.Call = 031-487-7534
+user.intro.GlobalNetwork.BusinessOffice.Korea.Wonju = 원주 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Wonju.Address = 강원도 원주시 북원로 2461(우산동 96-2)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Wonju.Call = 033-744-6821
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gangneung = 강릉 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gangneung.Address = 강원도 강릉시 연곡면 연주로 135(방내리 9)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gangneung.Call = 033-662-1705
+user.intro.GlobalNetwork.BusinessOffice.Korea.Daejeon = 대전 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Daejeon.Address = 대전광역시 대덕구 신탄진로 150(연축동 230)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Daejeon.Call = 042-635-4323
+user.intro.GlobalNetwork.BusinessOffice.Korea.Cheongju = 청주 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Cheongju.Address = 충청북도 청주시 흥덕구 2순환로 1130 스타로미안 7층(비하동 236-10)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Cheongju.Call = 043-262-4200
+user.intro.GlobalNetwork.BusinessOffice.Korea.Cheonan = 천안 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Cheonan.Address = 세종특별자치시 전의면 소정구길 40(유천리 935)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Cheonan.Call = 044-550-5601
+user.intro.GlobalNetwork.BusinessOffice.Korea.Dangjin = 당진 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Dangjin.Address = 충청남도 당진시 신평면 서해로 6719(거산리 694-3)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Dangjin.Call = 041-363-4266
+user.intro.GlobalNetwork.BusinessOffice.Korea.Jeonju = 전주 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Jeonju.Address = 전라북도 전주시 덕진구 동곡로 84(팔복동 2가 339-1)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Jeonju.Call = 063-211-5300
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gwangju = 광주 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gwangju.Address = 광주광역시 광산구 무진대로 270(우산동 1596-2)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gwangju.Call = 062-943-8211
+user.intro.GlobalNetwork.BusinessOffice.Korea.Mokpo = 목포 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Mokpo.Address = 전라남도 무안군 삼향읍 후광대로 274 남악도청프라자 301호 KCC목포지점 (남악리 2112)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Mokpo.Call = 061-280-5935
+user.intro.GlobalNetwork.BusinessOffice.Korea.Suncheon = 순천 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Suncheo.Addressn = 전라남도 순천시 장선배기길 3(조례동 1595-3)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Suncheon.Call = 061-722-7722
+user.intro.GlobalNetwork.BusinessOffice.Korea.Daegu = 대구 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Daegu.Address = 대구광역시 중구 태평로 111 (태평로3가 214-25)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Daegu.Call = 053-252-0227
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gumi = 구미 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gumi.Address = 경상북도 구미시 산동면 첨단기업7로 103(신당리 1367)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Gumi.Call = 054-453-4530
+user.intro.GlobalNetwork.BusinessOffice.Korea.Pohang = 포항 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Pohang.Address = 경상북도 포항시 남구 희망대로 695 (상도동 669-6)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Pohang.Call = 054-275-7601
+user.intro.GlobalNetwork.BusinessOffice.Korea.Ulsan = 울산 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Ulsan.Address = 울산광역시 북구 진장유통로 28-17(진장동 285-1)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Ulsan.Call = 052-287-0811
+user.intro.GlobalNetwork.BusinessOffice.Korea.Busan = 부산 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Busan.Address = 부산광역시 금정구 중앙대로 1628(부곡동 269-1)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Busan.Call = 051-580-5200
+user.intro.GlobalNetwork.BusinessOffice.Korea.Changwon = 창원 영업소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Changwo.Addressn = 경상남도 창원시 의창구 무역로 563(팔용동 8-36)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Changwon.Call = 055-265-3211
+user.intro.GlobalNetwork.BusinessOffice.Korea.Jeju = 제주 출장소
+user.intro.GlobalNetwork.BusinessOffice.Korea.Jeju.Address = 제주특별자치도 제주시 연삼로 340(도남동 65-10)
+user.intro.GlobalNetwork.BusinessOffice.Korea.Jeju.Call = 064-726-8870
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Japan01 = KCC Japan Co., Ltd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Japan01.Address = Yurakucho Denki Bldg. South wing 12F, 1-7-1, Yurakucho, Chiyoda-ku, Tokyo, Japan (Zip code : 100-0006)
+user.intro.GlobalNetwork.OverseasSubsidiaries.Japan01.Call = (81)-3-6895-9361~3
+user.intro.GlobalNetwork.OverseasResearchCenter.Japan01 = KCC Japan Research Center
+user.intro.GlobalNetwork.OverseasResearchCenter.Japan01.Address = Yokohama Joint Research Center, Experiment Building A, 1-1-40, Suehiro-Cho, Tsurumi-Ku, Yokohama-Shi, Kanagawa, Japan (zip code : 230-0045)
+user.intro.GlobalNetwork.OverseasResearchCenter.Japan01.Call = (81)-45-834-9172-3
+  
+user.intro.GlobalNetwork.China.Shanghai01 = KCC (KUNSHAN) Co., Ltd. Plants 1
+user.intro.GlobalNetwork.China.Shanghai01.Address = No.1388 Huangpujiang Rd, Qiandeng Town, Kunshan City, Jiangsu, China (Zip code : 215341
+user.intro.GlobalNetwork.China.Shanghai01.Call = (86)-512-5746-9000
+user.intro.GlobalNetwork.China.Shanghai01.Email = kcckunshan@kccworld.co.kr
+user.intro.GlobalNetwork.China.Shanghai02 = KCC (KUNSHAN) Co., Ltd. Plants 2
+user.intro.GlobalNetwork.China.Shanghai02.Address = No.198 Shanpu East Rd, Qiandeng Town, Kunshan City, Jiangsu, China (Zip code: 215341)
+user.intro.GlobalNetwork.China.Shanghai02.Call = (86)-512-5017-2006
+user.intro.GlobalNetwork.China.Shanghai02.Email = kcckunshan@kccworld.co.kr
+user.intro.GlobalNetwork.China.Shanghai03 = Shanghai Branch Office of KCC (KUNSHAN) Co., Ltd.
+user.intro.GlobalNetwork.China.Shanghai03.Address = 11F, Shanghai HNA Building, No.898 Puming Road, Shanghai, China (Zip code : 200120)
+user.intro.GlobalNetwork.China.Shanghai03.Call = (86)-21-6235-1540
+user.intro.GlobalNetwork.China.Shanghai03.Email = kccshanghai@kccworld.co.kr
+user.intro.GlobalNetwork.China.Shanghai04 = Qingdao Branch Office of KCC (KUNSHAN) Co., Ltd.
+user.intro.GlobalNetwork.China.Shanghai04.Address = Room 1506, Ban Dao International Bldg, No.182-8, Haier Rd. LaoShan District, Qingdao, China (Zip : 266100)
+user.intro.GlobalNetwork.China.Shanghai04.Call = (86)-532-5569-0655
+user.intro.GlobalNetwork.China.Shanghai04.Email = kccqingdao@kccworld.co.kr
+user.intro.GlobalNetwork.China.Shanghai05 = Yancheng Branch Office of KCC (KUNSHAN) Co., Ltd.
+user.intro.GlobalNetwork.China.Shanghai05.Address = Room 1207, 2 Building, Huabang International East Mansion, Tinghu District, Yancheng City, Jiangsu, China (zip : 224000)
+user.intro.GlobalNetwork.China.Shanghai05.Call = (86)-515-8990-9768
+user.intro.GlobalNetwork.China.Shanghai05.Email = kccshanghai@kccworld.co.kr
+user.intro.GlobalNetwork.China.Shanghai06 = Hefei Branch Office of KCC (KUNSHAN) Co., Ltd.
+user.intro.GlobalNetwork.China.Shanghai06.Address = Room1307, 11 Building, Paramount famous square, NO.588 Lianhua Road Economic development District, Hefei City Anhui, China (Zip code : 230000)
+user.intro.GlobalNetwork.China.Shanghai06.Call = (86)-551-6261-8116
+user.intro.GlobalNetwork.China.Shanghai06.Email = kcchefei@kccworld.co.kr
+user.intro.GlobalNetwork.China.Beijing01 = KCC (BEIJING) Co., Ltd.
+user.intro.GlobalNetwork.China.Beijing01.Address = No. 51, West of Shuntong Road, Renhe-Town, Shunyi-District, Beijing, China (Zip code : 101300)
+user.intro.GlobalNetwork.China.Beijing01.Call = (86)-10-8949-8181 (102)
+user.intro.GlobalNetwork.China.Beijing01.Email = kccbeijing@kccworld.co.kr
+user.intro.GlobalNetwork.China.Beijing02 = Dalian Branch Office of KCC (BEIJING) Co., Ltd.
+user.intro.GlobalNetwork.China.Beijing02.Address = Room 703, International Business Building, Bonded Zones, Dalian City, LiaoNing Province, China (zip : 116600)
+user.intro.GlobalNetwork.China.Beijing02.Call = (86)-411-3924-2272
+user.intro.GlobalNetwork.China.Beijing02.Email = kccbeijing@kccworld.co.kr
+user.intro.GlobalNetwork.China.Guangzhou01 = KCC (GUANGZHOU) Co., Ltd.
+user.intro.GlobalNetwork.China.Guangzhou01.Address = No.9 Doutang street, Yonghe Economic Zone, Guangzhou, P.R. China (zip code : 511356)
+user.intro.GlobalNetwork.China.Guangzhou01.Call = (86)-20-3222-1111
+user.intro.GlobalNetwork.China.Guangzhou01.Email = kccguangzhou@kccworld.co.kr
+user.intro.GlobalNetwork.China.Guangzhou02 = Guangzhou Branch Office of KCC (GUANGZHOU) Co., Ltd.
+user.intro.GlobalNetwork.China.Guangzhou02.Address = Room 3703&3707, ZhongTai International square, NO.161 Linhe West Road, Guangzhou, China (Zip code : 510613)
+user.intro.GlobalNetwork.China.Guangzhou02.Call = (86)-20-3831-9780
+user.intro.GlobalNetwork.China.Guangzhou02.Email = kccguangzhou@kccworld.co.kr
+user.intro.GlobalNetwork.China.Chongqing01 = KCC (Chongqing) Co., Ltd.
+user.intro.GlobalNetwork.China.Chongqing01.Address = No.26 Huanan Road, Yanjia Economic Development, Changshou District, Chongqing City, China (Zip code : 401220)
+user.intro.GlobalNetwork.China.Chongqing01.Call = (86) 23–4076–6611
+user.intro.GlobalNetwork.China.Chongqing01.Fax = (86) 23–4076–6708
+user.intro.GlobalNetwork.China.Chongqing01.Email = kccguangzhou@kccworld.co.kr
+user.intro.GlobalNetwork.China.Chongqing02 = Chongqing Branch Office of KCC (Chongqing) Co., Ltd.
+user.intro.GlobalNetwork.China.Chongqing02.Address = Room 1106, Block C, Dongli International Building, No.62 East Taishan Road, Northern New District, Chongqing City, China (Zip code : 401122)
+user.intro.GlobalNetwork.China.Chongqing02.Call = (86) 23–6701–9021
+user.intro.GlobalNetwork.China.Chongqing02.Fax = (86) 23–6785–3414
+user.intro.GlobalNetwork.China.Chongqing02.Email = kccchongqing@kccworld.co.kr
+user.intro.GlobalNetwork.China.Chongqing03 = Chengdu Branch Office of KCC (Chongqing) Co., Ltd.
+user.intro.GlobalNetwork.China.Chongqing03.Address = No.15 Xiu Yuan East Road, Chenghua District, Chengdu City, Sichuan Province, China (Zip code : 610000)
+user.intro.GlobalNetwork.China.Chongqing03.Call = (86) 155–2806–5199
+user.intro.GlobalNetwork.China.Chongqing03.Email = kccchengdu@kccworld.co.kr
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam01 = KCV KCC(Vietnam) Co., Ltd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam01.Address = Road 1, Long Thanh Industrial Zone, Long Thanh District, Dong Nai Province, Vietnam
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam01.Call = (84)-61-351-4678
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam01.Email = vietnam@kccworld.co.kr
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam02 = KCC (HA NOI) Co., Ltd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam02.Address = Yen Phong Industrial Zone, Dong Phong Ward,Yen Phong Dist, Bac Ninh Province,Vietnam
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam02.Call = (84)-241-3699-388
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam02.Email = crekim@kccworld.co.kr
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam03 = KCC (VIETNAM NHON TRACH) Co., Ltd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam03.Address = Nhon Trach 06 IZ, Long Tho commune, Nhon Trach district, Dong Nai province, Vietnam
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam03.Call = (84)-2513-683-585
+user.intro.GlobalNetwork.OverseasSubsidiaries.Vietnam03.Email = kccvn@kccworld.co.kr
+  
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam01 = KCV Hochimin Office.
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam01.Address = Room 4, 12th Floor, Pearl Plaza, 561 Dien Bien Phu Str., Ward 25, Binh Thanh Dist., HCMC, Vietnam
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam01.Call = (84)-8-6269-0305
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam01.Email = cjh9871@kccworld.co.kr
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam02 = KCC (Hanoi) Hanoi Office.
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam02.Address = VINACONEX 9 TOWER AT PHAM HUNG ROAD, ME TRI - TU LIEM-HA NOI (10 floor)
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam02.Call = (84)-4-3787-8647
+user.intro.GlobalNetwork.OverseasBranchOffices.Vietnam02.Email = crekim@kccworld.co.kr
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Singapore01 = KCS KCC(Singapore) Pte. Ltd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Singapore01.Address = 31 Tuas South Link4, Level 2M PLG Building, Singapore 636834
+user.intro.GlobalNetwork.OverseasSubsidiaries.Singapore01.Call = (65)-6862-0100
+user.intro.GlobalNetwork.OverseasSubsidiaries.Singapore01.Email = ssong@kccpaint.com.sg
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Indonesia01 = KCID PT. KCC Indonesia.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Indonesia01.Address = Belleza Permata Hijau Office Tower, Lantai 17 Unit 9 Jl Letjen Soepeno 34, Permata Hijau, Jakarta, Indonesia (Zip code : 12210)
+user.intro.GlobalNetwork.OverseasSubsidiaries.Indonesia01.Call = (62)21-3002-7185~6
+user.intro.GlobalNetwork.OverseasSubsidiaries.Indonesia01.Email = sanghyuk@kccworld.co.kr
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Malaysia01 = KCC Paints Sdn. Bhd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Malaysia01.Address = Lot13/No.1, Jalan Anggerik Mokara 31/54~55, Seksyen 31, Kota Kemuning, Shah Alam, Selangor, Darul Ehsan, Malaysia (Zip code : 40460)
+user.intro.GlobalNetwork.OverseasSubsidiaries.Malaysia01.Call = (603)-5122-2900
+user.intro.GlobalNetwork.OverseasSubsidiaries.Malaysia01.Email = kcc@kccpaint.com.my
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.India01 = KCC Paint (India) Pvt. Ltd.
+user.intro.GlobalNetwork.OverseasSubsidiaries.India01.Address = Plot No K-20 Sipcot Industrial Park, Phase II, Mambakkam Sriperumbudur Tamil Nadu, India (Zip code : 602106)
+user.intro.GlobalNetwork.OverseasSubsidiaries.India01.Call = (91)-44-2714-2000
+user.intro.GlobalNetwork.OverseasSubsidiaries.India01.Email = sales@kccindia.in
+user.intro.GlobalNetwork.OverseasBranchOffices.India01 = Pune Branch Office of KCC Paint (India) Pvt. Ltd.
+user.intro.GlobalNetwork.OverseasBranchOffices.India01.Address = Plot No. C-22, MIDC Industrial Area Phase-Ⅰ, Mahalunge Chakan Tal-Khed, Dist-Pune, Maharashtra, India (Zip code : 410501)
+user.intro.GlobalNetwork.OverseasBranchOffices.India01.Call = (91)-22-3069-8254~5
+user.intro.GlobalNetwork.OverseasBranchOffices.India01.Email = sales@kccindia.in
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.UAE01 = KCC Dubai Office.
+user.intro.GlobalNetwork.OverseasSubsidiaries.UAE01.Address = Unit No. 501, Indigo Icon Tower, Cluster - F, Jumeirah Lakes Towers, Dubai, U.A.E. (P.O. Box 184453)
+user.intro.GlobalNetwork.OverseasSubsidiaries.UAE01.Call = (971)-4453-4115~6
+user.intro.GlobalNetwork.OverseasSubsidiaries.UAE01.Email = dubai@kccworld.co.kr
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Turkey01 = KCT KCC Boya Sanayi Ve Ticaret Ltd. Sti.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Turkey01.Address = Gebze Organize Sanayi Bolgesi(Tembelova mevki) 3100 Cad. No:3107, Gebze / Kocaeli / Turkey (Zip code : 41400)
+user.intro.GlobalNetwork.OverseasSubsidiaries.Turkey01.Call = (90)-262-645-0200
+user.intro.GlobalNetwork.OverseasSubsidiaries.Turkey01.Email = turkey@kccworld.co.kr
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.Germany01 = KCC Europe GmbH.
+user.intro.GlobalNetwork.OverseasSubsidiaries.Germany01.Address = Hansaring 61, 50670, Köln/Cologne, Germany (Zip code : 50670)
+user.intro.GlobalNetwork.OverseasSubsidiaries.Germany01.Call = (49)-221-6694270
+user.intro.GlobalNetwork.OverseasSubsidiaries.Germany01.Email = contact@kccworld.eu
+  
+user.intro.GlobalNetwork.OverseasSubsidiaries.UK01 = KCC Basildon Chemical Co., Ltd
+user.intro.GlobalNetwork.OverseasSubsidiaries.UK01.Address = 7 Kimber Road, Abingdon, Oxon OX14 1RZ, England (Zip code : OX14)
+user.intro.GlobalNetwork.OverseasSubsidiaries.UK01.Call = (44)-1235-205003
+user.intro.GlobalNetwork.OverseasSubsidiaries.UK01.Email = hukim@kccworld.co.kr
+  
+#### NewRoom  
+## 헤더  
+user.intro.newsroom.header.tit = NEWSROOM
+user.intro.newsroom.header.subtxt = NEWSROOM 상세 내용입니다
+  
+## newsroom_list  
+user.intro.newsroom.search.placeholder = 제목을 검색하세요
+  
+## newroom_view  
+user.intro.newsroom.view.relatedProduct = 관련제품
+user.intro.newsroom.view.regDate = 작성일
+user.intro.newsroom.view.hits = 조회수
+user.intro.newsroom.view.list = 목록
+  
+#### 1:1 문의  
+## 상단 배너  
+user.customerSupportInquiry.noticeBanner.tit = 1대1 문의 이용안내
+user.customerSupportInquiry.noticeBanner.txt = 해당 게시판 성격에 맞지 않는 내용, 욕설, 광고 등은 사전고지 없이 관리자에 의해 삭제될 수 있습니다. 1:1 문의에 대한 답변은 이메일로만 발송되며 개인정보 관련 정책은 개인정보처리방침을 확인 바랍니다.
+  
+## 헤더  
+user.customerSupportInquiry.header.tit = 1:1문의
+  
+## body  
+user.customerSupportInquiry.oneToOne.tit = 1:1 문의
+user.customerSupportInquiry.oneToOne.label = 문의종류
+user.customerSupportInquiry.oneToOne.placeholder = 선택
+  
+user.customerSupportInquiry.essential.tit.header = 필수입력
+user.customerSupportInquiry.essential.tit.subTxt = 1:1 문의를 위해 필수적으로 입력하는 항목입니다.
+user.customerSupportInquiry.essential.email.label = 이메일
+user.customerSupportInquiry.essential.email.placeholder1 = 이메일을 입력해주세요.
+user.customerSupportInquiry.essential.email.placeholder2 = 이메일 서버를 입력해주세요.
+user.customerSupportInquiry.essential.company.label = 회사명
+user.customerSupportInquiry.essential.company.placeholder = 회사명을 입력해주세요.
+  
+user.customerSupportInquiry.elective.tit = 선택입력
+user.customerSupportInquiry.elective.phone.label = 휴대폰번호
+user.customerSupportInquiry.elective.name.label = 이름
+user.customerSupportInquiry.elective.name.placeholder1 = 성을 입력해주세요.
+user.customerSupportInquiry.elective.name.placeholder2 = 이름을 입력해주세요.
+user.customerSupportInquiry.elective.department.label = 부서
+user.customerSupportInquiry.elective.department.placeholder = 부서를 입력해주세요.
+user.customerSupportInquiry.elective.tel.label = 전화번호
+user.customerSupportInquiry.elective.country.label = 국가
+user.customerSupportInquiry.elective.country.placeholder = 국가를 입력해주세요.
+user.customerSupportInquiry.elective.city.label = 도시
+user.customerSupportInquiry.elective.city.placeholder = 도시를 입력해주세요.
+  
+user.customerSupportInquiry.context.tit = 문의내용
+user.customerSupportInquiry.context.label = 문의제목
+user.customerSupportInquiry.context.placeholder1 = 문의제목을 입력해주세요.
+user.customerSupportInquiry.context.placeholder2 = 문의내용을 입력하세요.
+  
+user.customerSupportInquiry.attach.tit = 첨부파일
+user.customerSupportInquiry.attach.dropzone.tit = 업로드할 파일을 드래그하여 올려주세요.
+user.customerSupportInquiry.attach.dropzone.subtit = (또는 여기를 클릭하셔서 PC 에서 업로드할 파일을 선택하실 수도 있습니다.)
+  
+## Swal  
+user.customerSupportInquiry.swal.inquiry = 1:1 문의
+user.customerSupportInquiry.swal.inquiry.save = 1:1 문의 저장
+user.customerSupportInquiry.swal.save.success = 저장 완료
+user.customerSupportInquiry.swal.save.error = 저장 실패
+user.customerSupportInquiry.swal.inquiry.needCategory = 1:1 문의 종류를 선택해주세요.
+user.customerSupportInquiry.swal.inquiry.needlQuestion = 1:1 문의 세부 질문을 채워주세요.
+user.customerSupportInquiry.swal.inquiry.needEssential = 필수입력 누락
+user.customerSupportInquiry.swal.inquiry.needEmail = 이메일 입력란을 채워주세요
+user.customerSupportInquiry.swal.inquiry.needCompany = 회사명을 채워주세요.
+user.customerSupportInquiry.swal.inquiry.needContext = 문의내용 누락
+user.customerSupportInquiry.swal.inquiry.needTitle = 문의제목을 채워주세요.
+
+#### Contact  
+## 헤더  
+user.customerSupportContact.header.tit = Contact
+  
+## body  
+user.customerSupportContact.country.korea = 대한민국
+user.customerSupportContact.country.china = 중국
+user.customerSupportContact.country.japan = 일본
+  
+user.customerSupportContact.country.korea.branch.hq.tit = KCC 본사
+user.customerSupportContact.country.korea.branch.hq.addr = 서울특별시 서초구 사평대로 344
+  
+user.customerSupportContact.country.china.branch.kunshan.tit = KCC (KUNSHAN)
+user.customerSupportContact.country.china.branch.kunshan.addr = 11F, Shanghai HNA Building,No.898 Puming Road, Shanghai, China
+  
+user.customerSupportContact.country.china.branch.guangzhou.tit = KCC (GUANGZHOU)
+user.customerSupportContact.country.china.branch.guangzhou.addr = Room 3703&3707, ZhongTai International square, NO.161 Linhe West Road, Guangzhou, China
+user.customerSupportContact.country.japan.branch.yurakucho.tit = KCC Japan
+user.customerSupportContact.country.japan.branch.yurakucho.addr = Yurakucho Denki Bldg. South wing 12F, 1-7-1, Yurakucho, Chiyoda-ku, Tokyo, Japan
+  
+user.customerSupportContact.manager.tit = Contact Manager
+user.customerSupportContact.manager.tel = TEL
+user.customerSupportContact.manager.email = EMAIL
+  
+#### Market  
+## Market + Function 메인 페이지  
+  
+### 헤더  
+user.market.main.header.tit = Market
+user.market.main.header.subtxt = 마켓 메인입니다.
+  
+### 본문  
+user.market.main.button.market = Market 화면으로 이동
+user.market.main.button.function = Function 화면으로 이동
+  
+## Market 페이지  
+### market View  
+### Related Document  
+user.market.relatedDocu.tit = 관련 문서
+user.market.relatedDocu.docuName = 문서명
+user.market.relatedDocu.docuType = 문서타입
+user.market.relatedDocu.fileType = 파일형태
+user.market.relatedDocu.download = 다운로드
+user.market.relatedDocu.share = 공유
+  
+user.market.references = 참조

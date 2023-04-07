@@ -1,0 +1,106 @@
+.img {
+    display: block;
+}
+
+#errorWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('../images/common/notFound/bg_notFound.png') no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#errorWrapper .error {
+    background-color: rgba(66, 85, 150, .7);
+    padding: 6rem;
+    border-radius: 2rem;
+    box-shadow: 0px 2px 19.55px 5.45px rgba(11, 50, 56, 0.3);
+}
+
+#errorWrapper .error .top-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+#errorWrapper .main-tit {
+    width: 39rem;
+    height: auto;
+}
+
+#errorWrapper .error .top-area .img {
+    /*height: 3rem;*/
+}
+
+#errorWrapper .error .top-area .txt {
+    font-size: 4rem;
+    font-weight: 600;
+    margin-top: -.1rem;
+    color: #fff;
+}
+
+#errorWrapper .error .bottom-area .tit-area {
+    background-color: #5551f7;
+    border-radius: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0px 2px 19.55px 5.45px rgba(11, 50, 56, 0.62);
+    margin-bottom: 4rem;
+}
+
+#errorWrapper .error .bottom-area .tit-area img {
+    margin-top: -0.5rem;
+    margin-right: .5rem;
+}
+
+#errorWrapper .error .bottom-area .tit-area .tit {
+    font-size: 2.9rem;
+    font-weight: 400;
+    color: #ccccff;
+}
+
+#errorWrapper .error .bottom-area .tit-area .tit strong {
+    color: #fff;
+}
+
+#errorWrapper .error .bottom-area .txt-area {
+    color: #ccccff;
+    font-size: 1.7rem;
+    line-height: 3.3rem;
+    padding-left: 2rem;
+    margin-bottom: 5rem;
+
+}
+
+#errorWrapper .error .btn-area .el-button.el-button--xlarge {
+    font-size: 2.2rem;
+    padding: 1.5rem 5rem;
+    border-radius: 4rem;
+}
+
+
+#errorWrapper .error .btn-area,
+#errorWrapper .error .logo-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#errorWrapper .error .btn-area .el-button {
+    box-shadow: 0px 2px 19.55px 5.45px rgba(11, 50, 56, 0.62);
+}
+
+#errorWrapper .error .logo-area {
+    margin: 4rem 0 0;
+}
+
+#errorWrapper .error .logo-area img {
+    width: 18rem;
+}

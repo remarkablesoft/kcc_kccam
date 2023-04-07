@@ -1,0 +1,131 @@
+/*-------------------------------------------------------------------
+    파일정의 : _mixins.scss # sass 믹스인
+-------------------------------------------------------------------*/
+
+// ellipse item
+@mixin ellipse-item($width: 100%) {
+	width: $width;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// flex item ( default : center )
+@mixin flex-item($direction: row, $align: center, $justify: center) {
+	display: flex;
+	flex-direction: $direction;
+	align-items: $align;
+	justify-content: $justify;
+}
+
+// width margin auto ( default : 120rem )
+@mixin w-margin-auto($width: $defaultWidth) {
+	// max-width: $width;
+	width: $width;
+	margin: auto;
+}
+
+// animation
+@mixin animation($animationName, $animationDelay, $animationDuration) {
+	animation-name: $animationName;
+	animation-delay: $animationDelay;
+	animation-duration: $animationDuration;
+	animation-fill-mode: both;
+}
+
+// default box
+@mixin default-box($width: auto, $padding: 2rem, $borderColor: $primaryColor, $borderRadius: 0, $backgroundColor: #fff) {
+	width: $width;
+	padding: $padding;
+	border: 0.2rem solid $borderColor;
+	border-radius: $borderRadius;
+	background: $backgroundColor;
+}
+
+// border bottom title
+@mixin bb-tit($fontSize: 2.1rem, $fontWeight: 700, $textAlign: center, $borderColor: #555) {
+	padding: 0.5rem 0;
+	border-bottom: 0.2rem solid $borderColor;
+	font-size: $fontSize;
+	font-weight: $fontWeight;
+	text-align: $textAlign;
+}
+
+// border top title
+@mixin bt-tit($fontSize: 2rem, $fontWeight: 700, $textAlign: center, $borderColor: #555) {
+	border-top: 0.2rem solid $borderColor;
+	font-size: $fontSize;
+	font-weight: $fontWeight;
+	text-align: $textAlign;
+}
+
+// font
+@mixin font-define($fontSize: 1.6rem, $fontWeight: 500, $textAlign: center, $whiteSpace: normal, $color: #000) {
+	font-size: $fontSize;
+	font-weight: $fontWeight;
+	text-align: $textAlign;
+	white-space: $whiteSpace;
+	color: $color;
+}
+
+// img hover effect
+@mixin defaultImgHoverEffect {
+	transform: translate(-50%, -50%) scale(1.1);
+	opacity: 0.9;
+}
+
+// txt hover effect
+@mixin defaultTxtHoverEffect($color: $primaryColor, $fontWeight: 500) {
+	color: $color !important;
+	text-decoration: underline;
+	font-weight: $fontWeight;
+}
+
+@mixin bg-gradient() {
+	background: $gradientColor1;
+	background: -moz-linear-gradient(-45deg, $gradientColor1 0%, $gradientColor2 100%);
+	background: -webkit-gradient(
+			left top,
+			right bottom,
+			color-stop(0%, $gradientColor1),
+			color-stop(100%, $gradientColor2)
+	);
+	background: -webkit-linear-gradient(-45deg, $gradientColor1 0%, $gradientColor2 100%);
+	background: -o-linear-gradient(-45deg, $gradientColor1 0%, $gradientColor2 100%);
+	background: -ms-linear-gradient(-45deg, $gradientColor1 0%, $gradientColor2 100%);
+	background: linear-gradient(135deg, $gradientColor1 0%, $gradientColor2 100%);
+}
+
+// default box-shadow
+@mixin box-shadow-default() {
+	box-shadow: 0.4rem 0.6rem 1.38rem 0.12rem rgba(0, 0, 0, 0.07);
+}
+
+// responsive
+@mixin responsiveWidth3() {
+	width: 33.33333333% !important;
+}
+
+@mixin responsiveWidth2() {
+	width: 50% !important;
+}
+
+@mixin responsiveWidth1() {
+	width: 100% !important;
+}
+
+@mixin responsiveTabletDefaultPadding() {
+	width: 100%;
+	max-width: 100%;
+	padding: $responsiveTabletDefaultPadding;
+}
+
+@mixin responsiveMobileDefaultPadding() {
+	padding: $responsiveMobileDefaultPadding;
+}
+
+// @mixin media($queryPoint) {
+//     @media #{ $queryPoint } {
+//         @content;
+//     }
+// }

@@ -1,0 +1,202 @@
+/*-------------------------------------------------------------------
+    파일정의 : _footer.scss # 푸터
+-------------------------------------------------------------------*/
+
+.footer {
+    z-index: 100;
+    margin-top: auto;
+
+    .inner {
+        @include w-margin-auto();
+    }
+}
+
+.footer-top {
+    background-color: #252525;
+
+    .inner {
+        @include flex-item($justify: space-between);
+    }
+
+    .policy-link-list {
+        @include flex-item($justify: flex-start);
+
+        > li {
+            // margin-right: 7rem;
+
+            > .link {
+                display: inline-block;
+                padding: 2rem 0;
+                font-size: 1.4rem;
+                color: #fff;
+            }
+        }
+    }
+
+    .dropdown-group {
+        @include flex-item();
+
+        .el-input__inner,
+        .btn-family-site {
+            height: 6rem;
+        }
+
+        .el-select {
+            width: 12rem;
+        }
+        .el-input__inner {
+            padding: 0 2rem;
+            background-color: #464646;
+            border: 0 none;
+            color: #fff;
+            border-radius: 0;
+
+            &::-webkit-input-placeholder {
+                color: #fff;
+            }
+
+            &::-moz-placeholder {
+                color: #fff;
+            }
+
+            &:-ms-input-placeholder {
+                color: #fff;
+            }
+
+            &::placeholder {
+                color: #fff;
+            }
+        }
+        .el-select__caret {
+            color: #fff;
+        }
+
+        .btn-family-site .material-icons {
+            margin-right: -1rem;
+        }
+    }
+}
+
+/* 패밀리 사이트 */
+.family-site {
+    position: relative;
+
+    &-box {
+        position: absolute;
+        bottom: 100%;
+        z-index: 100;
+        right: 0;
+        transition: 0.4s;
+        white-space: nowrap;
+
+        .inner-box {
+            position: relative;
+            @include default-box();
+            font-weight: 500;
+
+            .btn-close-box {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 0.1rem;
+                border-radius: 0;
+            }
+        }
+
+        .tit-area {
+            .tit {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: $primaryColor;
+            }
+            .sub-txt {
+                font-size: 1.4rem;
+                color: #666;
+            }
+        }
+    }
+
+    &-link {
+        display: flex;
+        margin-top: 2rem;
+
+        .family-site-list {
+            flex: 1;
+
+            + .family-site-list {
+                margin-left: 2rem;
+                padding-left: 2rem;
+                border-left: 0.2rem solid #ddd;
+            }
+
+            > li {
+                a {
+                    display: block;
+                    margin: 0.3rem;
+                    font-size: 1.4rem;
+                    color: #666;
+
+                    &:hover {
+                        @include defaultTxtHoverEffect();
+                    }
+                }
+            }
+        }
+    }
+}
+
+.footer-bottom {
+    padding: 3rem 0;
+    background-color: #333;
+
+    .inner {
+        @include flex-item($justify: flex-start);
+    }
+
+    .logo {
+        > img {
+            height: 5.1rem;
+        }
+    }
+
+    .txt {
+        margin-left: 3.6rem;
+        font-size: 1.3rem;
+        line-height: 1.7;
+        color: #6f6f6f;
+    }
+}
+
+/*=== tablet ===*/
+@mixin footer-tablet() {
+    .footer {
+        .inner {
+            @include responsiveTabletDefaultPadding();
+        }
+    }
+
+    .footer-top {
+        .inner {
+            padding-right: 0;
+        }
+
+        .dropdown-group {
+            .btn-family-site {
+                .material-icons {
+                    font-size: 2rem;
+                }
+            }
+        }
+    }
+}
+
+/*=== mobile ===*/
+@mixin footer-mobile() {
+    .footer-top {
+        .dropdown-group {
+            .el-input__suffix {
+                right: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.storage.storagefile.model.impl.StorageFileDAO">
+
+
+	<sql id="column">
+		 STORAGE_FILE_UID 		storageFileUid
+	     , HASH_VALUE 			hashValue
+	     , FILE_CNT 			fileCount
+
+		 , CUSTOM_FIELD1 		customField1
+		 , CUSTOM_FIELD2 		customField2
+		 , CUSTOM_FIELD3 		customField3
+
+		 , INPUT_DATE 			inputDate
+	</sql>
+
+
+	<sql id="searchCnd">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(storageFileUid)"> AND STORAGE_FILE_UID = #{storageFileUid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(hashValue)"> AND HASH_VALUE = #{hashValue} </if>
+	</sql>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.storage.storagefile.vo.StorageFileInfo">
+		/* com.remarkablesoft.framework.service.storage.storagefile.model.impl.StorageFileDAO.insert(StorageFileInfo) || ’이균환’ || ’2019-12-07’ */
+		INSERT INTO TS02_TB_STORAGE_FILE (
+		     STORAGE_FILE_UID
+		     , HASH_VALUE
+		     , FILE_CNT
+			 , CUSTOM_FIELD1
+			 , CUSTOM_FIELD2
+
+			 , CUSTOM_FIELD3
+			 , INPUT_DATE
+		) VALUES (
+		     #{storageFileUid}
+		     , #{hashValue}
+		     , #{fileCount}
+			 , #{customField1}
+			 , #{customField2}
+
+			 , #{customField3}
+			 , #{inputDate}
+		)
+	</insert>
+
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.storage.storagefile.vo.StorageFileInfo">
+		/* com.remarkablesoft.framework.service.storage.storagefile.model.impl.StorageFileDAO.update(StorageFileInfo) || ’이균환’ || ’2019-12-07’ */
+		UPDATE TS02_TB_STORAGE_FILE
+		<trim prefix="SET" suffixOverrides=",">
+
+			<if test="fileCount > -1"> FILE_CNT = #{fileCount}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+
+		</trim>
+	    WHERE STORAGE_FILE_UID = #{storageFileUid}
+	</update>
+
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.storage.storagefile.vo.StorageFileCnd" resultType="com.remarkablesoft.framework.service.storage.storagefile.vo.StorageFileInfo">
+		 /* com.remarkablesoft.framework.service.storage.storagefile.model.impl.StorageFileDAO.get(StorageFileCnd) || ’이균환’ || ’2019-12-07’ */
+		 SELECT
+		 		<include refid="column"/>
+		 FROM TS02_TB_STORAGE_FILE
+		 WHERE 1 = 1
+		 	<include refid="searchCnd"/>
+	</select>
+	
+	
+	<select id="exist" resultType="java.lang.Integer" parameterType="com.remarkablesoft.framework.service.storage.storagefile.vo.StorageFileCnd">
+	    /* com.remarkablesoft.framework.service.storage.storagefile.model.impl.StorageFileDAO.exist(StorageFileCnd) || ’이균환’ || ’2020-04-02’ */
+		SELECT COUNT(*)
+		FROM TS02_TB_STORAGE_FILE
+		WHERE 1=1
+		   <include refid="searchCnd"/>
+	</select>
+
+
+</mapper>

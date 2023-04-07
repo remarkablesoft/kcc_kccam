@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO">
+
+
+    <sql id="selectColumn">
+        OID			                oid
+        , LANG                      lang
+        , PARENT_OID                parentOid
+        , CONFIG_TYPE               configType
+        , CONFIG_QUESTION           configQuestion
+        , CONFIG_ANSWER             configAnswer
+
+        , CONFIG_RECEIVER_EMAIL     configReceiverEmail
+        , USE_YN                    useYn
+    </sql>
+
+
+
+    <sql id="searchCnd">
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> AND LANG = #{lang}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)"> AND PARENT_OID = #{parentOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(configType)"> AND CONFIG_TYPE = #{configType}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND USE_YN = #{useYn}</if>
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(parentOidList)">
+            AND PARENT_OID IN
+            <foreach collection="parentOidList" item="oid" index="index" separator="," open="(" close=")">
+                #{oid}
+            </foreach>
+        </if>
+    </sql>
+
+    <insert id="insert"  parameterType="com.remarkablesoft.site.kccam.service.onetoone.config.vo.OneToOneConfigInfo"   >
+		/* com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO.input(OneToOneConfigInfo) || ’최원준’ || ’2021-02-25’ */
+        INSERT INTO TS02_AM_ONE_TO_ONE_CONFIG (
+            OID
+            , LANG
+            , PARENT_OID
+            , CONFIG_TYPE
+            , CONFIG_QUESTION
+            , CONFIG_ANSWER
+            
+            , CONFIG_RECEIVER_EMAIL
+        )
+        VALUES
+        (
+            #{oid}
+            , #{lang}
+            , #{parentOid}
+            , #{configType}
+            , #{configQuestion}
+            , #{configAnswer}
+            
+            , #{configReceiverEmail}
+        )
+    </insert>
+
+    <update id="update"  parameterType="com.remarkablesoft.site.kccam.service.onetoone.config.vo.OneToOneConfigInfo">
+		/* com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO.update(OneToOneConfigInfo) || ’최원준’ || ’2021-02-25’ */
+        UPDATE TS02_AM_ONE_TO_ONE_CONFIG
+        	 <trim prefix="SET" suffixOverrides=",">
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> LANG = #{lang}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> USE_YN = #{useYn}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(configType)"> CONFIG_TYPE = #{configType}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(configQuestion)"> CONFIG_QUESTION = #{configQuestion}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(configAnswer)"> CONFIG_ANSWER = #{configAnswer}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(configReceiverEmail)"> CONFIG_RECEIVER_EMAIL = #{configReceiverEmail}, </if>
+             </trim>
+        WHERE 1 = 1
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)"> AND PARENT_OID = #{parentOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(configType)"> AND CONFIG_TYPE = #{configType}</if>
+    </update>
+
+    <delete id="delete" parameterType="String">
+		/* com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO.delete(String) || ’최원준’ || ’2021-02-25’ */
+        DELETE 
+          FROM TS02_AM_ONE_TO_ONE_CONFIG
+        WHERE OID = #{oid}
+    </delete>
+
+    <select id="get" parameterType="com.remarkablesoft.site.kccam.service.onetoone.config.vo.OneToOneConfigCnd" resultType="com.remarkablesoft.site.kccam.service.onetoone.config.vo.OneToOneConfigInfo" >
+        /* com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO.get(OneToOneConfigCnd) || ’최원준’ || ’2021-02-25’ */
+        SELECT 
+        	<include refid="selectColumn"/> 
+         FROM TS02_AM_ONE_TO_ONE_CONFIG
+        WHERE 1 = 1   
+        	<include refid="searchCnd"/>
+    </select>
+
+    <select id="listAll" parameterType="com.remarkablesoft.site.kccam.service.onetoone.config.vo.OneToOneConfigCnd" resultType="com.remarkablesoft.site.kccam.service.onetoone.config.vo.OneToOneConfigInfo" >
+		/* com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO.listAll(OneToOneConfigCnd) || ’최원준’ || ’2021-02-25’ */
+        SELECT 
+        	<include refid="selectColumn"/> 
+        FROM TS02_AM_ONE_TO_ONE_CONFIG
+        WHERE 1 = 1 
+        	<include refid="searchCnd"/>													
+    </select>
+
+    <update id="deleteFlagUpdate" parameterType="String">
+        /* com.remarkablesoft.site.kccam.service.onetoone.config.model.impl.OneToOneConfigDAO.deleteFlagUpdate(OneToOneConfigCnd) || ’남윤재’ || ’2021-06-24’ */
+        UPDATE TS02_AM_ONE_TO_ONE_CONFIG
+        SET USE_YN = #{useYn}
+        where OID = #{oid}
+    </update>
+
+</mapper>

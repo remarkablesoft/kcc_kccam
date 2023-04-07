@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.notification.message.send.model.impl.MessageSendResultDAO">
+
+	<sql id="messageSendResultColumn">
+		OID								oid
+		, MSG_OID						messageOid
+		, PART_OID					partOid
+		, SEND_TOTAL_CNT				sendTotalCount
+		, SEND_SUCCESS_CNT				sendSuccessCount
+		
+		, SEND_FAIL_CNT					sendFailCount
+		, SEND_OPEN_CNT					endOpenCount
+		, INPUT_USER					inputUser
+		, INPUT_DATE					inputDate
+		, CUSTOM_FIELD1					customField1
+		
+		, CUSTOM_FIELD2					customField2
+		, CUSTOM_FIELD3					customField3
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(messageOid)"> AND MSG_OID = #{messageOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(partOid)"> AND PART_OID = #{partOid} </if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(messageOidList)">
+			AND MSG_OID IN
+			<foreach collection="messageOidList" item="messageOid" index="index" separator="," open="(" close=")">
+				#{messageOid}
+			</foreach>
+		</if>
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendResultInfo">
+		/* com.remarkablesoft.framework.service.notification.message.send.model.impl.MessageSendResultDAO.insert(MessageSendResultInfo) ||'최원준'|| '2019-12-06' */
+		INSERT INTO TS02_TB_MSG_SEND_RESULT
+		(
+			OID
+			, MSG_OID
+			, PART_OID
+			, SEND_TOTAL_CNT
+			, SEND_SUCCESS_CNT
+			
+			, SEND_FAIL_CNT
+			, SEND_OPEN_CNT
+			, INPUT_USER
+			, INPUT_DATE
+			, CUSTOM_FIELD1
+			
+			, CUSTOM_FIELD2
+			, CUSTOM_FIELD3
+		)
+		VALUES
+		(
+			#{oid}
+			, #{messageOid}
+			, #{partOid}
+			, #{sendTotalCount}
+			, #{sendSuccessCount}
+			
+			, #{sendFailCount}
+			, #{sendOpenCount}
+			, #{inputUser}
+			, #{inputDate}
+			, #{customField1}
+			
+			, #{customField2}
+			, #{customField3}
+		)
+	</insert>
+
+ 	<update id="update" parameterType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendResultInfo">
+ 		/* com.remarkablesoft.framework.service.notification.message.send.model.impl.MessageSendResultDAO.update(MessageSendResultInfo) ||'최원준'|| '2019-12-06' */
+ 		UPDATE TS02_TB_MSG_SEND_RESULT
+ 		<trim prefix="SET" suffixOverrides=",">
+ 			<if test="sendTotalCount gt 0"> SEND_TOTAL_CNT = #{sendTotalCount}, </if>
+ 			<if test="sendSuccessCount gt 0"> SEND_SUCCESS_CNT = #{sendSuccessCount}, </if>
+ 			<if test="sendFailCount gt 0"> SEND_FAIL_CNT = #{sendFailCount}, </if>
+ 			<if test="sendOpenCount gt 0"> SEND_OPEN_CNT = #{sendOpenCount}, </if>
+ 		</trim>
+		WHERE 1=1
+			AND OID = #{oid}
+ 	</update>
+
+ 	<select id="get" parameterType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendHistCnd" resultType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendResultInfo">
+		/* com.remarkablesoft.framework.service.notification.message.send.model.impl.MessageSendResultDAO.get(MessageSendHistCnd) ||'최원준'|| '2019-12-06' */
+		SELECT
+			<include refid="messageSendResultColumn"/>
+		FROM TS02_TB_MSG_SEND_RESULT
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendHistCnd" resultType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendResultInfo">
+		/* com.remarkablesoft.framework.service.notification.message.send.model.impl.MessageSendResultDAO.list(MessageSendHistCnd) ||'최원준'|| '2019-12-06' */
+		SELECT * FROM
+		(
+			SELECT 
+				ROW_NUMBER() OVER ( ORDER BY INPUT_DATE ) RNUM,
+				<include refid="messageSendResultColumn"/>
+			FROM 
+				TS02_TB_MSG_SEND_RESULT	
+			WHERE 1=1
+				<include refid="searchCnd"/>
+		) X
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendHistCnd" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TS02_TB_MSG_SEND_RESULT
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendHistCnd" resultType="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendResultInfo">
+		/* com.remarkablesoft.framework.service.notification.message.send.model.impl.MessageSendResultDAO.listAll(MessageSendHistCnd) ||'최원준'|| '2019-12-06' */
+		SELECT
+			<include refid="messageSendResultColumn"/>
+		FROM TS02_TB_MSG_SEND_RESULT
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+</mapper>

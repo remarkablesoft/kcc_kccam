@@ -1,0 +1,295 @@
+/*-------------------------------------------------------------------
+    파일정의 : _typography.scss # 타이포그래피 규칙
+-------------------------------------------------------------------*/
+
+// @font-face {
+//     font-family: "HangultuelGothic";
+//     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.10/HangultuelGothic.woff") format("woff");
+//     font-weight: normal;
+//     font-style: normal;
+// }
+
+// @font-face {
+//     font-family: "NEXON Lv2 Gothic";
+//     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff") format("woff");
+//     font-weight: 400;
+//     font-style: normal;
+// }
+
+// @font-face {
+//     font-family: "NEXON Lv2 Gothic";
+//     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff") format("woff");
+//     font-weight: 500;
+//     font-style: normal;
+// }
+
+// @font-face {
+//     font-family: "NEXON Lv2 Gothic";
+//     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff") format("woff");
+//     font-weight: 700;
+//     font-style: normal;
+// }
+
+// @font-face {
+// 	font-family: "NanumBarunGothic";
+// 	font-style: normal;
+// 	font-weight: 400;
+// 	src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot");
+// 	src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix")
+// 			format("embedded-opentype"),
+// 		url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff")
+// 			format("woff"),
+// 		url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf")
+// 			format("truetype");
+// }
+
+// @font-face {
+// 	font-family: "NanumBarunGothic";
+// 	font-style: normal;
+// 	font-weight: 700;
+// 	src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot");
+// 	src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix")
+// 			format("embedded-opentype"),
+// 		url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff")
+// 			format("woff"),
+// 		url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf")
+// 			format("truetype");
+// }
+
+// @font-face {
+//     font-family: "NanumBarunGothic";
+//     font-style: normal;
+//     font-weight: 400;
+//     src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot");
+//     src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix") format("embedded-opentype"),
+//         url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff") format("woff"), url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf") format("truetype");
+// }
+
+// @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+// @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
+
+html {
+	font-size: 62.5%;
+	/* rem 기준 사이즈 10px */
+}
+
+h2.tit {
+	font-size: 3.4rem;
+	font-weight: 500;
+}
+
+h3.tit {
+	font-size: 2.4rem;
+	font-weight: 700;
+}
+
+h4.tit {
+	font-size: 2.1rem;
+	font-weight: 700;
+}
+
+/* tit */
+.tit {
+	&.sm {
+		font-size: 2.1rem;
+	}
+	&.md {
+		font-size: 2.4rem;
+	}
+	&.lg {
+		font-size: 3.2rem;
+	}
+
+	&-link {
+		@include flex-item($justify: flex-start);
+		@include bb-tit($textAlign: left);
+		border-bottom: 0 none;
+		transition: 0.5s ease-out;
+
+		&:before {
+			content: "";
+			position: absolute;
+			z-index: 1;
+			height: 0.2rem;
+			transition-duration: 0.5s;
+		}
+
+		&::after {
+			display: block;
+			content: "";
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			// right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 0.2rem;
+			background: #555;
+		}
+
+		&:hover {
+			color: $primaryColor;
+		}
+
+		.material-icons {
+			margin: 0.3rem 0 0 0.5rem;
+		}
+	}
+
+	&-bb {
+		@include bb-tit();
+	}
+
+	&-icon-wrap {
+		@include flex-item($justify: flex-start);
+
+		.tit {
+			margin-right: 0.5rem;
+		}
+	}
+}
+
+/* 네모 점 타이틀 */
+.square-dot-tit {
+	@include flex-item($align: flex-start, $justify: flex-start);
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
+	font-weight: 500;
+
+	&::before {
+		display: inline-block;
+		content: "";
+		flex: none;
+		width: 0.5rem;
+		height: 0.5rem;
+		margin: 0.9rem 1rem 0 0;
+		background: $primaryColor;
+	}
+}
+
+/* txt */
+.txt {
+	&-link {
+		display: inline-block;
+		font-size: 1.4rem;
+		color: #777;
+
+		&:hover {
+			color: $primaryColor;
+		}
+	}
+
+	&-link-underline {
+		display: inline-block;
+		text-decoration: underline;
+		text-decoration-color: #a8a8a8;
+		// padding-bottom: 0.2rem;
+		// border-bottom: 1px solid #a8a8a8;
+		// font-size: 1.4rem;
+		// color: #777;
+
+		&:hover {
+			color: $primaryColor;
+			border-color: $primaryColor;
+		}
+
+		&.main-color {
+			border-color: $primaryColor;
+		}
+	}
+
+	&-link-r {
+		@include flex-item($justify: flex-end);
+		margin-top: 1rem;
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: $primaryColor;
+		text-align: right;
+	}
+
+	&-info {
+		margin: 0.5rem 0;
+		color: #fc0e0e;
+	}
+}
+
+/* 필수 */
+em.required {
+    display: inline-block;
+	margin-top: -1rem;
+	vertical-align: text-top;
+	color: $primaryColor !important;
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.manager-container {
+	// 관리자
+	em.required {
+		vertical-align: baseline;
+	}
+}
+
+/* main color */
+.main-color {
+	color: $primaryColor !important;
+}
+
+/* 일치하는 검색어 표시 */
+em.search-keyword {
+	font-weight: 700;
+	color: $primaryColor !important;
+}
+
+/* text-align */
+.tl {
+	text-align: left !important;
+}
+.tc {
+	text-align: center !important;
+}
+.tr {
+	text-align: right !important;
+}
+
+/* font weight */
+.fw500 {
+	font-weight: 500 !important;
+}
+
+/*=== typhograpy media query mixin ==*/
+@mixin typhograpy-lg() {
+	html.responsive-html {
+		font-size: 62.5%;
+	}
+
+	.txt-link-r {
+		font-size: 1.7rem;
+	}
+
+	.tit {
+		&.sm {
+			// font-size: 2.1rem;
+		}
+		&.md {
+			// font-size: 2.4rem;
+			font-size: 2.2rem;
+			line-height: 1.2;
+		}
+		&.lg {
+			// font-size: 3.2rem;
+		}
+	}
+}
+
+@mixin typhograpy-md() {
+	html.responsive-html {
+		font-size: 50%;
+	}
+}
+
+@mixin typhograpy-sm() {
+	html.responsive-html {
+		font-size: 40%;
+	}
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.mgnt.treenode.model.impl.TreeNodeDAO">
+
+
+	<sql id="column">
+		OID						oid
+		, FULL_PATH_INDEX		fullPathIndex
+		, SUB_LAST_INDEX		subLastIndex
+		, PARENT_OID			parentOid
+		, #{tableName} 			tableName
+	</sql>
+
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.mgnt.treenode.vo.TreeNodeInfo" resultType="com.remarkablesoft.framework.service.mgnt.treenode.vo.TreeNodeInfo">
+		/* com.remarkablesoft.framework.service.mgnt.hierarchy.model.impl.HierarchyDAO.get(String) || ’이균환’ || ’2019-09-29’ */
+		SELECT
+			<include refid="column"/>
+		FROM ${tableName}
+		WHERE OID = #{oid}
+	</select>
+
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.mgnt.treenode.vo.TreeNodeInfo">
+	  	/* com.remarkablesoft.framework.service.mgnt.hierarchy.model.impl.HierarchyDAO.update(HierarchyInfo) || ’이균환’ || ’2019-09-29’ */
+		UPDATE ${tableName}
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="parentOid != null"> PARENT_OID = #{parentOid}, </if>
+			<if test="fullPathIndex != null"> FULL_PATH_INDEX = #{fullPathIndex}, </if>
+			<if test="subLastIndex gt -2">SUB_LAST_INDEX = #{subLastIndex}, </if>
+		</trim>
+		WHERE OID = #{oid}
+   	</update>
+
+
+	<!-- 예전 FullPathIndex를 찾아서 예전것은 없애고 신규것으로 업데이트.
+	SELECT
+	FULL_PATH_INDEX,
+	CONCAT ( '0|007', SUBSTR( FULL_PATH_INDEX, CHAR_LENGTH( '0|002' ) + 1)) AS RESULT
+	FROM TS02_TB_GROUP
+	WHERE FULL_PATH_INDEX LIKE '0|002|%'
+	ORDER BY FULL_PATH_INDEX;
+
+	FULL_PATH_INDEX, RESULT
+	0|002|			0|007|
+	0|002|001|		0|007|001|
+	0|002|002|		0|007|002|
+	-->
+   	<update id="updateForAllSubNode" >
+	  	/* com.remarkablesoft.framework.service.mgnt.hierarchy.model.impl.HierarchyDAO.updateForAllSubNode(String, String) || ’이균환’ || ’2019-09-29’ */
+		UPDATE ${tableName}
+		SET FULL_PATH_INDEX = CONCAT ( #{newFullPathIndex} , SUBSTR( FULL_PATH_INDEX, LENGTH( #{oldFullPathIndex} ) + 1))
+		WHERE 1 = 1
+		AND FULL_PATH_INDEX LIKE CONCAT( #{oldFullPathIndex},'%')
+		<if test="@org.springframework.util.StringUtils@hasText(paramRootOid)"> AND ${paramRootColName} = #{paramRootOid} </if>
+   	</update>
+
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.mgnt.treenode.vo.TreeNodeCnd" resultType="com.remarkablesoft.framework.service.mgnt.treenode.vo.TreeNodeInfo">
+	  	/* com.remarkablesoft.framework.service.mgnt.treenode.model.impl.TreeNodeDAO.listAll(TreeNodeCnd) || ’이균환’ || ’2019-09-29’ */
+		 SELECT <include refid="column"/>
+		 FROM ${tableName}
+		 WHERE  1 = 1
+
+		 <if test="@org.springframework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+ 		 <if test="parentOid != null"> AND PARENT_OID = #{parentOid} </if> 
+
+<!--	<if test="parentOid != null">
+		 	AND FULL_PATH_INDEX LIKE CONCAT( ( SELECT FULL_PATH_INDEX FROM ${tableName} WHERE OID = #{oid} ),'%')
+		 </if>-->
+
+		 <if test="fullPathIndex != null"> AND FULL_PATH_INDEX LIKE CONCAT( #{fullPathIndex},'%') </if>
+
+		ORDER BY FULL_PATH_INDEX
+	</select>
+
+
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.site.kccam.service.onetoone.onetoone.model.impl.OneToOneDetailDAO">
+
+
+    <sql id="selectColumn">
+        OID			oid
+        , OTO_OID			otoOid
+        , DETAIL_TYPE			detailType
+        , DETAIL_QUESTION			detailQuestion
+        , DETAIL_ANSWER			detailAnswer
+    </sql>
+
+
+
+    <sql id="searchCnd">
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(otoOid)"> AND OTO_OID = #{otoOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(detailType)"> AND DETAIL_TYPE = #{detailType}</if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+        	AND OID IN 
+        	<foreach collection="oidList" item="oid" index="index" separator="," open="(" close=")">
+        		#{oid} 
+        	</foreach>
+        </if>
+    </sql>
+
+    <insert id="insert"  parameterType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneDetailInfo"   >
+		/* com.remarkablesoft.site.kccam.service.onetoone.onetoone.model.impl.OneToOneDetailDAO.input(OneToOneDetailInfo) || ’최원준’ || ’2021-02-25’ */
+        INSERT INTO TS02_AM_ONE_TO_ONE_DETAIL (
+            OID
+            , OTO_OID
+            , DETAIL_TYPE
+            , DETAIL_QUESTION
+            , DETAIL_ANSWER
+        )
+        VALUES
+        (
+            #{oid}
+            , #{otoOid}
+            , #{detailType}
+            , #{detailQuestion}
+            , #{detailAnswer}
+        )
+    </insert>
+
+    <update id="update"  parameterType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneDetailInfo">
+		/* com.remarkablesoft.site.kccam.service.onetoone.onetoone.model.impl.OneToOneDetailDAO.update(OneToOneDetailInfo) || ’최원준’ || ’2021-02-25’ */
+        UPDATE TS02_AM_ONE_TO_ONE_DETAIL
+        	 <trim prefix="SET" suffixOverrides=",">
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(detailType)"> DETAIL_TYPE = #{detailType}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(detailQuestion)"> DETAIL_QUESTION = #{detailQuestion}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(detailAnswer)"> DETAIL_ANSWER = #{detailAnswer}, </if>
+             </trim>
+        WHERE 1 = 1
+        AND    OID = #{oid}
+    </update>
+
+    <delete id="delete" parameterType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneCnd">
+		/* com.remarkablesoft.site.kccam.service.onetoone.onetoone.model.impl.OneToOneDetailDAO.delete(OneToOneCnd) || ’최원준’ || ’2021-02-25’ */
+        DELETE 
+          FROM TS02_AM_ONE_TO_ONE_DETAIL
+         WHERE 1 = 1
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(otoOid)"> AND OTO_OID = #{otoOid} </if>
+    </delete>
+
+    <select id="get" parameterType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneCnd" resultType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneDetailInfo" >
+        /* com.remarkablesoft.site.kccam.service.onetoone.onetoone.model.impl.OneToOneDetailDAO.get(OneToOneCnd) || ’최원준’ || ’2021-02-25’ */
+        SELECT 
+        	<include refid="selectColumn"/> 
+         FROM TS02_AM_ONE_TO_ONE_DETAIL
+        WHERE 1 = 1   
+        	<include refid="searchCnd"/>
+    </select>
+
+    <select id="listAll" parameterType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneCnd" resultType="com.remarkablesoft.site.kccam.service.onetoone.onetoone.vo.OneToOneDetailInfo" >
+		/* com.remarkablesoft.site.kccam.service.onetoone.onetoone.model.impl.OneToOneDetailDAO.listAll(OneToOneCnd) || ’최원준’ || ’2021-02-25’ */
+        SELECT 
+        	<include refid="selectColumn"/> 
+        FROM TS02_AM_ONE_TO_ONE_DETAIL
+        WHERE 1 = 1 
+        	<include refid="searchCnd"/>													
+    </select>
+
+</mapper>

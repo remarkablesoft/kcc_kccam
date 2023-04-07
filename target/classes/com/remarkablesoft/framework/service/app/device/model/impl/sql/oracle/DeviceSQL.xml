@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO">
+
+	<sql id="deviceColumn">
+		OID										oid
+		, DEVICE_MODEL_NAME						deviceModelName
+		, SERIAL_NUM							serialNum
+		, IMEI									imei
+		, BUILD_VERSION							buildVersion
+
+		, OS_TYPE_FLAG							osTypeFlag
+		, APP_VERSION							appVersion
+		, OS_VERSION							osVersion
+		, UUID									uuid
+		, PUSH_TOKEN							pushToken
+
+		, PUSH_YN								pushYn
+		, INPUT_DATE							inputDate
+	</sql>
+
+	<sql id="viewColumn">
+		, USER_OID								userOid
+		, USER_ID								userId
+		, USER_NAME								userName
+		, USER_GROUP_OID						userGroupOid
+		, USER_RANK								userRank
+
+		, USER_DESCR							userDescr
+		, REL_USE_YN							useYn
+	</sql>
+
+	<!-- OID랑 IOS_UUID를 키를 삼아 확인처리  -->
+	<sql id="searchKeyCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(uuid)"> AND UUID = #{uuid}</if>
+	</sql>
+
+	<!-- 뷰에서 검색 시 -->
+	<sql id="viewSearchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND REL_USE_YN = #{useYn}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)"> AND USER_ID = #{userId}</if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userOidList)">
+			AND USER_OID IN
+			<foreach item="userOidItem" index="index" collection="userOidList" open="(" close=")" separator=",">
+		 			 #{userOidItem}
+		   	</foreach>
+		</if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(groupOidList)">
+			AND USER_GROUP_OID IN
+			<foreach item="userGroupOid" index="index" collection="groupOidList" open="(" close=")" separator=",">
+		 			 #{userGroupOid}
+		   	</foreach>
+		</if>
+	</sql>
+
+	<!-- 테이블에서 검색해올때 -->
+	<sql id="tableSearchCnd">
+
+		<if test="isTableSearch">
+			AND UUID IN (
+				SELECT UUID
+				FROM TS02_TB_USER_DEVICE_REL
+				WHERE 1=1
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userOid)">  AND USER_OID = #{userOid} </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)">  AND USE_YN = #{useYn} </if>
+			)
+		</if>
+
+	</sql>
+
+	<!-- 공통검색 -->
+	<sql id="searchCnd">
+		<include refid="searchKeyCnd"/>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(osTypeFlag)"> AND OS_TYPE_FLAG = #{osTypeFlag}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(searchText)"> AND ${searchSelect} LIKE CONCAT( #{searchText}, '%' )</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pushToken)"> AND PUSH_TOKEN = #{pushToken}</if>
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.insert(DeviceInfo) || '최원준' || '2018-04-05'*/
+		INSERT INTO TS02_TB_DEVICE
+			(
+				OID ,
+				DEVICE_MODEL_NAME ,
+				SERIAL_NUM ,
+				IMEI ,
+				BUILD_VERSION ,
+
+				OS_TYPE_FLAG ,
+				OS_VERSION ,
+				APP_VERSION ,
+				UUID,
+				PUSH_TOKEN,
+
+				PUSH_YN,
+				INPUT_DATE
+			)
+		VALUES
+			(
+				#{oid}
+				, #{deviceModelName}
+				, #{serialNum}
+				, #{imei}
+				, #{buildVersion}
+
+				, #{osTypeFlag}
+				, #{osVersion}
+				, #{appVersion}
+				, #{uuid}
+				, #{pushToken}
+
+				, #{pushYn}
+				, #{inputDate}
+			)
+	</insert>
+
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.update(DeviceInfo) || '최원준' || '2018-04-05'*/
+		UPDATE TS02_TB_DEVICE
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(deviceModelName)"> DEVICE_MODEL_NAME = #{deviceModelName}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(serialNum)"> SERIAL_NUM = #{serialNum}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(imei)"> IMEI = #{imei}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(buildVersion)"> BUILD_VERSION = #{buildVersion}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(osTypeFlag)">OS_TYPE_FLAG = #{osTypeFlag}, </if>
+
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(appVersion)"> APP_VERSION = #{appVersion}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(osVersion)"> OS_VERSION = #{osVersion}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pushToken)"> PUSH_TOKEN = #{pushToken}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pushYn)"> PUSH_YN = #{pushYn}, </if>
+			</trim>
+		WHERE 1=1
+			<include refid="searchKeyCnd"/>
+	</update>
+
+	<delete id="delete" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.delete(String) || '최원준' || '2018-04-05'*/
+		DELETE FROM TS02_TB_DEVICE
+		WHERE 1 = 1
+			<include refid="searchCnd"/>
+	</delete>
+
+	<resultMap id="listDeviceMap" type="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo">
+   		<result column="OID"  property="oid" />
+   		<result column="DEVICE_MODEL_NAME"  property="deviceModelName" />
+   		<result column="SERIAL_NUM"  property="serialNum" />
+   		<result column="IMEI"  property="imei" />
+   		<result column="BUILD_VERSION"  property="buildVersion" />
+
+   		<result column="OS_TYPE_FLAG"  property="osTypeFlag" />
+   		<result column="APP_VERSION"  property="appVersion" />
+   		<result column="OS_VERSION"  property="osVersion" />
+   		<result column="UUID"  property="uuid" />
+		<result column="PUSH_TOKEN"  property="pushToken" />
+
+		<result column="PUSH_YN"  property="pushYn" />
+   		<collection  property="user" resultMap="userMap"/>
+   	</resultMap>
+
+
+   	<resultMap id="userMap" type="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+	    <result column="userOid"  property="oid" />
+	    <result column="userId"  property="id" />
+	    <result column="userName"  property="name" />
+	    <result column="userGroupOid"  property="groupOid" />
+
+	    <result column="userRank"  property="rank" />
+	    <result column="userDescr"  property="descr" />
+	</resultMap>
+
+	<!-- 디바이스 정보와 여러 정보를 가져올 땐 해당쿼리를 사용합니다. -->
+	<select id="view" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultMap="listDeviceMap" >
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.getView(DeviceCnd) || '최원준' || '2018-04-05'*/
+		SELECT
+			<include refid="deviceColumn"/>
+			<include refid="viewColumn"/>
+		FROM VS02_USER_DEVICE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			<include refid="viewSearchCnd"/>
+		AND ROWNUM = 1
+	</select>
+
+	<!-- 기기정보만 불러옵니다. 사용자쪽에서 사용합니다. -->
+	<select id="get" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo" >
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.get(DeviceCnd) || '황선영' || '2018-05-03'*/
+		SELECT
+			<include refid="deviceColumn"/>
+		FROM TS02_TB_DEVICE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			<include refid="tableSearchCnd"/>
+		AND ROWNUM = 1
+	</select>
+
+	<select id="getLatestRegister" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.getLatestRegister(DeviceCnd) || '이균환' || '2018-04-24'*/
+		SELECT
+			<include refid="deviceColumn"/>
+			<include refid="viewColumn"/>
+		FROM VS02_USER_DEVICE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			<include refid="viewSearchCnd"/>
+		AND ROWNUM = 1
+		ORDER BY OID DESC
+		
+	</select>
+
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.listAll(DeviceCnd) || '이균환' || '2018-04-11'*/
+		SELECT
+			<include refid="deviceColumn"/>
+			<include refid="viewColumn"/>
+		FROM VS02_USER_DEVICE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			<include refid="viewSearchCnd"/>
+		ORDER BY OID DESC
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.list(DeviceCnd) || '최원준' || '2018-04-05'*/
+				
+		SELECT * FROM
+		(
+		SELECT
+		
+			ROW_NUMBER() OVER( 
+			 	ORDER BY
+				 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					    ${orderBy} DESC
+				 </if>
+				 <if test="!@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					   INPUT_DATE DESC
+				 </if>	 
+			 ) RNUM, 
+			<include refid="deviceColumn"/>
+			<include refid="viewColumn"/>
+		FROM VS02_USER_DEVICE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			<include refid="viewSearchCnd"/>
+		) x
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+		ORDER BY OID DESC
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM VS02_USER_DEVICE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+			<include refid="viewSearchCnd"/>
+	</select>
+
+
+	<!-- 뷰에서 userOid별 deviceCount를 가져옵니다. -->
+	<select id="listDeviceCount" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceDAO.listAllCount(DeviceCnd) || '황선영' || '2018-04-26'*/
+		SELECT
+			COUNT(*) deviceCnt,
+			USER_OID oid
+		FROM VS02_USER_DEVICE
+		WHERE 1=1
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userOidList)">
+			AND USER_OID IN
+			<foreach item="userOid" index="index" collection="userOidList" open="(" close=")" separator=",">
+		 			 #{userOid}
+		   	</foreach>
+		</if>
+		GROUP BY USER_OID
+	</select>
+
+</mapper>

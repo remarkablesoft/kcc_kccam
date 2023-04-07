@@ -1,0 +1,114 @@
+/*-------------------------------------------------------------------
+    파일정의 : _list.scss # 리스트 스타일
+-------------------------------------------------------------------*/
+
+/*=== no-data ===*/
+.no-data {
+    @include flex-item($align: center !important, $justify: center !important);
+    width: 100%;
+    height: 30rem;
+    padding-bottom: 2rem;
+
+    .material-icons {
+        color: $primaryColor;
+        margin-right: 0.5rem;
+    }
+}
+
+/*=== list style ===*/
+/* 네모 점 */
+.square-dot-list {
+    li {
+        @include flex-item($align: flex-start, $justify: flex-start);
+        margin-bottom: 0.3rem;
+
+        &::before {
+            display: inline-block;
+            content: "";
+            flex: none;
+            width: 0.5rem;
+            height: 0.5rem;
+            margin: 1.1rem 1rem 0 0;
+            background: $primaryColor;
+        }
+
+        .txt {
+            flex: 1;
+        }
+    }
+
+    &.row {
+        @include flex-item($align: flex-start, $justify: flex-start);
+        flex-wrap: wrap;
+
+        li {
+            margin-right: 8rem;
+        }
+    }
+
+    &.first-li-special {
+        li:first-child {
+            font-size: 1.8rem;
+            font-weight: 700;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+}
+
+/* bottom line */
+.bottom-line-list {
+    > li,
+    .list-item {
+        padding: 1.5rem 0;
+        border-bottom: 0.2rem solid $defaultGrayBorderColor;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        .tit-area {
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+.common-file-list {
+    border: 1px solid #ccc;
+
+    > li {
+        @include flex-item($justify: space-between);
+        padding: 1rem;
+        padding-left: 1.5rem;
+        cursor: pointer;
+        color: #555;
+
+        .file-name {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        + li {
+            border-top: 1px solid #e5e5e5;
+        }
+
+        &:hover {
+            color: $primaryColor;
+        }
+    }
+}
+
+/*=== tablet ===*/
+@mixin list-tablet() {
+    .square-dot-list {
+        li {
+            .txt {
+                flex: none;
+                width: 100%;
+                text-align: left;
+            }
+        }
+    }
+}

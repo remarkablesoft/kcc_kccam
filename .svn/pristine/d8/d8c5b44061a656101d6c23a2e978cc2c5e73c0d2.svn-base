@@ -1,0 +1,264 @@
+/*-------------------------------------------------------------------
+    파일정의 : _intro.scss # 소개 관련
+-------------------------------------------------------------------*/
+
+/*=== intro_kcc :: KCC 소개 ===*/
+.report-area {
+    border-radius: 2rem;
+    box-shadow: 4px 6px 15.8208px 0.17920000000000003px rgba(0, 0, 0, 0.12);
+
+    .item-group {
+        @include flex-item();
+        flex-wrap: wrap;
+        padding: 3rem;
+
+        .item {
+            width: 25%;
+            padding: 1rem;
+            text-align: center;
+
+            .icon {
+                display: block;
+                @include font-define($fontSize: 7rem);
+                flex: 1;
+            }
+
+            &:hover .icon {
+                color: $primaryColor;
+            }
+
+            .txt {
+                min-height: 5rem;
+                @include flex-item();
+                flex: 1;
+                flex-direction: column;
+
+                span {
+                    display: block;
+                    @include font-define($fontSize: 1.3rem);
+                    color: $txtGrayColor;
+
+                    strong {
+                        color: #000;
+                        @include font-define($fontSize: 2rem, $fontWeight: 500);
+                    }
+                }
+            }
+
+            .el-button {
+                color: $primaryColor;
+                display: block;
+                padding: 1rem 2rem;
+                margin: 1rem auto 0;
+                cursor: default;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+
+            &:hover .el-button {
+                color: #fff;
+                background-color: $primaryColor;
+            }
+        }
+    }
+}
+
+/*=== 비즈니스 에리어 ===*/
+.business-area {
+    .business-img-list {
+        @include flex-item($align: stretch, $justify: flex-start);
+        flex-wrap: wrap;
+        // padding-bottom: 5rem;
+        margin: 0 -0.75rem;
+
+        li {
+            width: getWidth(100, 4);
+            padding: 0 0.75rem 0.75rem;
+
+            .img-box {
+                margin-top: 1rem;
+            }
+        }
+    }
+}
+
+/*=== intro_am :: KCC-Material 소개 ===*/
+.sub-content.material {
+    position: relative;
+
+    &::after {
+        display: block;
+        content: "";
+        position: absolute;
+        bottom: -6rem;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 140rem;
+        background: url(../images/bg/intro/bg_intro_am.png) 0 0 no-repeat;
+        background-size: cover;
+    }
+
+    .sentence-group {
+        .tit-area {
+            margin-bottom: 0;
+        }
+    }
+    .txt-area {
+        .sentence-item {
+            @include font-define($color: #464646);
+            padding: 3rem;
+            line-height: 3rem;
+
+            &.bg-gray {
+                padding: 2rem;
+                background-color: $bgLgrayColor;
+
+                span {
+                    display: block;
+                    padding: 1.5rem;
+                }
+            }
+        }
+    }
+
+    .content-area {
+        .material-img-list {
+            @include flex-item($align: stretch, $justify: flex-start);
+            flex-wrap: wrap;
+            margin: 0 -2rem;
+
+            .list-item {
+                width: getWidth(100, 3);
+                padding: 0 2rem;
+
+                .img-box {
+                    border-top: 0.2rem solid $primaryColor;
+                    height: 19.8rem;
+
+                    .img {
+                        height: auto;
+						cursor: pointer;
+                    }
+                }
+
+                .explain {
+                    padding: 1rem 0 3rem;
+
+                    .inner-tit {
+                        font-size: 1.9rem;
+                        font-weight: 700;
+                    }
+
+                    .inner-txt {
+                        margin-top: 1rem;
+                        @include font-define($textAlign: left);
+                        color: $txtGrayColor;
+
+                        span {
+                            display: block;
+                            margin: 0.2rem 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .inner-content-group {
+        margin-top: 2rem;
+
+        .inner-content {
+            &:first-child {
+                padding-top: 0;
+            }
+        }
+    }
+
+    .inner-content {
+        .tit {
+            display: inline-block;
+
+            &.main-tit {
+                font-size: 2.8rem;
+            }
+
+            &.is-bar {
+                &::before {
+                    display: block;
+                    content: "";
+                    width: 4.2rem;
+                    height: 0.4rem;
+                    margin-bottom: 0.3rem;
+                    background-color: $primaryColor;
+                }
+            }
+        }
+
+        .descr {
+            margin-top: 1rem;
+            line-height: 2;
+            color: #464646;
+			white-space: pre-line;
+
+			strong {
+                font-size: 2.1rem;
+            }
+        }
+    }
+
+    .box-gray,
+    .box-white {
+        padding: 3rem;
+    }
+}
+
+/*=== tablet ===*/
+@mixin intro-tablet() {
+    .report-area .item-group .item {
+        @include responsiveWidth2();
+    }
+    .sub-content.material {
+        .content-area {
+            .material-img-list {
+                .list-item {
+                    .explain {
+                        padding: 1rem 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*=== mobile ===*/
+@mixin intro-mobile() {
+    .report-area {
+        .item-group {
+            .item {
+                .icon {
+                    font-size: 5rem;
+                }
+            }
+        }
+    }
+
+    .sub-content.material {
+        .box-gray,
+        .box-white {
+            padding: 2rem;
+        }
+
+        .box-white {
+            margin-bottom: 3rem;
+        }
+
+        .inner-content {
+            .descr {
+                font-size: 1.8rem;
+            }
+        }
+    }
+}

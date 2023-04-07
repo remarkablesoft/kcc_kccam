@@ -1,0 +1,12 @@
+history
+
+이클립스 구동시 : -Dspring.profiles.active=local
+linux
+catalina.sh
+JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=dev"
+window
+catalina.bat
+set JAVA_OPTS=-Dfile.encoding=UTF-8 -Xms128m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=256m -Dspring.profiles.active=dev
+
+
+

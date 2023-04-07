@@ -1,0 +1,5 @@
+--  TS02_AM_PRODUCT : 제품 테이블
+DROP TABLE TS02_AM_PRODUCT;
+
+--  TS02_AM_PRODUCT_REL : 제품분류(App/Market) - 제품 관계 테이블
+DROP TABLE TS02_AM_PRODUCT_REL;

@@ -1,0 +1,13 @@
+-- Framework 테이블 변경 사항 및 설명
+
+1. TS02_TB_USER
+    1) CUSTOM_FIELD1 : 부서명(text)
+    2) CUSTOM_FIELD2 : 국가명(text)
+    3) CUSTOM_FIELD3 : 도시(text)
+    
+2. TS02_TB_DOC
+    1) CUSTOM_FIELD1 : 문서 종류(amConstant.js 의 SFA_DOC_TYPE 참고)
+    2) CUSTOM_FIELD2 : 문서파일명
+
+3. TS02_AM_ONE_TO_ONE
+    1) CUSTOM_FIELD1 : 문의 종류 이름(text) ( OneToOneConfigInfo 의 configQuestion )

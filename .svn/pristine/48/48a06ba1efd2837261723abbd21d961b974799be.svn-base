@@ -1,0 +1,281 @@
+/*-------------------------------------------------------------------
+    파일정의 : _shModify.scss # contents
+    작성자: 전세훈(hoon)
+-------------------------------------------------------------------*/
+/*=============================================
+            == 추가한 _mixins :: ==
+=============================================*/
+
+/*=============================================
+        == 추가한 _variable.scss :: ==
+=============================================*/
+
+/*=============================================
+        == 추가한 _functions.scss :: ==
+=============================================*/
+/*-------------------------------------------------------------------
+    sass : .sub-content #f9f9f9
+-------------------------------------------------------------------*/
+
+// manager-container
+.manager-container {
+	// table, upload-area
+	.upload-area,
+	.table-area {
+		padding: 1.2rem 0;
+
+		&.gray-bg {
+			background-color: $bgLgrayColor;
+		}
+
+		.upload-header,
+		.table-header {
+			@include flex-item($justify: space-between);
+			padding-bottom: 1.2rem;
+
+			.tit {
+				@include font-define(
+					$fontSize: 1.7rem,
+					$fontWeight: 500,
+					$textAlign: left
+				);
+			}
+		}
+		.upload-row,
+		.table-row {
+			&-md {
+				padding-bottom: 1.2rem;
+
+				&:last-child {
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+
+	// custom-table
+	.manager-table-custom {
+		border: 1px solid #ccc;
+
+		table {
+			width: 100%;
+			text-align: center;
+			border-collapse: collapse;
+			border-spacing: 0;
+
+			th {
+				@include font-define($fontSize: 1.3rem, $fontWeight: 400);
+				padding: 1.2rem 0.8rem;
+				vertical-align: middle;
+				color: #000;
+				background-color: $bgLgrayColor;
+			}
+			td {
+				@include font-define($fontSize: 1.3rem, $fontWeight: 300);
+				padding: 1.2rem 0.8rem;
+				vertical-align: middle;
+				color: #686868;
+			}
+			tr {
+				border-bottom: 1px solid #e5e5e5;
+
+				&:last-child {
+					border-bottom: 0 none;
+				}
+			}
+
+			.icon-wrap {
+				@include flex-item($justify: space-between);
+
+				&-center {
+					@include flex-item($justify: center);
+					> span {
+						margin-right: 0.7rem;
+					}
+				}
+			}
+		}
+	}
+
+	// content-detail 누락
+	.content-detail {
+		.tit-area {
+			&-default {
+				@include flex-item($align: flex-end, $justify: space-between);
+				// padding: 2rem;
+				// min-height: 5rem;
+				padding: 0 0 1rem;
+
+				.tit {
+					@include font-define(
+						$fontSize: 1.5rem,
+						$fontWeight: 500,
+						$textAlign: left
+					);
+				}
+
+				.right-area {
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
+				}
+
+				+ .editor-area {
+					margin-top: 0;
+				}
+			}
+
+			&-inner {
+				@include flex-item($justify: space-between);
+				margin-bottom: 1rem;
+
+				.tit {
+					@include font-define(
+						$fontSize: 1.5rem,
+						$fontWeight: 500,
+						$textAlign: left
+					);
+				}
+
+				.right-area {
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
+				}
+			}
+		}
+	}
+
+	// height
+	.el-input {
+		&--hsm {
+			height: 3.5rem !important;
+
+			.el-input__inner {
+				height: 3.5rem;
+			}
+		}
+	}
+
+	// search-area
+	.search-area {
+		.btn-wrap {
+			// .search-btn {
+			//     &.second {
+			//         right: 9rem;
+			//     }
+			// }
+
+			&.top {
+				.search-btn {
+					top: 1.3rem;
+					bottom: auto;
+				}
+			}
+		}
+	}
+
+	// eidt 페이지 상단 탭 btn-only
+	.btn-group {
+		&.btn-only {
+			justify-content: flex-end;
+
+			.btn-wrap {
+				margin-bottom: 3px;
+			}
+		}
+	}
+
+	.radio-group {
+		&.no-bottom {
+			margin-bottom: 0;
+		}
+	}
+
+	.division-area {
+		.division-item {
+			+ .division-item {
+				margin-left: 2rem;
+			}
+
+		}
+		
+		&.email {
+			flex-direction: column;
+
+			.division-item {
+				+ .division-item {
+					// flex: 1.7;
+					// margin-left: 0;
+					margin: 2rem 0 0;
+				}
+			}
+
+			.tit-area-default {
+				+ div {
+					height: calc(100% - 5rem)
+				}
+			}
+			
+			.input-area {
+                .el-input {
+                    margin-bottom: 1rem;
+                }
+            }
+		}
+	}
+}
+
+// check-area
+.check-area {
+	font-size: 1.4rem;
+	padding: 2rem;
+
+	.scroll-element {
+		margin-bottom: 1rem;
+
+		> div {
+			max-height: 9.5rem;
+		}		
+	}
+
+	.check-row-wrap {
+		display: flex;
+		flex-wrap: wrap;
+
+		.check-row-md {
+			display: flex;
+			// min-height: 5.2rem;
+			margin-right: 1rem;
+			padding-bottom: 1rem;
+
+			.custom-checkbox {
+				input + label i + span {
+					margin: 0.1rem 0 0 1rem;
+					// margin-left: 1rem;
+				}
+			}
+
+			// .check {
+			// 	&-label {
+			// 		display: flex;
+			// 		align-items: center;
+			// 		min-width: 5rem;
+			// 	}
+			// 	&-data {
+			// 		min-width: 15rem;
+			// 		padding: 1rem 0;
+			// 		font-weight: 500;
+			// 		color: #333;
+			// 		line-height: 1;
+			// 		white-space: normal;
+			// 		word-break: break-all;
+			// 	}
+			// }
+		}
+	}
+	&.bg-gray {
+		background: #f8f8f8;
+		border-radius: 0.5rem;
+	}
+}

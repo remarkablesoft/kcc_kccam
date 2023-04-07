@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO">
+
+	<sql id="deviceRelColumn">
+		  USER_OID		userOid
+		, UUID			uuid
+		, INPUT_DATE	inputDate
+		, USE_YN		useYn
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userOid)"> AND USER_OID = #{userOid}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(uuid)"> AND UUID = #{uuid}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND USE_YN = #{useYn}</if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userOidList)">
+				AND USER_OID IN
+				<foreach item="userOid" index="index" collection="userOidList" open="(" close=")" separator=",">
+			 			 #{userOid}
+		    	</foreach>
+		</if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(uuidList)">
+				AND UUID IN
+				<foreach item="uuid" index="index" collection="uuidList" open="(" close=")" separator=",">
+			 			 #{uuid}
+		    	</foreach>
+		</if>
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceRelInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO.insert(DeviceRelInfo) || '최원준' || '2018-04-25'*/
+		INSERT INTO TS02_TB_USER_DEVICE_REL
+		(
+			USER_OID
+			, UUID
+			, INPUT_DATE
+			, USE_YN
+		)
+		VALUES
+		(
+			  #{userOid}
+			, #{uuid}
+			, #{inputDate}
+			, #{useYn}
+		)
+	</insert>
+
+	<update id="cutOffRel" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd">
+		/* com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO.updateUseN(DeviceCnd) || '이균환' || '2018-04-27'*/
+		UPDATE TS02_TB_USER_DEVICE_REL
+			SET USE_YN = 'N'
+		WHERE 1=1
+		    AND UUID = #{uuid}
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userOid)">OR USER_OID = #{userOid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(exceptUserOid)"> AND USER_OID !=  #{exceptUserOid}</if>
+	</update>
+
+	<update id="linkRel" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd">
+		/* com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO.updateUseN(DeviceCnd) || '이균환' || '2018-04-27'*/
+		UPDATE TS02_TB_USER_DEVICE_REL
+			SET USE_YN = 'Y'
+		WHERE 1=1
+		    AND UUID = #{uuid}
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userOid)">AND USER_OID = #{userOid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(exceptUserOid)"> AND USER_OID !=  #{exceptUserOid}</if>
+	</update>
+
+	<delete id="delete" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO.delete(DeviceRelCnd) || '최원준' || '2018-04-25'*/
+		DELETE
+		FROM TS02_TB_USER_DEVICE_REL
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</delete>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.app.device.vo.DeviceRelInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO.get(DeviceRelCnd) || '최원준' || '2018-04-25'*/
+		SELECT <include refid="deviceRelColumn"/>
+		FROM TS02_TB_USER_DEVICE_REL
+		WHERE 1=1
+			<include refid="searchCnd"/>
+		AND ROWNUM = 1
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="com.remarkablesoft.framework.service.app.device.vo.DeviceRelInfo">
+		/*com.remarkablesoft.framework.service.app.device.model.impl.DeviceRelDAO.list(DeviceRelCnd) || '최원준' || '2018-04-25'*/
+		SELECT <include refid="deviceRelColumn"/>
+		FROM TS02_TB_USER_DEVICE_REL
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.app.device.vo.DeviceCnd" resultType="int">
+		SELECT COUNT(*)
+		FROM TS02_TB_USER_DEVICE_REL
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+
+</mapper>

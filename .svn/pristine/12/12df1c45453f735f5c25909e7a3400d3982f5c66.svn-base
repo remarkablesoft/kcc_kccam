@@ -1,0 +1,61 @@
+/*-------------------------------------------------------------------
+    파일정의 : _media.scss # 미디어 쿼리
+-------------------------------------------------------------------*/
+
+/*=== Media Queries ===*/
+
+@media screen and (max-width: $laptopLg) {
+    // @include typhograpy-lg();
+}
+
+// 1300px
+@media screen and (max-width: $laptopMd) {
+    @include typhograpy-md();
+}
+
+// 1024px
+@media screen and (max-width: $tabletLg) {
+    @include typhograpy-lg();
+    @include container-tablet();
+    @include header-tablet();
+    @include navigation-tablet();
+    @include sitemap-tablet();
+    @include footer-tablet();
+    @include swiper-tablet();
+    @include modal-tablet();
+    @include img-tablet();
+    @include list-tablet();
+    @include table-tablet();
+    @include assets-tablet();
+    @include breadcrumb-tablet();
+    @include sidebar-tablet();
+    @include contents-tablet();
+
+    @include home-tablet();
+    @include intro-tablet();
+    @include global-network-tablet();
+    @include newsroom-tablet();
+    @include product-tablet();
+    @include market-tablet();
+    @include contact-tablet();
+}
+
+// 640px
+@media screen and (max-width: $mobileLg) {
+    @include typhograpy-md();
+    @include container-mobile();
+    @include header-mobile();
+    @include footer-mobile();
+    @include contents-mobile();
+    @include img-mobile();
+    @include form-mobile();
+
+    @include home-mobile();
+    @include intro-mobile();
+    @include newsroom-mobile();
+}
+
+// 375px
+@media screen and (max-width: $mobileSm) {
+    @include typhograpy-sm();
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:c="http://www.springframework.org/schema/c"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- APP PACKAGE -->
+	<bean id="deviceInfo" class="com.remarkablesoft.framework.service.app.device.vo.DeviceInfo" scope="prototype" />
+	<bean id="deviceRelInfo" class="com.remarkablesoft.framework.service.app.device.vo.DeviceRelInfo" scope="prototype" />
+
+	<!--  AUDIT PACKAGE -->
+	<bean id="auditFileDownInfo" class="com.remarkablesoft.framework.service.audit.filedown.vo.AuditFileDownInfo" scope="prototype" />
+	<bean id="auditViewInfo" class="com.remarkablesoft.framework.service.audit.view.vo.AuditViewInfo" scope="prototype" />
+	<bean id="auditVisitInfo" class="com.remarkablesoft.framework.service.audit.visit.vo.AuditVisitInfo" scope="prototype" />
+
+	<!--  AUTHORITY PACKAGE -->
+	<bean id="roleInfo" class="com.remarkablesoft.framework.service.authority.role.vo.RoleInfo" scope="prototype" />
+
+	<!--  BOARD PACKAGE -->
+	<bean id="postingAuditViewInfo" class="com.remarkablesoft.framework.service.board.audit.view.vo.PostingAuditViewInfo" scope="prototype" />
+	<bean id="contentsInfo" class="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo" scope="prototype" />
+	<bean id="postingInfo" class="com.remarkablesoft.framework.service.board.posting.vo.PostingInfo" scope="prototype" />
+	<bean id="boardInfo" class="com.remarkablesoft.framework.service.board.board.vo.BoardInfo" scope="prototype" />
+
+	<!-- DOC PACKAGE -->
+	<bean id="docInfo" class="com.remarkablesoft.framework.service.doc.doc.vo.DocInfo" scope="prototype" />
+	<bean id="docRelInfo" class="com.remarkablesoft.framework.service.doc.doc.vo.DocRelInfo" scope="prototype" />
+	<bean id="docVersionInfo" class="com.remarkablesoft.framework.service.doc.doc.vo.DocVersionInfo" scope="prototype" />
+
+	<!--  LINK PACKAGE -->
+	<bean id="relationshipInfo" class="com.remarkablesoft.framework.service.link.relationship.vo.RelationshipInfo" scope="prototype" />
+
+	<!--  MGNT PACKAGE -->
+	<bean id="systemInfo" class="com.remarkablesoft.framework.service.mgnt.system.vo.SystemInfo" scope="prototype" />
+	<bean id="systemDetailInfo" class="com.remarkablesoft.framework.service.mgnt.system.vo.SystemDetailInfo" scope="prototype" />
+	<bean id="partInfo" class="com.remarkablesoft.framework.service.mgnt.part.vo.PartInfo" scope="prototype" />
+	<bean id="categoryInfo" class="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo" scope="prototype" />
+
+	<!--  NOTIFICATION PACKAGE -->
+	<bean id="messageBookingInfo" class="com.remarkablesoft.framework.service.notification.message.booking.vo.MessageBookingInfo" scope="prototype" />
+	<bean id="messageGroupInfo" class="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupInfo" scope="prototype" />
+	<bean id="messageGroupUserRelInfo" class="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupUserRelInfo" scope="prototype" />
+	<bean id="messageInfo" class="com.remarkablesoft.framework.service.notification.message.message.vo.MessageInfo" scope="prototype" />
+
+	<bean id="messageSendHistInfo" class="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendHistInfo" scope="prototype" />
+	<bean id="messageSendResultInfo" class="com.remarkablesoft.framework.service.notification.message.send.vo.MessageSendResultInfo" scope="prototype" />
+	<bean id="messageTemplateInfo" class="com.remarkablesoft.framework.service.notification.message.template.vo.MessageTemplateInfo" scope="prototype" />
+	<bean id="messageTemplateItemInfo" class="com.remarkablesoft.framework.service.notification.message.template.vo.MessageTemplateItemInfo" scope="prototype" />
+
+
+	<!--  BATCH PACKAGE -->
+	<bean id="batchProcessInfo" class="com.remarkablesoft.framework.service.mgnt.batch.vo.BatchProcessInfo" scope="prototype" />
+	<bean id="codeInfo" class="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo" scope="prototype" />
+
+	<!--  ORG PACKAGE -->
+	<bean id="branchInfo" class="com.remarkablesoft.framework.service.org.branch.vo.BranchInfo" scope="prototype" />
+	<bean id="userInfo" class="com.remarkablesoft.framework.service.org.user.vo.UserInfo" scope="prototype" />
+	<bean id="companyInfo" class="com.remarkablesoft.framework.service.org.company.vo.CompanyInfo" scope="prototype" />
+	<bean id="groupInfo" class="com.remarkablesoft.framework.service.org.group.vo.GroupInfo" scope="prototype" />
+
+	<!--  STORAGE PACKAGE -->
+	<bean id="fileInfo" class="com.remarkablesoft.framework.service.storage.file.vo.FileInfo" scope="prototype" />
+	<bean id="storageFileInfo" class="com.remarkablesoft.framework.service.storage.storagefile.vo.StorageFileInfo" scope="prototype" />
+	<bean id="thumbnailInfo" class="com.remarkablesoft.framework.service.storage.thumbnail.vo.ThumbnailInfo" scope="prototype" />
+
+	<!--  Tookit PACKAGE -->
+<!--	<bean id="drawCellInfo" class="com.remarkablesoft.framework.service.toolkit.drawcell.vo.DrawCellInfo" scope="prototype" />-->
+
+	<bean id="applicationContextUtil" class="com.remarkablesoft.framework.common.ApplicationContextUtil" />
+
+</beans>

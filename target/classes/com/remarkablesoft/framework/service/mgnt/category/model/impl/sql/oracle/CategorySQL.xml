@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO">
+
+    <sql id="categoryColumn">
+        OID                         oid
+        , LANG						lang
+		, PART_OID					partOid
+		, CATEGORY_TYPE				categoryType
+		, NAME						name
+		, PARENT_OID				parentOid
+
+		, FULL_PATH_INDEX			fullPathIndex
+		, SUB_LAST_INDEX			subLastIndex
+		, ORDER_NO					orderNo
+		, DESCR						descr
+		, INPUT_USER				inputUser
+		, INPUT_DATE				inputDate
+
+        , MOD_USER                  modUser
+        , MOD_DATE                  modDate
+		, DISPLAY_YN				displayYn
+
+		, CUSTOM_FIELD1				customField1
+		, CUSTOM_FIELD2				customField2
+		, CUSTOM_FIELD3				customField3
+		, CUSTOM_FIELD4				customField4
+		, CUSTOM_FIELD5				customField5
+    </sql>
+
+
+    <sql id="searchCnd">
+
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)">AND OID = #{oid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">AND LANG = #{lang}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(partOid)">AND PART_OID = #{partOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(categoryType)">AND CATEGORY_TYPE = #{categoryType}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)">AND NAME = #{name}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)">AND PARENT_OID = #{parentOid}</if>
+
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fullPathIndex)">AND FULL_PATH_INDEX LIKE #{fullPathIndex} || '%'</if>
+        <if test="orderNo > 0">AND ORDER_NO = #{orderNo}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)">AND INPUT_USER = #{inputUser}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(displayYn)">AND DISPLAY_YN = #{displayYn}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(searchText)">AND UPPER(NAME) LIKE UPPER( '%' || #{searchText} || '%')</if>
+
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)">AND CUSTOM_FIELD1 = #{customField1}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)">AND CUSTOM_FIELD2 = #{customField2}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)">AND CUSTOM_FIELD3 = #{customField3}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)">AND CUSTOM_FIELD4 = #{customField4}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)">AND CUSTOM_FIELD5 = #{customField5}</if>
+
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(categoryOidList)">
+            AND OID IN
+            <foreach collection="categoryOidList" item="oid" index="index" separator="," open="(" close=")">
+                #{oid}
+            </foreach>
+        </if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(exceptCategoryOidList)">
+            AND OID NOT IN
+            <foreach collection="exceptCategoryOidList" item="exceptOid" index="index" separator="," open="(" close=")">
+                #{exceptOid}
+            </foreach>
+        </if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(categoryTypeList)">
+            AND CATEGORY_TYPE IN
+            <foreach collection="categoryTypeList" item="categoryType" index="index" separator="," open="(" close=")">
+                #{categoryType}
+            </foreach>
+        </if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(partOidList)">
+            AND PART_OID IN
+            <foreach collection="partOidList" item="partOid" index="index" separator="," open="(" close=")">
+                #{partOid}
+            </foreach>
+        </if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(parentOidList)">
+            AND PART_OID IN
+            <foreach collection="parentOidList" item="parentOid" index="index" separator="," open="(" close=")">
+                #{parentOid}
+            </foreach>
+        </if>
+
+    </sql>
+
+
+    <insert id="insert" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.insert(CategoryInfo) ||'안희홍'|| '2019-12-11' */
+        INSERT INTO TS02_TB_CATEGORY
+        (
+             OID
+            , PART_OID
+            , CATEGORY_TYPE
+            , PARENT_OID
+
+            , FULL_PATH_INDEX
+            , SUB_LAST_INDEX
+            , ORDER_NO
+            , DISPLAY_YN
+
+            , CUSTOM_FIELD1
+            , CUSTOM_FIELD2
+            , CUSTOM_FIELD3
+            , CUSTOM_FIELD4
+            , CUSTOM_FIELD5
+        )
+        VALUES (
+            #{oid}
+           , #{partOid}
+           , #{categoryType}
+           , #{parentOid}
+
+           , #{fullPathIndex}
+           , #{subLastIndex}
+           , #{orderNo}
+           , #{displayYn}
+
+           , #{customField1}
+           , #{customField2}
+           , #{customField3}
+           , #{customField4}
+           , #{customField5}
+           )
+    </insert>
+
+    <update id="update" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.update(CategoryInfo) ||'안희홍'|| '2019-12-11' */
+        UPDATE TS02_TB_CATEGORY
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(partOid)">PART_OID = #{partOid},</if>
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(categoryType)">CATEGORY_TYPE = #{categoryType},</if>
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentOid)">PARENT_OID = #{parentOid},</if>
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fullPathIndex)">FULL_PATH_INDEX = #{fullPathIndex},</if>
+            <if test="subLastIndex > -2">SUB_LAST_INDEX = #{subLastIndex},</if>
+
+            <if test="orderNo > 0">ORDER_NO = #{orderNo},</if>
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(displayYn)">DISPLAY_YN = #{displayYn},</if>
+
+        </trim>
+        WHERE 1=1
+        AND OID = #{oid}
+    </update>
+
+    <select id="get" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryCnd" resultType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.get(CategoryCnd) || '안희홍' || '2019-12-11' */
+        SELECT
+        	<include refid="categoryColumn"/>
+        FROM VS02_CATEGORY
+        WHERE 1=1
+        	<include refid="searchCnd"/>
+    </select>
+
+
+    <select id="getFullPathName" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryCnd" resultType="string">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.getFullPathName(CategoryCnd) || '이균환' || '2020-11-23' */
+        SELECT
+        LISTAGG( NAME, ' > ') WITHIN GROUP(ORDER BY FULL_PATH_INDEX)
+        FROM VS02_CATEGORY
+        WHERE 1 = 1
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(fullPathIndexList)">
+             AND
+            <foreach collection="fullPathIndexList" item="fullPathIndex" index="index" separator="OR" open="(" close=")">
+                FULL_PATH_INDEX LIKE #{fullPathIndex}
+            </foreach>
+        </if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">AND LANG = #{lang}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(categoryType)">AND CATEGORY_TYPE = #{categoryType}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)">AND INPUT_USER = #{inputUser}</if>
+
+    </select>
+
+    <select id="list" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryCnd" resultType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.list(CategoryCnd) || '안희홍' || '2019-12-11' */
+        SELECT * FROM
+        (
+        SELECT
+               <if test="isOrderByInputDate">
+               ROW_NUMBER() OVER ( ORDER BY INPUT_DATE DESC, NAME ) RNUM,
+               </if>
+               <if test="!isOrderByInputDate">
+               ROW_NUMBER() OVER( ORDER BY
+               <if test="isOrderByPartOID"> PART_OID </if>
+               <if test="!isOrderByPartOID"> FULL_PATH_INDEX </if>
+               DESC) RNUM,
+               </if>
+        	<include refid="categoryColumn"/>
+        FROM VS02_CATEGORY
+        WHERE 1=1
+       		<include refid="searchCnd"/>
+        ) X
+        WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+    </select>
+
+    <select id="list_count" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryCnd" resultType="int">
+        SELECT COUNT(*)
+        FROM VS02_CATEGORY
+        WHERE 1=1
+        <include refid="searchCnd"/>
+    </select>
+
+    <select id="listAll" parameterType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryCnd" resultType="com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.listAll(CategoryCnd) || '안희홍' || '2019-12-11' */
+        SELECT
+        	<include refid="categoryColumn"/>
+        FROM VS02_CATEGORY
+        WHERE 1=1
+        	<include refid="searchCnd"/>
+        ORDER BY FULL_PATH_INDEX
+    </select>
+
+    <delete id="delete" parameterType="string">
+        /* com.remarkablesoft.framework.service.mgnt.category.model.impl.CategoryDAO.delete(CategoryCnd) || ’안희홍’ || ’2019-12-11’ */
+        DELETE
+        FROM TS02_TB_CATEGORY
+        WHERE 1 = 1
+          AND OID = #{oid}
+    </delete>
+
+
+</mapper>

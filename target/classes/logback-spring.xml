@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- <springProfile name="ebookReal">
+         <include resource="./envConfig/ebookReal/logback-ebookReal.xml" />
+     </springProfile> -->
+
+	<!-- 스프링의 profiles를 이용하여 경로를 변경처리 -->
+	<if condition='isDefined("spring.profiles.active")'>
+		<then>
+			<include resource="./envConfig/${spring.profiles.active}/logback-${spring.profiles.active}.xml" />
+		</then>
+	</if>
+
+
+</configuration>
+

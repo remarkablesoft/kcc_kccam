@@ -1,0 +1,278 @@
+/*-------------------------------------------------------------------
+    파일정의 : _assets.scss # assets
+-------------------------------------------------------------------*/
+
+/*=== collapse ===*/
+.el-collapse-item {
+    &__header {
+        height: 6rem;
+        line-height: 6rem;
+        border-bottom: 0.2rem solid $defaultGrayBorderColor;
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 1.3;
+
+        &.is-active {
+            border-bottom-color: #8f8787;
+        }
+    }
+
+    &__arrow {
+        font-weight: 900;
+        color: #9c9c9c;
+
+        &.is-active {
+            color: $primaryColor;
+        }
+    }
+
+    &__content {
+        // padding: 1rem;
+        padding-bottom: 0;
+        background: #f8f8f8;
+        font-size: $defaultFontSize;
+    }
+
+    &__wrap {
+        border-bottom: 0.2rem solid #8f8787;
+    }
+}
+
+/* normal style */
+.el-collapse-normal {
+    border: 0 none;
+
+    .el-collapse-item {
+        padding: 0 0 5rem;
+
+        &__header {
+            @include bb-tit($textAlign: left, $fontWeight: 500);
+            // margin-bottom: 1.5rem;
+        }
+
+        &__arrow {
+            font-size: 2.4rem;
+        }
+
+        &__content {
+            background: #fff;
+        }
+
+        &__wrap {
+            border-bottom: 0 none;
+        }
+    }
+}
+
+/*=== vue-bar(scroll) ===*/
+.scroll-element {
+    width: 100%;
+    -ms-overflow-style: none !important;
+
+    .vb-invisible .vb-content {
+        padding-right: 0 !important;
+    }
+
+    .vb-visible .vb-content {
+        padding-right: 2rem !important;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.vb {
+    > .vb-dragger {
+        z-index: 5;
+        width: 12px;
+        right: 0;
+
+        > .vb-dragger-styler {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: rotate3d(0, 0, 0, 0);
+            transform: rotate3d(0, 0, 0, 0);
+            -webkit-transition: background-color 100ms ease-out, margin 100ms ease-out, height 100ms ease-out;
+            transition: background-color 100ms ease-out, margin 100ms ease-out, height 100ms ease-out;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 5px 0 5px 5px;
+            border-radius: 20px;
+            height: calc(100% - 10px);
+            display: block;
+        }
+
+        &:hover > .vb-dragger-styler {
+            background-color: $primaryColorOpacity1;
+            margin: 0px;
+            height: 100%;
+        }
+    }
+
+    &.vb-scrolling-phantom > {
+        .vb-dragger {
+            > .vb-dragger-styler {
+                background-color: $primaryColorOpacity2;
+            }
+        }
+    }
+
+    &.vb-dragging {
+        > .vb-dragger {
+            > .vb-dragger-styler {
+                background-color: $primaryColorOpacity1;
+                margin: 0px;
+                height: 100%;
+            }
+        }
+    }
+
+    &.vb-dragging-phantom {
+        > .vb-dragger {
+            > .vb-dragger-styler {
+                background-color: $primaryColorOpacity1;
+            }
+        }
+    }
+}
+
+/* mark 표시 */
+.mark {
+    /* 동그라미 */
+    &-circle {
+        display: inline-block;
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 50%;
+        background: #959595;
+    }
+
+    /* hyphen */
+    &-hyphen {
+        display: inline-block;
+        width: 1rem;
+        height: 0.3rem;
+        background: #959595;
+    }
+}
+
+/* 앵커 탭 버튼 */
+.anchor-tab-btn {
+    margin-bottom: 5rem;
+
+    .btn-list {
+        @include flex-item();
+        flex-wrap: wrap;
+
+        > li {
+            margin: 0 2rem;
+            a {
+                display: inline-block;
+                padding: 0.5rem;
+                border-bottom: 0.3rem solid transparent;
+                font-size: 2rem;
+                font-weight: 500;
+                color: #a6a6a6;
+
+                &:hover,
+                &.active {
+                    font-weight: 700;
+                    color: $primaryColor !important;
+                    border-color: $primaryColor;
+                }
+            }
+        }
+    }
+
+    &.alt {
+        .btn-list {
+            > li {
+                margin: 0 2rem;
+                a {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    color: #000;
+                }
+            }
+        }
+    }
+}
+
+/*=== popover ===*/
+.el-popover {
+    z-index: 200 !important;
+    min-width: auto;
+    padding: 0.8rem 1.8rem;
+    box-shadow: 0.3rem 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+
+    &.popover-border-left {
+        border-left: 0.5rem solid $primaryColor;
+
+        .popper__arrow {
+            display: none;
+        }
+    }
+
+    .more-list {
+        li {
+            margin: 0.7rem 0;
+            color: #000;
+        }
+    }
+}
+
+/*=== shadow ===*/
+.is-box-shadow {
+    box-shadow: 0.3rem 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+}
+
+/*=== box style ===*/
+.box {
+    &-gray {
+        @include default-box($borderColor: #f7f7f7, $backgroundColor: #f7f7f7);
+    }
+
+    &-white {
+        @include default-box($borderColor: #fff, $backgroundColor: #fff);
+    }
+
+    .bottom-line-list {
+        > li,
+        .list-item {
+            &:last-child {
+                border: 0 none;
+            }
+        }
+    }
+}
+
+/*=== desc-editor-wrap ===*/
+.desc-editor-wrap {
+    .inner-head {
+        .tit {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+    }
+
+    .inner-body {
+        .img {
+            max-width: 100%;
+        }
+    }
+}
+
+.el-select-dropdown__item {
+    font-size: 1.4rem;
+    padding: 0 2rem;
+}
+
+/*=== tablet ===*/
+@mixin assets-tablet() {
+    .el-collapse-normal {
+        .el-collapse-item {
+            padding: 0 0 3rem;
+        }
+    }
+}

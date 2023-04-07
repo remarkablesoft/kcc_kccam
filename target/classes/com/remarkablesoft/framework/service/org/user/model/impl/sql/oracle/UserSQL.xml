@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.org.user.model.impl.UserDAO">
+
+	<sql id="userColumn">
+		 OID 					oid
+	     , USER_ID 				userId
+		 , NAME 				name
+		 , ENG_NAME				engName
+		 , PWD					pwd
+		 , PWD2					pwd2
+
+		 , SNS_ID				snsId
+		 , SNS_JOIN_TYPE_FLAG	snsJoinTypeFlag
+
+		 , USER_TYPE			userType
+		 , EMAIL 				email
+		 , TEL_PART1 			telPart1
+		 , TEL_PART2 			telPart2
+		 , TEL_PART3 			telPart3 
+
+		 , PHONE_PART1 			phonePart1 
+		 , PHONE_PART2 			phonePart2 
+		 , PHONE_PART3 			phonePart3 
+		 , NICK					nick
+		 , BIRTH_YEAR			birthYear
+
+		 , BIRTH_MONTH 			birthMonth
+		 , BIRTH_DAY			birthDay
+		 , POST_CODE 			postCode
+		 , ADDR_PART1 			addrPart1
+		 , ADDR_PART2 			addrPart2
+
+		 , STATUS_TYPE_FLAG		statusTypeFlag
+		 , JOIN_TYPE			joinType
+		 , JOIN_PATH_OPT_OID	joinPathOptOid
+		 , JOIN_PATH_DESCR		joinPathDescr
+		 , JOIN_DATE			joinDate
+
+		 , COMPANY_OID			companyOid
+		 , ORG_CODE				organizationCode
+		 , ORG_NAME				organizationName
+		 , BRANCH_OID			branchOid
+		 , GROUP_OID			groupOid
+		 
+		 , RANK 				rank
+		 , POSITION				position
+		 , JOB					job
+		 , INPUT_USER			inputUser
+		 , INPUT_DATE			inputDate
+		 
+		 , HIRE_DATE 			hireDate
+		 , RETIRE_DATE			retireDate
+		 , DESCR				descr
+		 , EMP_NO				empNo
+		 , SEX					sex
+		 
+		 , REGION				region
+		 , ID_NO				idNo
+		 , BANK					bank
+		 , ACCOUNT_NO			accountNo
+		 , SALARY_TYPE			salaryType
+		 
+		 , SALARY				salary
+		 , WORK_FROM_TIME		workFromTime
+		 , WORK_TO_TIME			workToTime
+		 , UPDATE_DATE			updateDate
+
+		 , CUSTOM_FIELD1		customField1
+		 , CUSTOM_FIELD2		customField2
+		 , CUSTOM_FIELD3		customField3
+		 , CUSTOM_FIELD4		customField4
+		 , CUSTOM_FIELD5		customField5
+
+	</sql>
+
+
+	<sql id="searchCnd">
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(exceptStatusTypeFlag)"> AND STATUS_TYPE_FLAG != #{exceptStatusTypeFlag}</if>
+		
+		<!-- 유저타입 리스트로 검색 -->
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(statusTypeList)">
+			AND STATUS_TYPE_FLAG IN
+			<foreach item="statusTypeFlag" index="index" collection="statusTypeList" open="(" close=")" separator=",">
+		 		#{statusTypeFlag}
+		   	</foreach>
+		</if>
+		
+		
+		<if test='@org.apache.commons.collections.CollectionUtils@isEmpty(statusTypeList) and @com.remarkablesoft.framework.util.StringUtils@hasText(statusTypeFlag) and !statusTypeFlag.equals( "N" )'>
+			AND STATUS_TYPE_FLAG = #{statusTypeFlag}
+		</if>
+		
+	
+		<!-- sns회원 검색 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsId)"> AND SNS_ID = #{snsId}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsJoinTypeFlag)"> AND SNS_JOIN_TYPE_FLAG = #{snsJoinTypeFlag}</if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pwd)"> AND PWD = #{pwd} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pwd2)"> AND ( PWD2 = #{pwd2} OR PWD2 IS NULL ) </if>
+
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userOidList)">
+			AND OID IN
+			<foreach collection="userOidList" item="oid" index="index" separator="," open="(" close=")">
+				#{oid}
+			</foreach>
+		</if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(positionList)">
+			AND POSITION IN
+			<foreach collection="positionList" item="position" index="index" separator="," open="(" close=")">
+				#{position}
+			</foreach>
+		</if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(groupOidList)">
+			AND GROUP_OID IN
+			<foreach collection="groupOidList" item="oid" index="index" separator="," open="(" close=")">
+				#{oid}
+			</foreach>
+		</if>
+
+
+		<!--  like검색 모드일 경우 -->
+		<if test="isLikeSearch">
+	 
+	 		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId) 
+	 				or @com.remarkablesoft.framework.util.StringUtils@hasText(name) 
+	 				or @com.remarkablesoft.framework.util.StringUtils@hasText(phone)
+	 				or @com.remarkablesoft.framework.util.StringUtils@hasText(email)
+	 				or @com.remarkablesoft.framework.util.StringUtils@hasText(empNo)
+	 				or @com.remarkablesoft.framework.util.StringUtils@hasText(organizationName)">
+				<!-- 아이디, 이름, 전화번호, 이메일 like 검색 -->
+				<trim prefix="AND (" prefixOverrides="OR" suffix=")">
+					<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)">
+						OR UPPER( USER_ID ) LIKE UPPER( '%' || #{userId} || '%' ) 
+					</if>
+					<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)">
+						OR UPPER( NAME ) LIKE UPPER( '%' || #{name} || '%')
+					</if>
+					<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phone)">
+						OR ( PHONE_PART1 || PHONE_PART2 || PHONE_PART3 ) LIKE REPLACE( '%' || #{phone} || '%',' ','' ) 
+					</if>
+					<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(email)">
+						OR UPPER( EMAIL ) LIKE UPPER( '%' || #{email} || '%')
+					</if>
+					<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(empNo)">
+						OR UPPER( EMP_NO ) LIKE UPPER( '%' || #{empNo} || '%')
+					</if>
+					<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(organizationName)">
+						OR UPPER( ORG_NAME ) LIKE UPPER( '%' || #{organizationName} || '%')
+					</if>
+				</trim>
+			</if>
+			
+		</if>
+		
+	
+
+		<if test="!isLikeSearch">
+	
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)">
+					AND USER_ID = #{userId}  
+			</if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)">
+					AND  NAME = #{name} 
+			</if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phone)">
+					OR  ( PHONE_PART1 || PHONE_PART2 || PHONE_PART3 ) = #{phone} 
+			</if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(email)">
+					AND EMAIL = #{email}
+			</if>
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(empNo)"> 
+					AND EMP_NO = #{empNo} 
+			</if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(organizationName)">
+					AND UPPER( ORG_NAME ) = UPPER( #{organizationName} )
+			</if>
+				
+		</if>
+		
+		
+		
+		
+		<!-- 사원번호 리스트로 검색 -->
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(empNoList)">
+			AND EMP_NO IN
+			<foreach item="empNo" index="index" collection="empNoList" open="(" close=")" separator=",">
+		 		#{empNo}
+		   	</foreach>
+		</if>
+
+		<!-- 유저타입 리스트로 검색 -->
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userTypeList)">
+			AND USER_TYPE IN
+			<foreach item="userType" index="index" collection="userTypeList" open="(" close=")" separator=",">
+		 		#{userType}
+		   	</foreach>
+		</if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> AND CUSTOM_FIELD1 LIKE '%' || #{customField1} || '%' </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> AND CUSTOM_FIELD2 LIKE '%' || #{customField2} || '%' </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> AND CUSTOM_FIELD3 LIKE '%' || #{customField3} || '%' </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> AND CUSTOM_FIELD4 LIKE '%' || #{customField4} || '%' </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> AND CUSTOM_FIELD5 LIKE '%' || #{customField5} || '%' </if>
+		
+					
+					
+		<!-- <if test="rank != null"> AND RANK LIKE CONCAT('%', #{rank}, '%') </if> -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> AND COMPANY_OID = #{companyOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(organizationCode)"> AND ORG_CODE = #{organizationCode} </if>
+		
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(rank)"> AND RANK = #{rank} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(position)"> AND POSITION = #{position} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(email)"> AND EMAIL LIKE '%' || #{email} || '%' </if>
+
+		<!-- 정보수정날짜 검색 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(updateDateFrom)"> AND UPDATE_DATE <![CDATA[>=]]> TO_DATE(#{updateDateFrom}, 'yyyy-mm-dd')</if>
+
+		<!-- 가입일자 기간 검색 -->
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(createDateFrom)"> AND INPUT_DATE <![CDATA[>=]]> TO_DATE(#{createDateFrom}, 'yyyy-mm-dd')</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(createDateTo)"> AND INPUT_DATE <![CDATA[<]]> TO_DATE(#{createDateTo}, 'yyyy-mm-dd') + 1</if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(hireDateFrom)"> AND HIRE_DATE <![CDATA[>=]]> TO_DATE(#{hireDateFrom}, 'yyyy-mm-dd')</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(hireDateTo)"> AND HIRE_DATE <![CDATA[<=]]> TO_DATE(#{hireDateTo}, 'yyyy-mm-dd') </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(groupOid)"> AND GROUP_OID = #{groupOid} </if>
+		
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(birthYear)"> AND BIRTH_YEAR = #{birthYear} </if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(birthMonth)"> AND BIRTH_MONTH = #{birthMonth} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(birthDay)"> AND BIRTH_DAY = #{birthDay} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userType)"> AND USER_TYPE = #{userType} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> AND BRANCH_OID = #{branchOid} </if>
+		
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phonePart1)"> AND PHONE_PART1 = #{phonePart1} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phonePart2)"> AND PHONE_PART2 = #{phonePart2} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phonePart3)"> AND PHONE_PART3 = #{phonePart3} </if>
+		
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(nick)"> AND NICK LIKE '%' || #nick# || '%' </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(joinType)"> AND JOIN_TYPE = #{joinType} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(descr)"> AND DESCR LIKE '%' || #{descr} || '%' </if>
+			
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(branchOidList)">
+            AND BRANCH_OID IN
+            <foreach item="branchOid" index="index" collection="branchOidList" open="(" close=")" separator=",">
+                #{branchOid}
+            </foreach>
+        </if>
+		<!-- 해당부분은 위랑 겹치므로 사용하지 않는게 좋을듯 함 -->
+		<!-- <if test="userInfo != null">
+    		status 검색 값이 없을 경우 기존 프로세스 그대로 'U' 인 경우만 조회
+	    	<choose>
+	    		<when test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.statusTypeFlag)">
+	    			AND STATUS_TYPE_FLAG = #{userInfo.statusTypeFlag}
+	    		</when>
+	    		<otherwise>
+	    			AND STATUS_TYPE_FLAG = 'U'
+	    		</otherwise>
+	    	</choose>
+
+	    	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.id)"> AND ID = #{userInfo.id} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.name)"> AND NAME = #{userInfo.name} </if>
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.companyOid)"> AND COMPANY_OID = #{userInfo.companyOid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.organizationCode)"> AND ORG_CODE = #{organizationCode} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.organizationName)"> AND ORG_NAME LIKE '%' || #{organizationName} || '%' </if>
+		
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.oid)"> AND OID = #{userInfo.oid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.pwd)"> AND PWD = #{userInfo.pwd} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.pwd2)"> AND ( PWD2 = #{userInfo.pwd2} OR PWD2 IS NULL ) </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.phonePart1)"> AND PHONE_PART1 = #{userInfo.phonePart1} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.phonePart2)"> AND PHONE_PART2 = #{userInfo.phonePart2} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.phonePart3)"> AND PHONE_PART3 = #{userInfo.phonePart3} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.email)"> AND EMAIL = #{userInfo.email} </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.nick)"> AND NICK LIKE '%' || #userInfo.nick# || '%' </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.joinType)"> AND JOIN_TYPE = #{userInfo.joinType} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.descr)"> AND DESCR LIKE '%' || #{userInfo.descr} || '%' </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.groupOid)"> AND GROUP_OID = #{userInfo.groupOid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.rank)"> AND RANK LIKE '%' || #{userInfo.rank} || '%' </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.empNo)"> AND EMP_NO LIKE '%' || #{userInfo.empNo} || '%' </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.customField1)"> AND CUSTOM_FIELD1 LIKE '%' || #{userInfo.customField1} || '%' </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userInfo.customField2)"> AND CUSTOM_FIELD2 LIKE '%' || #{userInfo.customField2} || '%' </if>
+
+		</if> -->
+
+	</sql>
+	
+	<!-- 중복데이터 확인사용자 조건으로 사용자 존재여부를 확인합니다. 마이페이지에서 자신의 정보 제외하고 중복되는 정보가 있는지 비교합니다. -->
+	<select id="checkDuplicateByUserCnd" resultType="java.lang.Integer" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd">
+		/* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.exist(oid) || '황선영' || '2020-04-02'*/
+		SELECT COUNT(*)
+		FROM TS02_TB_USER
+		WHERE 1=1
+		<!-- snsId, id, email 로 중복 유저를 체크합니다. -->
+		<if test="isDuplicateUser">
+			AND ( 1=0
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsId)"> OR SNS_ID = #{snsId}</if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)"> OR USER_ID= #{userId} </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(email)"> OR EMAIL = #{email} </if>
+			)
+		</if>
+		
+		<!-- 중복데이터 등을 체크하기 때문에 본인을 제외하고 체크 -->		
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID != #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsJoinTypeFlag)"> AND SNS_JOIN_TYPE_FLAG = #{snsJoinTypeFlag}</if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userType)"> AND USER_TYPE = #{userType} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> AND BRANCH_OID = #{branchOid} </if>
+		
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(statusTypeList)">
+			AND STATUS_TYPE_FLAG IN
+			<foreach item="statusTypeFlag" index="index" collection="statusTypeList" open="(" close=")" separator=",">
+		 		#{statusTypeFlag}
+		   	</foreach>
+		</if>
+		
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(exceptStatusTypeFlag)"> AND STATUS_TYPE_FLAG != #{exceptStatusTypeFlag}</if>
+		
+		<!-- 유저타입 리스트로 검색 -->
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userTypeList)">
+			AND USER_TYPE IN
+			<foreach item="userType" index="index" collection="userTypeList" open="(" close=")" separator=",">
+		 		#{userType}
+		   	</foreach>
+		</if>
+		
+	</select>
+	
+ 	<select id="exist" resultType="java.lang.Integer">
+		/* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.exist(oid) || '이균환' || '2019-10-22'*/
+		 SELECT COUNT(*)
+		 FROM TS02_TB_USER
+		 WHERE OID = #{oid}
+	</select>
+
+ 	<select id="existById" resultType="java.lang.Integer" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		/* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.existById(userId) || '이균환' || '2019-10-22'*/
+		 SELECT COUNT(*)
+		 FROM TS02_TB_USER
+		 WHERE USER_ID = #{userId}
+		 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> AND COMPANY_OID = #{companyOid} </if>
+	</select>
+
+	<!-- 아이디 중복체크 -->
+	<select id="checkDuplicateId" resultType="java.lang.Integer" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		/* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.existById(userId) || '이균환' || '2019-10-22'*/
+		 SELECT COUNT(*)
+		 FROM TS02_TB_USER
+		 WHERE USER_ID = #{userId}
+		 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> AND COMPANY_OID = #{companyOid} </if>
+		 <!-- 아이디 중복체크 시 자신의 아이디를 제외하고 체크 -->
+		 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID != #{oid} </if>
+		 <!-- user type 추가 -->
+		 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userType)"> AND USER_TYPE = #{userType} </if>
+	</select>
+
+ 	 <select id="login" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.login(UserInfo) || '이균환' || '2019-10-22'*/
+		 SELECT 
+		 		<include refid="userColumn"/>
+		 FROM TS02_TB_USER
+		 WHERE 1=1
+		 
+		 	<!-- default -->
+			<if test='@org.apache.commons.collections.CollectionUtils@isEmpty(statusTypeList)'>
+				AND STATUS_TYPE_FLAG = 'U'
+			</if>
+			<!-- statusTypeList가 있을 때 -->
+			<if test='@org.apache.commons.collections.CollectionUtils@isNotEmpty(statusTypeList)'>
+				AND STATUS_TYPE_FLAG IN
+				<foreach item="statusTypeFlag" index="index" collection="statusTypeList" open="(" close=")" separator=",">
+			 		#{statusTypeFlag}
+			   	</foreach>
+			</if>
+		 	
+		 	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME = #{name} </if>
+		    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)"> AND USER_ID = #{userId} </if>
+		    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pwd)"> AND PWD = #{pwd} </if>
+		    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pwd2)"> AND PWD2 = #{pwd2} </if>
+		    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsId)"> AND SNS_ID = #{snsId} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> AND COMPANY_OID = #{companyOid} </if>
+
+			AND ROWNUM = 1
+	</select>
+	
+	
+	 <select id="sloByIdOrOid" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo" parameterType="String">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.sloByIdOrOid(UserCnd) || '이균환' || '2020-09-23'*/
+		 SELECT 
+		 		<include refid="userColumn"/>
+		 FROM TS02_TB_USER
+		 WHERE 1=1
+		   <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)"> AND USER_ID = #{userId} </if>
+		   <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+	</select>
+	
+
+
+	<select id="getUserByOid" parameterType="String" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.getUser(oid) || '이균환' || '2019-10-22'*/
+		 SELECT 
+		 		<include refid="userColumn"/>
+		 FROM TS02_TB_USER
+		 WHERE OID = #{oid}
+	</select>
+
+	<select id="getUserById" parameterType="String" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.getUserById(userId) || '이균환' || '2019-10-22'*/
+		 SELECT 
+		 		<include refid="userColumn"/>
+		 FROM TS02_TB_USER
+		 WHERE USER_ID = #{userId}
+	</select>
+
+	<select id="getUser" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.getUser(UserCnd) || '이균환' || '2020-08-20'*/
+		 SELECT * FROM
+		 (
+			 SELECT
+			 	ROW_NUMBER() OVER( ORDER BY INPUT_DATE DESC ) RNUM, 
+			 	<include refid="userColumn"/>
+			 FROM TS02_TB_USER
+			 WHERE 1=1
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)">AND OID = #{oid} </if>
+				<include refid="searchCnd"/>
+		 ) X
+		 WHERE RNUM = 1
+	</select>
+
+
+	<select id="checkPassword" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="java.lang.Integer">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.checkPassword(UserCnd) || '이균환' || '2019-10-22'*/
+		 SELECT COUNT(1)
+		 FROM TS02_TB_USER
+		 WHERE 1=1
+		<include refid="searchCnd"/>
+	</select>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.insert(UserInfo) || '이균환' || '2019-10-22'*/
+		INSERT INTO TS02_TB_USER (
+			 OID ,
+		     USER_ID ,
+			 NAME ,
+			 ENG_NAME ,
+			 PWD ,
+			 
+			 PWD2 ,
+			 SNS_ID,
+			 SNS_JOIN_TYPE_FLAG,
+			 USER_TYPE ,			 
+			 EMAIL ,
+			 
+			 TEL_PART1 ,
+			 TEL_PART2 ,
+			 TEL_PART3 ,
+			 PHONE_PART1 ,			 
+			 PHONE_PART2 ,
+			 
+			 PHONE_PART3 ,
+			 NICK ,
+			 BIRTH_YEAR ,
+             BIRTH_MONTH ,
+             BIRTH_DAY ,
+ 			 
+ 			 POST_CODE ,
+ 			 ADDR_PART1 ,
+ 			 ADDR_PART2 ,
+ 			 STATUS_TYPE_FLAG , 			 
+			 JOIN_TYPE ,
+			 
+			 JOIN_PATH_OPT_OID ,
+			 JOIN_PATH_DESCR ,
+			 JOIN_DATE ,
+			 COMPANY_OID,
+			 ORG_CODE,
+			 
+			 ORG_NAME,
+			 BRANCH_OID ,
+			 
+			 GROUP_OID ,
+			 RANK ,
+			 POSITION ,
+			 JOB ,			 
+			 INPUT_USER ,
+			 
+			 INPUT_DATE ,
+			 HIRE_DATE ,
+			 RETIRE_DATE ,
+			 DESCR ,			 
+			 EMP_NO ,
+			 
+			 SEX ,
+			 REGION ,
+			 ID_NO ,
+			 BANK ,			 
+			 ACCOUNT_NO ,
+			 
+			 SALARY_TYPE ,
+			 SALARY ,
+			 WORK_FROM_TIME,
+			 WORK_TO_TIME,
+			 CUSTOM_FIELD1 ,
+			 
+			 CUSTOM_FIELD2 ,
+			 CUSTOM_FIELD3 ,
+			 CUSTOM_FIELD4 ,
+			 CUSTOM_FIELD5
+		) VALUES (
+		     #{oid} ,
+		     #{userId} ,
+			 #{name} ,
+			 #{engName} ,
+			 #{pwd} ,
+			 
+			 #{pwd2} ,
+			 #{snsId},
+			 #{snsJoinTypeFlag},
+			 #{userType} ,			 
+			 #{email} ,
+			 
+			 #{telPart1} ,
+			 #{telPart2} ,
+			 #{telPart3} ,
+			 #{phonePart1} ,		 
+			 #{phonePart2} ,
+			 
+			 #{phonePart3} ,
+			 #{nick} ,
+			 #{birthYear} ,
+			 #{birthMonth} ,			 
+			 #{birthDay} ,
+			 
+			 #{postCode} ,
+			 #{addrPart1} ,
+			 #{addrPart2} ,
+			 #{statusTypeFlag} ,			 
+			 #{joinType} ,
+			 
+			 #{joinPathOptOid} ,
+			 #{joinPathDescr} ,
+			 #{joinDate} ,
+			 #{companyOid},
+			 #{organizationCode},
+			 
+			 #{organizationName},		
+			 #{branchOid} ,
+			 
+			 #{groupOid} ,
+			 #{rank} ,
+			 #{position} ,
+			 #{job} ,			 
+			 #{inputUser} ,
+			 
+			 #{inputDate} ,
+			 #{hireDate} ,
+			 #{retireDate} ,
+			 #{descr} ,			 
+			 #{empNo} ,
+			 
+			 #{sex} ,
+			 #{region} ,
+			 #{idNo} ,
+			 #{bank} ,			 
+			 #{accountNo} ,
+			 
+			 #{salaryType} ,
+			 #{salary} ,
+			 #{workFromTime},
+			 #{workToTime},
+			 #{customField1} ,
+			 
+			 #{customField2} ,
+			 #{customField3} ,
+			 #{customField4} ,
+			 #{customField5}
+		)
+	</insert>
+	
+	
+	
+	
+
+	<delete id="delete">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.delete(oid) || '이균환' || '2019-10-22'*/
+		DELETE
+		FROM TS02_TB_USER
+		WHERE OID = #{oid}
+	</delete>
+
+	<delete id="deleteUserById">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.deleteUserById(userId) || '이균환' || '2019-10-22'*/
+		DELETE
+		FROM TS02_TB_USER
+		WHERE USER_ID = #{userId}
+	</delete>
+
+	<delete id="deleteUserByGroupOid" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.deleteUserByGroupOid(UserInfo) || '이균환' || '2019-10-22'*/
+		DELETE
+		FROM TS02_TB_USER
+		WHERE GROUP_OID = #{groupOid}
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userOidList)">
+		AND OID IN
+		<foreach item="userOid" index="index" collection="userOidList" open="(" close=")" separator=",">
+	 		#{userOid}
+	   	</foreach>
+		</if>
+	</delete>
+
+
+	<delete id="deleteUserByCnd" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.deleteUserByCnd(UserCnd) || '이균환' || '2019-10-22'*/
+		DELETE
+		FROM TS02_TB_USER
+		WHERE 1 = 1
+		<include refid="searchCnd"/>
+	</delete>
+
+
+	<!-- 사용자 oid 리스트로 statusTypeFlag와 GroupOid를 변경 -->
+	<update id="updateStatusTypeFlagByUserOidList" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.updateStatusTypeFlagByUserOid(UserInfo) || '이균환' || '2019-10-22'*/
+		UPDATE TS02_TB_USER
+		SET
+		<if test="updateDate != null">
+			UPDATE_DATE = #{updateDate}
+		</if>
+		<!-- statusType이나 groupOid 둘 중 한개만 업데이트 합니다. -->
+		<if test="statusTypeFlag != null">
+			 ,STATUS_TYPE_FLAG = #{statusTypeFlag}
+		</if>
+		<if test="groupOid != null">
+			 ,GROUP_OID = #{groupOid}
+		</if>
+		WHERE 1=1
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userOidList)">
+			AND OID IN
+			<foreach collection="userOidList" item="oid" index="index" separator="," open="(" close=")">
+				#{oid}
+			</foreach>
+		</if>
+
+	</update>
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.update(UserInfo) || '김웅기' || '2020-10-22'*/
+		UPDATE TS02_TB_USER
+		
+		<trim prefix="SET" suffixOverrides=",">
+		
+			<if test="updateDate != null"> UPDATE_DATE = #{updateDate}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> NAME = #{name}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(engName)"> ENG_NAME = #{engName}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pwd)"> PWD = #{pwd}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(pwd2)"> PWD2 = #{pwd2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userType)"> USER_TYPE = #{userType}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(email)"> EMAIL = #{email}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(telPart1)"> TEL_PART1 = #{telPart1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(telPart2)"> TEL_PART2 = #{telPart2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(telPart3)"> TEL_PART3 = #{telPart3}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phonePart1)"> PHONE_PART1 = #{phonePart1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phonePart2)"> PHONE_PART2 = #{phonePart2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(phonePart3)"> PHONE_PART3 = #{phonePart3}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(nick)"> NICK = #{nick}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(birthYear)"> BIRTH_YEAR = #{birthYear}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(birthMonth)"> BIRTH_MONTH = #{birthMonth}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(birthDay)"> BIRTH_DAY = #{birthDay}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(postCode)"> POST_CODE = #{postCode}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(addrPart1)"> ADDR_PART1 = #{addrPart1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(addrPart2)"> ADDR_PART2 = #{addrPart2}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(statusTypeFlag)"> STATUS_TYPE_FLAG = #{statusTypeFlag}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(joinType)"> JOIN_TYPE = #{joinType}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(joinPathOptOid)"> JOIN_PATH_OPT_OID = #{joinPathOptOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(joinPathDescr)"> JOIN_PATH_DESCR = #{joinPathDescr}, </if>
+			<if test="joinDate!=null"> JOIN_DATE = #{joinDate}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyOid)"> COMPANY_OID = #{companyOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(organizationCode)"> ORG_CODE = #{organizationCode}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(organizationName)"> ORG_NAME = #{organizationName}, </if>
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(groupOid)"> GROUP_OID = #{groupOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(branchOid)"> BRANCH_OID = #{branchOid}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(rank)"> RANK = #{rank}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(position)"> POSITION = #{position}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(job)"> JOB = #{job}, </if>
+			<if test="hireDate!=null"> HIRE_DATE = #{hireDate}, </if>
+			<if test="retireDate!=null"> RETIRE_DATE = #{retireDate}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(descr)"> DESCR = #{descr}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(empNo)"> EMP_NO = #{empNo}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(sex)"> SEX = #{sex}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(region)"> REGION = #{region}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(idNo)"> ID_NO = #{idNo}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(bank)"> BANK = #{bank}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(accountNo)"> ACCOUNT_NO = #{accountNo}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(salaryType)"> SALARY_TYPE = #{salaryType}, </if>
+			<if test="salary gt 0"> SALARY = #{salary}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(workFromTime)"> WORK_FROM_TIME = #{workFromTime}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(workToTime)"> WORK_TO_TIME = #{workToTime}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> CUSTOM_FIELD4 = #{customField4}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> CUSTOM_FIELD5 = #{customField5}, </if>
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsId)"> SNS_ID = #{snsId}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(snsJoinTypeFlag)"> SNS_JOIN_TYPE_FLAG = #{snsJoinTypeFlag}, </if>
+
+		</trim>
+	    WHERE 1=1
+	    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+	    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userId)"> AND USER_ID = #{userId} </if>
+
+	</update>
+	
+	
+	<insert id="insertBulk" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.insertBulk(List) || '이균환' || '2019-10-03' */
+        INSERT ALL
+	     <foreach collection="list" item="item" >
+	        INTO TS02_TB_USER
+			(
+				OID
+				, USER_ID 
+				, NAME
+				, PWD
+				, USER_TYPE
+
+				, EMAIL
+				, TEL_PART1
+				, TEL_PART2
+				, TEL_PART3
+				
+				, PHONE_PART1
+				, PHONE_PART2
+				, PHONE_PART3
+				
+				, DESCR
+				, EMP_NO
+				
+				, STATUS_TYPE_FLAG
+				, GROUP_OID
+				
+				, ORG_CODE
+				, ORG_NAME
+				
+				, RANK
+				, POSITION
+				, JOB
+	
+				, CUSTOM_FIELD1
+				, CUSTOM_FIELD2
+				, CUSTOM_FIELD3
+				, CUSTOM_FIELD4
+				, CUSTOM_FIELD5
+			)
+			VALUES 
+			(
+            	#{item.oid}
+            	, #{item.userId}
+	           	, #{item.name}
+	           	, #{item.pwd}
+	           	, #{item.userType}
+	           	
+	           	, #{item.email}
+	           	, #{item.telPart1}
+	           	, #{item.telPart2}
+	           	, #{item.telPart3}
+	           	
+	           	, #{item.phonePart1}
+	           	, #{item.phonePart2}
+	           	, #{item.phonePart3}
+	           	
+	           	, #{item.descr}
+	           	, #{item.empNo}
+	           	
+	           	, #{item.statusTypeFlag}
+	           	, #{item.groupOid}
+	           	
+	           	, #{item.organizationCode}
+	           	, #{item.organizationName}
+	           	
+	           	, #{item.rank}
+	           	, #{item.position}
+	           	, #{item.job}
+	           	
+	           	, #{item.customField1}
+	           	, #{item.customField2}
+	           	, #{item.customField3}
+	           	, #{item.customField4}
+	           	, #{item.customField5}
+            )
+	    </foreach>
+	    SELECT * FROM DUAL
+	</insert>
+	
+	
+	<sql id="update-bulk-sql">
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.name)"> NAME = #{item.name}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.pwd)"> PWD = #{item.pwd}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.userType)"> USER_TYPE = #{item.userType}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.email)"> EMAIL = #{item.email}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.telPart1)"> TEL_PART1 = #{item.telPart1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.telPart2)"> TEL_PART2 = #{item.telPart2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.telPart3)"> TEL_PART3 = #{item.telPart3}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.phonePart1)"> PHONE_PART1 = #{item.phonePart1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.phonePart2)"> PHONE_PART2 = #{item.phonePart2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.phonePart3)"> PHONE_PART3 = #{item.phonePart3}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.descr)"> DESCR = #{item.descr}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.empNo)"> EMP_NO = #{item.empNo}, </if>
+
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.statusTypeFlag)"> STATUS_TYPE_FLAG = #{item.statusTypeFlag}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.groupOid)"> GROUP_OID = #{item.groupOid}, </if>
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.organizationCode)"> ORG_CODE = #{item.organizationCode}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.organizationName)"> ORG_NAME = #{item.organizationName}, </if>
+			
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.rank)"> RANK = #{item.rank}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.position)"> POSITION = #{item.position}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.job)"> JOB = #{item.job}, </if>
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField1)"> CUSTOM_FIELD1 = #{item.customField1}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField2)"> CUSTOM_FIELD2 = #{item.customField2}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField3)"> CUSTOM_FIELD3 = #{item.customField3}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField4)"> CUSTOM_FIELD4 = #{item.customField4}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField5)"> CUSTOM_FIELD5 = #{item.customField5}, </if>
+			
+			</trim>
+	</sql>
+	
+	
+	<update id="updateBulk" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.updateBulk(List) || ’이균환’ || ’2021-01-06’ */
+		<foreach item="item" collection="list" index="index"  separator=";" open="DECLARE BEGIN" close="; END;" >
+		UPDATE 
+			TS02_TB_USER 
+			<include refid="update-bulk-sql"/>
+	    WHERE 
+	    	1 = 1 
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.oid)"> AND OID = #{item.oid} </if>
+		    <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.userId)"> AND USER_ID = #{item.userId} </if>
+     	</foreach>
+	</update> 
+	
+	
+	<update id="updateStatusTypeFlagByList" parameterType="map">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.updateStatusTypeFlagByList(String, List) || '이균환' || '2020-11-22'*/
+		UPDATE TS02_TB_USER
+		SET STATUS_TYPE_FLAG = #{statusTypeFlag}
+		WHERE 1 = 1
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(userIds)">
+			AND USER_ID IN
+			<foreach collection="userIds" item="userId" index="index" separator="," open="(" close=")">
+				#{userId}
+			</foreach>
+		</if>
+	</update>
+	
+	
+	<update id="updateStatusTypeFlagById" parameterType="map">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.updateStatusTypeFlagById(String, String) || '이균환' || '2020-11-22'*/
+		UPDATE TS02_TB_USER
+		SET STATUS_TYPE_FLAG = #{statusTypeFlag}
+		WHERE 1 = 1
+		AND USER_ID = #{userId}
+	</update>
+
+	<select id="listUser" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listUser(UserCnd) || '이균환' || '2019-10-22'*/
+		 SELECT * FROM
+		 (
+			 SELECT
+			 	ROW_NUMBER() OVER( 
+			 	ORDER BY
+				 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					    ${orderBy} DESC
+				 </if>
+				 <if test="!@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					   INPUT_DATE DESC
+				 </if>	 
+			 ) RNUM, 
+			 	<include refid="userColumn"/>
+			 FROM TS02_TB_USER
+			 WHERE 1=1
+			<include refid="searchCnd"/>
+		 ) X
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+	<select id="listUser_count" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="int">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listUser_count(UserCnd) || '이균환' || '2019-10-22'*/
+		 SELECT COUNT(*)
+		 FROM TS02_TB_USER
+		 WHERE 1=1
+		 <include refid="searchCnd"/>
+	</select>
+
+
+	<resultMap id="userInfoMap" type="com.remarkablesoft.framework.service.org.user.vo.UserInfo">
+
+    	<result column="OID"  property="oid" />
+    	<result column="USER_ID"  property="userId" />
+    	<result column="NAME"  property="name" />
+    	<result column="EMAIL"  property="email" />
+    	
+	    <result column="STATUS_TYPE_FLAG"  property="statusTypeFlag" />
+	    <result column="USER_TYPE"  property="userType" />
+	    <result column="COMPANY_OID"  property="companyOid" />
+
+		<result column="GROUP_OID"  property="groupOid" />
+	    <result column="BRANCH_OID"  property="branchOid" />
+	    <result column="RANK"  property="rank" />
+	    <result column="POSITION"  property="position" />
+	    
+		<result column="INPUT_DATE"  property="inputDate" />
+		<result column="CUSTOM_FIELD1"  property="customField1" />
+		<result column="CUSTOM_FIELD2"  property="customField2" />
+		
+		<result column="TEL_PART1"  property="telPart1" />
+		<result column="TEL_PART2"  property="telPart2" />
+		<result column="TEL_PART3"  property="telPart3" />
+		<result column="PHONE_PART1"  property="phonePart1" />
+		<result column="PHONE_PART2"  property="phonePart2" />
+		<result column="PHONE_PART3"  property="phonePart3" />
+		<result column="JOIN_PATH_DESCR"  property="joinPathDescr" />
+		
+   		<collection  property="userRoleList" resultMap="roleInfoMap"/>
+
+   	</resultMap>
+
+
+   	<resultMap id="roleInfoMap" type="com.remarkablesoft.framework.service.authority.role.vo.RoleInfo">
+		<result column="ROLE_OID"  property="oid" />
+		<result column="ROLE_NAME"  property="roleName" />
+		
+		<association property="roleUserRelInfo" resultMap="roleUserRelMap" />
+	</resultMap>
+
+	<resultMap id="roleUserRelMap" type="com.remarkablesoft.framework.service.authority.role.vo.RoleUserRelInfo">
+		<result column="ROLE_OID"  property="roleOid" />
+		<result column="TARGET_OBJECT"  property="targetObject" />
+		<result column="USER_OID"  property="targetOid" />
+		<result column="ROLE_START_DATE"  property="roleStartDate" />
+		<result column="ROLE_END_DATE"  property="roleEndDate" />
+	</resultMap>
+
+	<select id="listRoleUser" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultMap="userInfoMap">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listRoleUser(UserCnd) || '이균환' || '2019-10-22'*/
+		 SELECT * FROM
+		 (
+			 SELECT
+			 	OID
+				, USER_ID
+			 	, NAME
+				, EMAIL
+				
+			 	, STATUS_TYPE_FLAG
+			 	, USER_TYPE
+			 	, COMPANY_OID
+			 	
+			 	, GROUP_OID
+			 	, BRANCH_OID
+			 	, RANK
+			 	, POSITION
+			 	
+			 	, INPUT_DATE
+				, CUSTOM_FIELD1
+				, CUSTOM_FIELD2				 	
+	
+			 	, TEL_PART1
+				, TEL_PART2
+				, TEL_PART3
+				, PHONE_PART1
+				, PHONE_PART2
+				, PHONE_PART3
+				, JOIN_PATH_DESCR
+					
+				, ROLE_OID
+			 	, ROLE_NAME
+			 	
+			 	, TARGET_OBJECT
+			 	, ROLE_START_DATE
+				, ROLE_END_DATE
+			
+			 	, ROW_NUMBER() OVER( ORDER BY INPUT_DATE DESC ) RNUM
+			 FROM VS02_USER_ROLE
+			 WHERE 1=1
+			<include refid="searchCnd"/>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(roleOid)">
+				AND ROLE_OID = #{roleOid}
+			</if>
+			<!-- 유저 권한검색 -->
+			<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(roleOidList)">
+				AND ROLE_OID IN
+				<foreach item="roleOid" index="index" collection="roleOidList" open="(" close=")" separator=",">
+			 		#{roleOid}
+			   	</foreach>
+			</if>
+		 ) X
+		 WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+	<select id="listRoleUser_count" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="int">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listRoleUser_count(UserCnd) || '이균환' || '2019-10-22'*/
+		 SELECT COUNT(*)
+		 FROM VS02_USER_ROLE
+		 WHERE 1=1
+		 		<include refid="searchCnd"/>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(roleOid)">
+					AND ROLE_OID = #{roleOid}
+				</if>
+				<!-- 유저 권한검색 -->
+				<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(roleOidList)">
+					AND ROLE_OID IN
+					<foreach item="roleOid" index="index" collection="roleOidList" open="(" close=")" separator=",">
+				 		#{roleOid}
+				   	</foreach>
+				</if>
+	</select>
+
+	<select id="listAllRoleUser" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultMap="userInfoMap">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listAllRoleUser(UserCnd) || '최원준' || '2020-04-23'*/
+		 SELECT
+			 	OID
+				, USER_ID
+			 	, NAME
+				, EMAIL
+				
+			 	, STATUS_TYPE_FLAG
+			 	, USER_TYPE
+			 	, COMPANY_OID
+			 	
+			 	, GROUP_OID
+			 	, BRANCH_OID
+			 	, RANK
+			 	, POSITION
+			 	
+			 	, INPUT_DATE
+				, CUSTOM_FIELD1
+				, CUSTOM_FIELD2				 	
+	
+			 	, TEL_PART1
+				, TEL_PART2
+				, TEL_PART3
+				, PHONE_PART1
+				, PHONE_PART2
+				, PHONE_PART3
+				, JOIN_PATH_DESCR
+					
+				, ROLE_OID
+			 	, ROLE_NAME
+			 	
+			 	, TARGET_OBJECT
+			 	, ROLE_START_DATE
+				, ROLE_END_DATE
+			
+		 FROM VS02_USER_ROLE
+		 WHERE 1=1
+				<include refid="searchCnd"/>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(roleOid)">
+					AND ROLE_OID = #{roleOid}
+				</if>
+				<!-- 유저 권한검색 -->
+				<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(roleOidList)">
+					AND ROLE_OID IN
+					<foreach item="roleOid" index="index" collection="roleOidList" open="(" close=")" separator=",">
+				 		#{roleOid}
+				   	</foreach>
+				</if>
+		 ORDER BY INPUT_DATE DESC
+	</select>
+
+	<select id="listByBranchOid" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo" >
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listByBranchOid(UserCnd) || '이균환' || '2019-10-22'*/
+		SELECT BRANCH_OID as branchOid, USER_TYPE as classType, COUNT(*) as userCount
+		FROM TS02_TB_USER
+		WHERE 1 = 1
+			<include refid="searchCnd"/>
+		GROUP BY BRANCH_OID, USER_TYPE
+	</select>
+
+	<select id="getUserCountListByBranch" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo" >
+		/* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.getUserCountListByBranch(UserCnd) || ’안희홍’ || ’2019-04-08’ */
+		SELECT BRANCH_OID AS branchOid, COUNT(*) AS userCount
+		FROM TS02_TB_USER
+		WHERE 1=1
+		<include refid="searchCnd"/>
+		GROUP BY BRANCH_OID
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultType="com.remarkablesoft.framework.service.org.user.vo.UserInfo" >
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listAll(UserCnd) || '이균환' || '2019-10-22'*/
+		SELECT 
+			<include refid="userColumn"/>
+		FROM TS02_TB_USER
+		WHERE 1 = 1
+			<include refid="searchCnd"/>
+	</select>
+	
+	<resultMap id="countMap" type="HashMap" >
+		<result column="waitCount" 	property="waitCount" javaType="java.lang.Integer"/>
+		<result column="useCount" 	property="useCount"  javaType="java.lang.Integer" />
+	</resultMap>
+	
+	<select id="getStatusCount" parameterType="com.remarkablesoft.framework.service.org.user.vo.UserCnd" resultMap="countMap">
+		 /* com.remarkablesoft.framework.service.org.user.model.impl.UserDAO.listAll(UserCnd) || '김웅기' || '2020-12-14'*/
+		SELECT 
+			COUNT ( CASE WHEN STATUS_TYPE_FLAG = 'W' THEN 1 END ) waitCount,
+			COUNT ( CASE WHEN STATUS_TYPE_FLAG = 'U' THEN 1 END ) useCount
+		FROM TS02_TB_USER
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+</mapper>

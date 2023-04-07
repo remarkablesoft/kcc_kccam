@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO">
+
+	<sql id="companyColumn">
+		OID									oid
+		, BUSINESS							business
+		, COMPANY_NAME						companyName
+		, OWNER_NAME						ownerName
+		, COMPANY_NO						companyNo
+
+		, TEL_PART1							telPart1
+		, TEL_PART2							telPart2
+		, TEL_PART3							telPart3
+		, POST_CODE							postCode
+		, ADDR_PART1						addrPart1
+
+		, ADDR_PART2						addrPart2
+		, DESCR								descr
+		, INPUT_USER						inputUser
+		, INPUT_DATE						inputDate
+		, ORDER_NO							orderNo
+	</sql>
+
+	<sql id="searchCnd">
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(business)"> AND BUSINESS = #{business} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyName)"> AND UPPER(COMPANY_NAME) LIKE UPPER(CONCAT('%', #{companyName}, '%')) </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(ownerName)"> AND OWNER_NAME LIKE CONCAT('%', #{ownerName}, '%') </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(companyNo)"> AND COMPANY_NO = #{companyNo} </if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> AND INPUT_USER = #{inputUser} </if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(companyOidList)">
+			AND OID IN
+			<foreach collection="companyOidList" item="companyOid" index="index" separator="," open="(" close=")">
+				#{companyOid}
+			</foreach>
+		</if>
+
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.org.company.vo.CompanyInfo">
+		/* com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO.insert(CompanyInfo) ||'안희홍'|| '2019-09-24' */
+		INSERT INTO TS02_TB_COMPANY
+		(
+			OID
+			, BUSINESS
+			, COMPANY_NAME
+			, OWNER_NAME
+			, COMPANY_NO
+
+			, TEL_PART1
+			, TEL_PART2
+			, TEL_PART3
+			, POST_CODE
+			, ADDR_PART1
+
+			, ADDR_PART2
+			, DESCR
+			, INPUT_USER
+			, INPUT_DATE
+			, ORDER_NO
+		)
+		VALUES
+		(
+			#{oid}
+			, #{business}
+			, #{companyName}
+			, #{ownerName}
+			, #{companyNo}
+
+			, #{telPart1}
+			, #{telPart2}
+			, #{telPart3}
+			, #{postCode}
+			, #{addrPart1}
+
+			, #{addrPart2}
+			, #{descr}
+			, #{inputUser}
+			, #{inputDate}
+			, #{orderNo}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.org.company.vo.CompanyInfo">
+		/* com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO.update(CompanyInfo) ||'안희홍'|| '2019-09-24' */
+		UPDATE TS02_TB_COMPANY
+		<trim prefix="SET" suffixOverrides=",">
+
+			<if test="business != null"> BUSINESS = #{business}, </if>
+			<if test="companyName != null"> COMPANY_NAME = #{companyName}, </if>
+			<if test="ownerName != null"> OWNER_NAME = #{ownerName}, </if>
+			<if test="companyNo != null"> COMPANY_NO = #{companyNo}, </if>
+
+			<if test="telPart1 != null"> TEL_PART1 = #{telPart1}, </if>
+			<if test="telPart2 != null"> TEL_PART2 = #{telPart2}, </if>
+			<if test="telPart3 != null"> TEL_PART3 = #{telPart3}, </if>
+			<if test="postCode != null"> POST_CODE = #{postCode}, </if>
+			<if test="addrPart1 != null"> ADDR_PART1 = #{addrPart1}, </if>
+			<if test="addrPart2 != null"> ADDR_PART2 = #{addrPart2}, </if>
+
+			<if test="descr != null"> DESCR = #{descr}, </if>
+
+		</trim>
+		WHERE 1=1
+		AND OID = #{oid}
+	</update>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.org.company.vo.CompanyCnd" resultType="com.remarkablesoft.framework.service.org.company.vo.CompanyInfo">
+		/* com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO.get(CompanyCnd) || '안희홍' || '2019-09-24' */
+		SELECT
+			<include refid="companyColumn"/>
+		FROM TS02_TB_COMPANY
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.org.company.vo.CompanyCnd" resultType="com.remarkablesoft.framework.service.org.company.vo.CompanyInfo">
+		/* com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO.listAll(CompanyCnd) || '안희홍' || '2019-09-24' */
+		SELECT
+			<include refid="companyColumn"/>
+		FROM TS02_TB_COMPANY
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.org.company.vo.CompanyCnd" resultType="com.remarkablesoft.framework.service.org.company.vo.CompanyInfo">
+		/* com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO.list(CompanyCnd) || '안희홍' || '2019-09-24' */
+		
+		SELECT * FROM
+		(
+		SELECT
+			ROW_NUMBER() OVER( 
+			 	ORDER BY
+				 <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					    ${orderBy} DESC
+				 </if>
+				 <if test="!@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+					   INPUT_DATE DESC
+				 </if>	 
+			 ) RNUM, 
+			<include refid="companyColumn"/>
+		FROM TS02_TB_COMPANY
+		WHERE 1=1
+			<include refid="searchCnd"/>
+		) x
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.org.company.vo.CompanyCnd" resultType="int">
+		SELECT COUNT(*)
+		FROM TS02_TB_COMPANY
+		WHERE 1=1
+	</select>
+
+
+	<delete id="delete" parameterType="String">
+		 /* com.remarkablesoft.framework.service.org.company.model.impl.CompanyDAO.delete(String) || ’안희홍’ || ’2019-09-24’ */
+	    DELETE
+	    FROM TS02_TB_COMPANY
+	    WHERE OID = #{oid}
+	</delete>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupUserRelDAO">
+
+	<sql id="messageGroupUserRelColumn">
+		MSG_GROUP_OID					messageGroupOid
+		, USER_OID						userOid
+		, INPUT_DATE					inputDate
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(messageGroupOid)"> AND MSG_GROUP_OID = #{messageGroupOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(userOid)"> AND USER_OID = #{userOid} </if>
+		
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+		   	  AND MSG_GROUP_OID IN
+		   	  <foreach collection="oidList" item="messageGroupOid" index="index" separator="," open="(" close=")">
+				#{messageGroupOid}
+			 </foreach>
+    	 </if> 
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupUserRelInfo">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupUserRelDAO.insert(MessageGroupUserRelInfo) ||'최원준'|| '2019-12-06' */
+		INSERT INTO TS02_TB_MSG_GROUP_USER_REL
+		(
+			MSG_GROUP_OID
+			, USER_OID
+			, INPUT_DATE
+		)
+		VALUES
+		(
+			#{messageGroupOid}
+			, #{userOid}
+			, #{inputDate}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupCnd">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupUserRelDAO.delete(MessageGroupCnd) ||'최원준'|| '2019-12-06' */
+		DELETE FROM TS02_TB_MSG_GROUP_USER_REL
+		WHERE MSG_GROUP_OID = #{messageGroupOid}
+	</delete>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupCnd" resultType="com.remarkablesoft.framework.service.notification.message.group.vo.MessageGroupUserRelInfo">
+		/* com.remarkablesoft.framework.service.notification.message.group.model.impl.MessageGroupUserRelDAO.listAll(MessageGroupCnd) ||'최원준'|| '2019-12-06' */
+		SELECT
+			<include refid="messageGroupUserRelColumn"/>
+		FROM TS02_TB_MSG_GROUP_USER_REL
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+</mapper>

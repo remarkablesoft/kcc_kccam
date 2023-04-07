@@ -1,0 +1,48 @@
+---------------------------------------------------------------
+--  VS02_POSTING : 소재 구분 - 소재 구분의 다국어 테이블 뷰
+---------------------------------------------------------------
+CREATE OR REPLACE VIEW VS02_POSTING AS
+SELECT
+    P.OID               		AS OID,
+    P.BOARD_OID					AS BOARD_OID,
+    L.TITLE             		AS TITLE,
+    P.NOTICE_LEVEL				AS NOTICE_LEVEL,
+    L.LANG              		AS LANG,
+    L.CONTENTS					AS CONTENTS,
+
+    P.TEMP_YN					AS TEMP_YN,
+    P.FROM_DATE					AS FROM_DATE,
+    P.TO_DATE					AS TO_DATE,
+    L.INPUT_USER_INFO_LIST		AS INPUT_USER_INFO_LIST,
+
+    L.INPUT_USER        		AS INPUT_USER,
+    L.INPUT_DATE        		AS INPUT_DATE,
+    L.MOD_USER          		AS MOD_USER,
+    L.MOD_DATE          		AS MOD_DATE,
+    P.DEL_USER					AS DEL_USER,
+    P.DEL_DATE					AS DEL_DATE,
+
+    P.THREAD_OID 				AS THREAD_OID,
+    P.THREAD_PARENT_OID 		AS THREAD_PARENT_OID,
+    P.THREAD_FULL_PATH_OID 		AS THREAD_FULL_PATH_OID,
+    P.THREAD_DEPTH 				AS THREAD_DEPTH,
+    P.THREAD_ORDER_NO 			AS THREAD_ORDER_NO,
+
+    P.RE_CNT					AS RE_CNT,
+    P.CMT_CNT					AS CMT_CNT,
+    P.RCMD_CNT					AS RCMD_CNT,
+    P.LIKE_CNT					AS LIKE_CNT,
+    P.VIEW_CNT					AS VIEW_CNT,
+
+    P.ANONYMOUS_PWD				AS ANONYMOUS_PWD,
+    P.PICK_YN					AS PICK_YN,
+
+    P.CUSTOM_FIELD1				AS CUSTOM_FIELD1,
+    P.CUSTOM_FIELD2				AS CUSTOM_FIELD2,
+    P.CUSTOM_FIELD3				AS CUSTOM_FIELD3,
+    P.CUSTOM_FIELD4				AS CUSTOM_FIELD4,
+    P.CUSTOM_FIELD5				AS CUSTOM_FIELD5
+
+FROM TS02_TB_POSTING P
+         JOIN TS02_TB_POSTING_LANG L
+              ON P.OID = L.OID;

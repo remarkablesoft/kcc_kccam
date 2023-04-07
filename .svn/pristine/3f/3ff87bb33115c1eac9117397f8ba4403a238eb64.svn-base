@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.board.contents.model.impl.ContentsDAO">
+
+	<sql id="contentsColumn">
+		 OID 					oid
+	     , TARGET_OBJECT 		targetObject
+		 , TARGET_OID 			targetOid
+		 , CONTENTS 			contents
+		 , CONTENTS_SIZE		contentsSize
+
+		 , CONTAINER_OID		containerOid
+		 , INPUT_USER			inputUser
+		 , CONTENTS_TITLE		contentsTitle
+		 , ORDER_NO				orderNo
+
+		 , LANG                 lang
+	</sql>
+
+	<sql id="searchCnd">
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetOid)"> AND TARGET_OID = #{targetOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetObject)"> AND TARGET_OBJECT = #{targetObject} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(containerOid)"> AND CONTAINER_OID = #{containerOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)"> AND LANG = #{lang} </if>
+
+		<if test="@org.apache.commons.collections.CollectionUtils@isNotEmpty(targetOidList)">
+			AND TARGET_OID IN
+	        <foreach item="targetOid" index="index" collection="targetOidList" open="(" close=")" separator=",">
+	    			#{targetOid, jdbcType=VARCHAR}
+    		</foreach>
+		</if>
+
+	</sql>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo">
+		INSERT INTO TS02_TB_CONTENTS (
+			  OID
+		     , TARGET_OBJECT
+			 , TARGET_OID
+			 , CONTENTS
+			 , CONTENTS_SIZE
+
+		 	, CONTAINER_OID
+		 	, INPUT_USER
+		 	, CONTENTS_TITLE
+		 	, ORDER_NO
+
+		 	, LANG
+		) VALUES (
+		     #{oid}
+		     , #{targetObject}
+			 , #{targetOid}
+			 , #{contents}
+			 , #{contentsSize}
+
+			 , #{containerOid}
+			 , #{inputUser}
+			 , #{contentsTitle}
+			 , #{orderNo}
+
+		     , #{lang}
+		)
+	</insert>
+
+	<insert id="insertBulk" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.board.contents.model.impl.ContentsDAO.insertBulk(List) || '최원준' || '2021-03-16' */
+		INSERT ALL
+			<foreach collection="list" item="item">
+				INTO TS02_TB_CONTENTS
+				(
+					OID
+					, TARGET_OBJECT
+					, TARGET_OID
+					, CONTENTS
+					, CONTENTS_SIZE
+
+					, CONTAINER_OID
+					, INPUT_USER
+					, CONTENTS_TITLE
+					, ORDER_NO
+
+					, LANG
+				)
+				VALUES
+				(
+					#{item.oid}
+					, #{item.targetObject}
+					, #{item.targetOid}
+					, #{item.contents}
+					, #{item.contentsSize}
+
+					, #{item.containerOid}
+					, #{item.inputUser}
+					, #{item.contentsTitle}
+					, #{item.orderNo}
+
+					, #{item.lang}
+				)
+			</foreach>
+			SELECT * FROM DUAL
+	</insert>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.board.contents.vo.ContentsCnd" resultType="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo">
+		SELECT
+			 <include refid="contentsColumn"/>
+		FROM
+			TS02_TB_CONTENTS
+		WHERE
+			1=1
+			<include refid="searchCnd"/>
+	</select>
+
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo">
+		UPDATE TS02_TB_CONTENTS
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(contents)"> contents = #{contents}, </if>
+		</trim>
+	    WHERE 1=1
+	    AND TARGET_OBJECT = #{targetObject}
+	    AND TARGET_OID = #{targetOid}
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">
+		 	AND LANG = #{lang}
+		</if>
+	</update>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo" resultType="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo">
+		 SELECT
+		 	<include refid="contentsColumn"/>
+		 FROM TS02_TB_CONTENTS
+		 WHERE 1=1
+	     AND TARGET_OBJECT = #{targetObject}
+	     AND TARGET_OID = #{targetOid}
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">
+			AND LANG = #{lang}
+		</if>
+	</select>
+
+	<select id="getContents" parameterType="com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo" resultType="string">
+		 SELECT
+		 		NVL(CONTENTS, '') contents
+		 FROM TS02_TB_CONTENTS
+		 WHERE 1=1
+	     AND TARGET_OBJECT = #{targetObject}
+	     AND TARGET_OID = #{targetOid}
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">
+			AND LANG = #{lang}
+		</if>
+	</select>
+
+	<delete id="delete" parameterType="com.remarkablesoft.framework.service.board.contents.vo.ContentsCnd">
+		DELETE
+			FROM TS02_TB_CONTENTS
+		WHERE 1=1
+		AND TARGET_OBJECT = #{targetObject}
+	    AND TARGET_OID = #{targetOid}
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(lang)">
+			AND LANG = #{lang}
+		</if>
+	</delete>
+	
+</mapper>

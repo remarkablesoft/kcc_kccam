@@ -1,0 +1,171 @@
+/*-------------------------------------------------------------------
+    파일정의 : _tree.scss # tree 스타일 (liquor-tree)
+-------------------------------------------------------------------*/
+
+/*===== tree common (lms용 최종 스타일) =====*/
+.node-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .node-controls {
+        /* width:12rem; */
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+
+        button {
+            /* width: 5.8rem; */
+            margin-bottom: 0.2rem;
+            height: 2.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.2rem;
+        }
+    }
+
+    .node-text {
+        display: flex;
+        align-items: center;
+        padding-left: 0.5rem;
+    }
+}
+
+/* tree */
+.tree {
+    overflow: auto;
+
+    .tree-root {
+        padding: 0 !important;
+    }
+
+    /* 숨김 아이콘 */
+    .material-icons.set {
+        margin-left: 0.5rem;
+        font-size: 2.1rem;
+        color: #939393;
+    }
+}
+
+/* +,- 아이콘 변경 */
+.tree-arrow {
+    position: relative;
+    z-index: 2;
+    width: 2rem !important;
+    height: 2rem !important;
+    margin-left: 0 !important;
+    padding: 0;
+    border-radius: 50%;
+    background: #f7f7f7;
+
+    &::after {
+        display: none !important;
+    }
+
+    &.has-child {
+        display: block;
+        background-image: url(../images/icon/tree/icon_plus_gray.svg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &.expanded.has-child {
+        background-image: url(../images/icon/tree/icon_minus_gray.svg);
+    }
+}
+
+/* 내부 뎁스 관련*/
+.tree-children {
+    /* ul */
+    position: relative;
+    padding-left: 3rem !important;
+}
+
+/* 긴 세로선 :: 각 li 기준 left 마이너스로 위치.  */
+.tree-node {
+    /* li */
+    white-space: normal !important;
+
+    &::before {
+        display: block;
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: -20px;
+        width: 2px;
+        height: calc(100% + 20px);
+        background-color: #ebebeb;
+    }
+
+    &:last-child::before {
+        display: none;
+    }
+
+    /* 선택된 tree-node의 아이콘 색 변경 */
+    &.selected {
+        > .tree-content {
+            /* 클릭 및 hover 시 배경 색 변경 */
+            background-color: #eafafd !important;
+
+            .tree-arrow {
+                &.has-child {
+                    background-image: url(../images/icon/tree/icon_plus_primary.svg);
+                }
+
+                &.expanded.has-child {
+                    background-image: url(../images/icon/tree/icon_minus_primary.svg);
+                }
+            }
+        }
+    }
+
+    /* 클릭 및 hover 시 배경 색 변경 */
+    &:not(.selected) {
+        > .tree-content {
+            &:hover {
+                background-color: #f2fdff !important;
+            }
+        }
+    }
+}
+
+/*  ㄴ 모양 :: 각 tree-content 기준 left 마이너스로 위치.  */
+.tree-content {
+    position: relative;
+    padding: 3px !important;
+    margin: 0;
+
+    /* 세로선 */
+    &::before {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 2px;
+        height: calc(100% - 17px);
+        background-color: #ebebeb;
+    }
+
+    /* 가로선 */
+    &::after {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        transform: translateY(-50%);
+        width: 17px;
+        height: 2px;
+        background-color: #ebebeb;
+    }
+}
+
+.tree-anchor {
+    margin-left: 0 !important;
+    padding: 3px 0 !important;
+}

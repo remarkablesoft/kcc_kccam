@@ -1,0 +1,414 @@
+/*-------------------------------------------------------------------
+    파일정의 : _market.scss # 마켓 관련
+-------------------------------------------------------------------*/
+/*=== 마켓 메인 ===*/
+.sub-content.market-main {
+    .inner-content {
+        // position: relative;
+        overflow: hidden;
+        padding: 0;
+        background: #f7f7f7;
+
+        + .inner-content {
+            padding: 0;
+            border-top: 0.2rem solid #d0d0d0;
+        }
+
+        // function 영역
+        &:nth-child(2) {
+            .hidden-area,
+            .default-img-area {
+                &::after {
+                    content: "Function";
+                }
+
+                .img-box {
+                    /* 기본 이미지 :: function */
+                    .img {
+                        background: url(../images/contents/market/contents_market_main_02.png) 50% 50% no-repeat;
+                        background-size: cover;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*=== 마켓 슬라이드 ===*/
+.market-slide-item {
+    // 지역변수
+    $areaDefaultPadding: 6rem 5rem;
+    $descrVisibleAreaWidth: 65rem;
+
+    @include flex-item($align: stretch);
+
+    /* img box common width */
+    .img-box {
+        // width: 34.5rem;
+        width: 45rem;
+        background: transparent;
+    }
+
+    /* 설명 영역 */
+    .descr-area {
+        position: relative;
+        @include flex-item($align: stretch, $justify: flex-start);
+        width: $descrVisibleAreaWidth;
+        background: #f7f7f7;
+        transition: 0.5s;
+
+        /* 초기 보여지는 영역 */
+        .visible-area {
+            position: relative;
+            flex: none;
+            width: 100%;
+            padding: $areaDefaultPadding;
+            padding-left: 0;
+
+            .square-dot-list {
+                margin: 1.5rem 0 3.5rem;
+            }
+
+            .btn-arrow {
+                position: absolute;
+                top: 50%;
+                right: -2rem;
+                z-index: 20;
+                transform: translateY(-50%);
+            }
+        }
+
+        /* 숨겨져 있는 영역 */
+        .hidden-area {
+            position: relative;
+            padding: $areaDefaultPadding;
+            background: $primaryColor;
+            transition: 0.3s;
+            // transform: translateX(-75.5rem);
+
+            &::before {
+                display: block;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100%;
+                background: $primaryColor;
+            }
+
+            .img-box {
+                // @include flex-item();
+                display: flex;
+                justify-content: center;
+                height: 100%;
+                min-height: 35rem;
+                padding: 2rem;
+
+                &::after {
+                    display: block;
+                    content: "";
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: -1;
+                    background: rgba(0, 0, 0, 0.46);
+                }
+
+                .scroll-element > div {
+                    max-height: 30.7rem;
+                }
+            }
+
+            .hover-txt-list {
+                // @include flex-item($align: stretch, $justify: flex-start);
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                // height: 100%;
+                margin: auto;
+                // padding: 2rem;
+                z-index: 2;
+
+                li {
+                    width: 50%;
+                    padding: 0.7rem 1rem;
+                    color: #fff;
+
+                    .txt {
+                        display: inline-block;
+                        cursor: pointer;
+
+                        &:hover {
+                            @include defaultTxtHoverEffect($color: #fff);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* 초기 보여지는 오른쪽 이미지 영역 */
+    .default-img-area {
+        position: relative;
+        z-index: 10;
+        padding: $areaDefaultPadding;
+        background: #e1e1e1;
+        transform: translateX(0);
+        transition: 0.5s;
+
+        .img-box {
+            /* 기본 이미지 :: market */
+            .img {
+                transform: translate(-50%, -50%) scale(1.01);
+                background: url(../images/contents/market/contents_market_main_01.png) 50% 50% no-repeat;
+                background-size: cover;
+                opacity: 1 !important;
+            }
+        }
+
+        &::before {
+            display: block;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100%;
+            background: #e1e1e1;
+        }
+    }
+
+    .hidden-area,
+    .default-img-area {
+        &::after {
+            display: block;
+            content: "Market";
+            position: absolute;
+            bottom: -1.3rem;
+            left: 32.5rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 20rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+    }
+
+    /* active */
+    &.active {
+        width: 100%;
+
+        .btn-arrow {
+            .el-button {
+                background: #fff;
+
+                .material-icons {
+                    transform: rotate(180deg);
+                    color: #bababa;
+                }
+
+                &:hover {
+                    transform: translateX(-0.8rem);
+                }
+            }
+        }
+
+        .default-img-area {
+            transform: translateX(300%);
+        }
+    }
+}
+
+/*=== market img list ===*/
+.market-img-list {
+    $listSpace: 1.5rem;
+
+    @include flex-item($align: stretch, $justify: flex-start);
+    flex-wrap: wrap;
+    margin: 0 - #{$listSpace};
+
+    .list-item {
+        width: getWidth(100, 3);
+        padding: 0 #{$listSpace} 2rem;
+
+        .tit {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            cursor: pointer;
+			white-space: nowrap;
+        }
+
+        .img {
+            &-detail-group {
+                position: relative;
+                overflow: hidden;
+                height: 30rem;
+                padding: 0 0 3.4rem;
+                transition: 0.2s;
+
+                /* active */
+                &.active {
+                    padding: 3.4rem 0 0;
+
+                    .detail-box {
+                        top: 0;
+                    }
+
+                    .btn-expand-detail {
+                        background: $primaryColor;
+                        border-top: 0 none;
+                        border-bottom: 0.2rem solid #fff;
+
+                        .material-icons {
+                            transform: rotate(180deg);
+                        }
+
+                        &:hover {
+                            background: #000;
+                        }
+                    }
+                }
+            }
+
+            &-box {
+                height: 100%;
+                cursor: pointer;
+            }
+        }
+
+        .detail {
+            &-box {
+                position: absolute;
+                top: calc(100% - 3.3rem);
+                left: 0;
+                z-index: 10;
+                width: 100%;
+                transition: 0.4s;
+
+                .btn-expand-detail {
+                    @include flex-item();
+                    width: 100%;
+                    height: 3.3rem;
+                    border-top: 0.2rem solid #fff;
+                    background: #000;
+                    color: #fff;
+                    transition: 0.3s;
+
+                    &:hover {
+                        background: $primaryColor;
+                    }
+                }
+            }
+
+            &-content {
+                height: 30.4rem;
+                padding: 1.5rem;
+                background: rgba(0, 0, 0, 0.3);
+
+                .scroll-element {
+                    height: 30rem;
+                }
+            }
+
+            &-list {
+                &.alt {
+                    li {
+                        margin-bottom: 0;
+                    }
+                }
+                li {
+                    margin-bottom: 4rem;
+                    cursor: pointer;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+
+                .txt {
+                    margin: 1rem 0;
+                    padding-left: 1rem;
+                    font-size: 1.5rem;
+                    color: #fff;
+
+                    &:hover {
+                        @include defaultTxtHoverEffect($color: #fff);
+                    }
+                }
+            }
+        }
+    }
+
+    &.no-btn {
+        .list-item {
+            .tit {
+                cursor: initial;
+            }
+
+            .img-detail-group.active {
+                padding: 0;
+                height: 28rem;
+            }
+
+            .scroll-element {
+                height: 22.5rem;
+            }
+        }
+    }
+}
+
+/*=== tablet ===*/
+@mixin market-tablet() {
+    .content-body.market {
+        padding-top: 0 !important;
+    }
+
+    /*=== 마켓 메인 ===*/
+    .sub-content.market-main {
+        .inner-content {
+            background: url(../images/contents/market/contents_market_mob_main_01.png) 50% 50% no-repeat;
+            background-size: cover !important;
+
+            // function 영역
+            &:nth-child(2) {
+                border: 0;
+                background: url(../images/contents/market/contents_market_mob_main_02.png) 50% 50% no-repeat;
+            }
+        }
+    }
+
+    /*=== 마켓 슬라이드 ===*/
+    .market-slide-item {
+        .hidden-area,
+        .btn-arrow,
+        .default-img-area {
+            display: none;
+        }
+
+        .descr-area {
+            width: 100%;
+            background: transparent;
+
+            .visible-area {
+                padding: 4rem 0;
+                color: #fff;
+                text-align: center;
+                font-size: 1.8rem;
+
+                .tit {
+                    font-size: 4rem;
+                    font-weight: 500;
+                }
+
+                .el-button {
+                    height: 6.5rem;
+                    padding: 1rem 1.8rem;
+                    font-size: 2rem;
+                }
+            }
+        }
+    }
+}

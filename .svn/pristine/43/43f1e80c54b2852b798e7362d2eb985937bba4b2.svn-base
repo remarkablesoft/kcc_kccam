@@ -1,0 +1,223 @@
+/*-------------------------------------------------------------------
+    파일정의 : _product.scss # 제품 관련
+-------------------------------------------------------------------*/
+
+/*=== 제품 이미지 목록 ===*/
+.product-img-list {
+    // width: 100%;
+    $titAreaHeight: 4.7rem;
+    $listItemSpace: 2rem;
+
+    @include flex-item($align: stretch, $justify: flex-start);
+    flex-wrap: wrap;
+    margin: 0 -#{$listItemSpace};
+
+    .list-item {
+        width: getWidth();
+        height: 36rem;
+        margin-bottom: $listItemSpace;
+        padding: 0 $listItemSpace;
+
+        .inner {
+            position: relative;
+        }
+
+        .img-box {
+            cursor: pointer;
+        }
+
+        .tit-area {
+            @include flex-item($justify: space-between);
+            @include bb-tit($fontSize: 2.1rem, $fontWeight: 700, $borderColor: $primaryColor);
+            height: $titAreaHeight;
+            margin-bottom: 0;
+            background: #fff;
+
+            .tit,
+            .material-icons {
+                cursor: pointer;
+            }
+
+            .material-icons {
+                font-size: 3rem;
+                color: #a3a3a3;
+                transition: 0.5s;
+            }
+
+            &.active {
+                border-color: #555;
+
+                .material-icons {
+                    transform: rotate(-180deg);
+                    color: #000;
+                }
+            }
+        }
+    }
+
+    .inner-list-box {
+        position: absolute;
+        top: $titAreaHeight;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        height: calc(100% - 4.7rem);
+        background: #fff;
+        transition: 0.3s;
+        border-bottom: 0.2rem solid $defaultGrayBorderColor;
+
+        .scroll-element {
+            height: 31.3rem;
+
+            > div {
+                padding-right: 0 !important;
+            }
+        }
+
+        .inner-list-item {
+            .tit-area {
+                position: static;
+                padding: 1rem;
+                border: 0 none;
+                background: #f7f7f7;
+                font-size: 1.8rem;
+
+                .material-icons {
+                    color: $primaryColor;
+                    transition: 0.3s;
+                }
+
+                &.active {
+                    .material-icons {
+                        transform: rotate(-180deg);
+                        color: #000;
+                    }
+                }
+            }
+
+            + .inner-list-item {
+                border-top: 0.2rem solid $defaultGrayBorderColor;
+            }
+        }
+    }
+
+    .detail-list-box {
+        padding: 0.5rem 3rem;
+        transition: 0.3s;
+
+        .detail-list {
+            li {
+                margin: 0.5rem 0;
+            }
+        }
+    }
+}
+
+/*=== 제품 구분 목록 ===*/
+.classification-list-group {
+    $listItemSpace: 2rem;
+
+    @include flex-item($align: stretch, $justify: flex-start);
+    flex-wrap: wrap;
+    margin: 0 -#{$listItemSpace};
+
+    .group-item {
+        width: getWidth();
+        padding: 0 $listItemSpace;
+
+        .tit {
+            @include bb-tit($fontWeight: 500, $textAlign: left);
+        }
+
+        .inner-list {
+            li {
+                padding: 1rem 1.5rem;
+                border-bottom: 0.2rem solid $defaultGrayBorderColor;
+                font-size: 1.7rem;
+            }
+        }
+    }
+}
+
+/*=== 제품 카탈로그 목록 ===*/
+.catalog-img-list {
+    @include flex-item($align: stretch, $justify: flex-start);
+    flex-wrap: wrap;
+    margin-top: 2rem;
+
+    .list-item {
+        width: getWidth(100, 4);
+        padding: 0 3rem 3rem;
+
+        .img-box {
+            width: 100%;
+            height: 30rem;
+
+            &-wrap {
+                position: relative;
+
+                .el-button {
+                    position: absolute;
+                    right: 1rem;
+                    bottom: -1rem;
+                    z-index: 10;
+                }
+            }
+
+            .img {
+                min-width: auto;
+                min-height: auto;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+
+        .tit {
+            margin: 1.5rem 0;
+            font-weight: 500;
+        }
+
+        .date {
+            font-size: 1.4rem;
+            text-align: right;
+        }
+    }
+}
+
+/*=== tablet ===*/
+@mixin product-tablet() {
+    /*=== 제품 구분 목록 ===*/
+    .classification-list-group {
+        margin: 0;
+
+        .group-item {
+            padding: 0 1rem;
+        }
+    }
+
+    div.product-img-list {
+        $listItemSpace: 1.5rem;
+        margin: 0 -#{$listItemSpace};
+
+        .list-item {
+            margin-bottom: $listItemSpace;
+            padding: 0 $listItemSpace;
+        }
+    }
+    /*=== 제품 카탈로그 목록 ===*/
+    // div.catalog-img-list {
+    //     > .list-item {
+    //         @include responsiveWidth3();
+    //     }
+    // }
+}
+
+/*=== mobile ===*/
+// @mixin product-mobile() {
+//     /*=== 제품 카탈로그 목록 ===*/
+//     div.catalog-img-list {
+//         > .list-item {
+//             @include responsiveWidth2();
+//         }
+//     }
+// }

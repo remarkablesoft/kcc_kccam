@@ -1,0 +1,602 @@
+/*-------------------------------------------------------------------
+    파일정의 : _header.scss # 헤더
+-------------------------------------------------------------------*/
+
+/* 헤더 */
+
+.header {
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+    height: $headerHeight;
+    // padding: 0.5rem 0;
+    transition: 0.5s;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    .menu-area {
+        @include flex-item($justify: flex-start);
+        @include w-margin-auto();
+        height: 100%;
+        // padding-top: 1rem;
+    }
+
+    .logo {
+        cursor: pointer;
+
+        a {
+            display: flex;
+        }
+
+        img {
+            height: 2.8rem;
+        }
+    }
+
+    &.active {
+        background: #fff;
+
+        .main-menu-link {
+            color: #000;
+        }
+
+        .btn-search {
+            .custom-icon-search {
+                color: $primaryColor;
+            }
+        }
+
+        .gnb-sub-menu {
+            background: #f5f5f5;
+            .list-item {
+                .sub-menu-link {
+                    color: #171717;
+                }
+                &:hover,
+                &.active {
+                    .sub-menu-link {
+                        color: $primaryColor;
+                    }
+                }
+                &:hover {
+                    // .detail-menu-box {
+                    //     box-shadow: 0.3rem 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.16);
+                    // }
+                }
+            }
+        }
+
+        /* 언어 선택 */
+        .el-select {
+            // input
+            &-lang {
+                .el-input__inner {
+                    background-color: #000;
+                }
+            }
+        }
+
+        .btn-sitemap {
+            background-color: #000 !important;
+        }
+    }
+
+    &.sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        border-bottom: 0.2rem solid $defaultGrayBorderColor;
+        .main-menu-link {
+            color: #000;
+        }
+        .btn-search {
+            .custom-icon-search {
+                color: $primaryColor;
+            }
+        }
+        .gnb-sub-menu {
+            background: #f5f5f5;
+            .list-item {
+                .sub-menu-link {
+                    color: #171717;
+                }
+                &:hover,
+                &.active {
+                    .sub-menu-link {
+                        color: $primaryColor;
+                    }
+                }
+                &:hover {
+                    // .detail-menu-box {
+                    //     box-shadow: 0.3rem 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.16);
+                    // }
+                }
+            }
+        }
+        + .content-section {
+            margin-top: 0;
+        }
+
+        /* 언어 선택 */
+        .el-select {
+            // input
+            &-lang {
+                .el-input__inner {
+                    background-color: #000;
+                }
+            }
+        }
+
+        .btn-sitemap {
+            background-color: #000 !important;
+        }
+    }
+
+    .btn-sitemap {
+        background-color: rgba(255, 255, 255, 0.19) !important;
+        border: 0 none !important;
+    }
+}
+
+/* 언어 선택 */
+.el-select {
+    // input
+    &-lang {
+        width: 8.5rem !important;
+
+        .el-input__inner {
+            padding: 0 2rem !important;
+            background-color: rgba(255, 255, 255, 0.19);
+            border: 0 none;
+            color: #fff;
+            border-radius: 3rem;
+
+            &::-webkit-input-placeholder {
+                color: #fff;
+            }
+
+            &::-moz-placeholder {
+                color: #fff;
+            }
+
+            &:-ms-input-placeholder {
+                color: #fff;
+            }
+
+            &::placeholder {
+                color: #fff;
+            }
+        }
+
+        .el-input__suffix {
+            right: 1rem;
+        }
+
+        .el-select__caret {
+            color: #fff !important;
+        }
+
+        .el-icon-arrow-up:before {
+            content: "\e78f";
+        }
+
+        .el-icon-arrow-down:before {
+            content: "\e790";
+        }
+    }
+
+    // dropdown
+    &-lang-popper {
+        background: #000;
+        border: 0 none;
+        text-align: center;
+        border-radius: 2rem;
+        overflow: hidden;
+        box-shadow: none;
+
+        .popper__arrow {
+            display: none;
+        }
+
+        &[x-placement^="bottom"] {
+            margin-top: 7px;
+        }
+
+        .el-select-dropdown__list {
+            padding: 0;
+            // overflow: hidden;
+        }
+
+        .el-select-dropdown__item {
+            height: 3.8rem;
+            line-height: 3.8rem;
+            color: #fff;
+        }
+
+        .el-select-dropdown__item.hover {
+            background: #fff;
+            color: $primaryColor;
+        }
+
+        .el-select-dropdown__item.selected {
+            background: $primaryColor;
+            color: #fff;
+            font-weight: 500;
+        }
+    }
+}
+
+/* 통합검색창 */
+.top-search-area {
+    display: none;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    .search-box {
+        @include w-margin-auto($width: 53rem);
+        border: 0 none;
+    }
+    .icon {
+        font-size: 2.6rem;
+        color: #808080;
+    }
+    .btn-close-search .icon {
+        font-size: 3rem;
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
+/* 빠른 링크 */
+
+.quick-link-box {
+    @include w-margin-auto($width: 53rem);
+    padding: 1rem;
+    box-shadow: 0.4rem 0.6rem 1.38rem 0.12rem rgba(0, 0, 0, 0.28);
+    border-radius: 0 0 2rem 2rem;
+    background: #fff;
+}
+
+.quick-link-list {
+    > li {
+        margin: 0.5rem 1.5rem;
+        > a {
+            display: inline-block;
+            font-size: 1.4rem;
+            &:hover {
+                color: $primaryColor;
+            }
+        }
+    }
+}
+
+/* 검색창 관련 애니메이션 */
+
+// ----------------------------
+// ANIMATIONS
+// ----------------------------
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes specialFadeIn {
+    from {
+        opacity: 0;
+        // transform: scale(0.8); // sub menu 보여주는 hover가 바로 작동하면 깨져보여서 일단 주석처리.
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes specialFadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(10%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes specialFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+// @keyframes specialSlideInRight {
+// from {
+//     transform: translate3d(10%, 0, 0);
+//     visibility: visible;
+// }
+// to {
+//     transform: translate3d(0, 0, 0);
+// }
+// }
+
+/* 검색창 보일 때 */
+
+.header.is-search {
+    .menu-area {
+        @include animation($animationName: specialFadeOut, $animationDelay: 600ms, $animationDuration: 400ms);
+    }
+    .logo {
+        @include animation($animationName: specialFadeOut, $animationDelay: 240ms, $animationDuration: 400ms);
+    }
+    .gnb-menu {
+        > li {
+            &:nth-child(1) {
+                @include animation($animationName: specialFadeOut, $animationDelay: 210ms, $animationDuration: 400ms);
+            }
+            &:nth-child(2) {
+                @include animation($animationName: specialFadeOut, $animationDelay: 170ms, $animationDuration: 400ms);
+            }
+            &:nth-child(3) {
+                @include animation($animationName: specialFadeOut, $animationDelay: 130ms, $animationDuration: 400ms);
+            }
+            &:nth-child(4) {
+                @include animation($animationName: specialFadeOut, $animationDelay: 100ms, $animationDuration: 400ms);
+            }
+            &:nth-child(5) {
+                @include animation($animationName: specialFadeOut, $animationDelay: 70ms, $animationDuration: 400ms);
+            }
+        }
+    }
+    .btn-search {
+        @include animation($animationName: specialFadeOut, $animationDelay: 40ms, $animationDuration: 400ms);
+    }
+    .el-select-lang {
+        @include animation($animationName: specialFadeOut, $animationDelay: 20ms, $animationDuration: 400ms);
+    }
+    .btn-sitemap {
+        @include animation($animationName: specialFadeOut, $animationDelay: 10ms, $animationDuration: 400ms);
+    }
+    .top-search-area {
+        display: block;
+        @include animation($animationName: fadeIn, $animationDelay: 600ms, $animationDuration: 400ms);
+        .search-box {
+            @include animation($animationName: specialFadeInRight, $animationDelay: 700ms, $animationDuration: 400ms);
+        }
+        .quick-link-box {
+            .label {
+                @include animation(
+                    $animationName: specialFadeInRight,
+                    $animationDelay: 730ms,
+                    $animationDuration: 500ms
+                );
+            }
+            .quick-link-list {
+                > li {
+                    &:nth-child(1) {
+                        @include animation(
+                            $animationName: specialFadeInRight,
+                            $animationDelay: 760ms,
+                            $animationDuration: 500ms
+                        );
+                    }
+                    &:nth-child(2) {
+                        @include animation(
+                            $animationName: specialFadeInRight,
+                            $animationDelay: 790ms,
+                            $animationDuration: 500ms
+                        );
+                    }
+                    &:nth-child(3) {
+                        @include animation(
+                            $animationName: specialFadeInRight,
+                            $animationDelay: 810ms,
+                            $animationDuration: 500ms
+                        );
+                    }
+                    &:nth-child(4) {
+                        @include animation(
+                            $animationName: specialFadeInRight,
+                            $animationDelay: 840ms,
+                            $animationDuration: 500ms
+                        );
+                    }
+                    &:nth-child(5) {
+                        @include animation(
+                            $animationName: specialFadeInRight,
+                            $animationDelay: 870ms,
+                            $animationDuration: 500ms
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 메뉴 보일 때 */
+
+.header.is-menu {
+    .logo {
+        @include animation($animationName: specialFadeIn, $animationDelay: 30ms, $animationDuration: 400ms);
+    }
+    .gnb-menu {
+        > li {
+            &:nth-child(1) {
+                @include animation($animationName: specialFadeIn, $animationDelay: 70ms, $animationDuration: 400ms);
+            }
+            &:nth-child(2) {
+                @include animation($animationName: specialFadeIn, $animationDelay: 100ms, $animationDuration: 400ms);
+            }
+            &:nth-child(3) {
+                @include animation($animationName: specialFadeIn, $animationDelay: 130ms, $animationDuration: 400ms);
+            }
+            &:nth-child(4) {
+                @include animation($animationName: specialFadeIn, $animationDelay: 160ms, $animationDuration: 400ms);
+            }
+            &:nth-child(5) {
+                @include animation($animationName: specialFadeIn, $animationDelay: 190ms, $animationDuration: 400ms);
+            }
+        }
+    }
+    .btn-search {
+        @include animation($animationName: specialFadeIn, $animationDelay: 210ms, $animationDuration: 400ms);
+    }
+    .el-select-lang {
+        @include animation($animationName: specialFadeIn, $animationDelay: 240ms, $animationDuration: 400ms);
+    }
+    .btn-sitemap {
+        @include animation($animationName: specialFadeIn, $animationDelay: 270ms, $animationDuration: 400ms);
+    }
+    .top-search-area {
+        display: none;
+    }
+}
+
+/*=== tablet ===*/
+
+@mixin header-tablet() {
+    .header {
+        /* 메뉴 */
+        .menu-area {
+            @include responsiveTabletDefaultPadding();
+            padding: 0 2rem;
+
+            .btn-area {
+                margin-left: auto;
+
+                .btn-sitemap {
+                    overflow: hidden;
+                    width: 4rem;
+                    margin: 0 -1rem 0 0.4rem;
+                    padding: 0;
+                    background: transparent !important;
+
+                    > span {
+                        justify-content: flex-start;
+                    }
+                    .material-icons {
+                        font-size: 3.5rem;
+                    }
+                    .txt {
+                        display: none;
+                    }
+                }
+            }
+        }
+        &.sticky .btn-sitemap .material-icons {
+            color: $primaryColor;
+        }
+    }
+    .search-box,
+    .quick-link-box {
+        width: 100%;
+    }
+    /* 통합검색창 */
+    .top-search-area {
+        $searchBoxMinusWidth: 4rem;
+        position: fixed;
+        overflow: hidden;
+        background: #000;
+        padding: 2rem;
+        .search-box {
+            position: relative;
+            width: calc(100% - 5rem);
+            height: 5.5rem;
+            margin: 0;
+            padding-left: 1rem;
+            background: #333;
+            border-radius: 1.2rem;
+            .el-input__inner {
+                color: #fff;
+                &::-webkit-input-placeholder {
+                    color: #fff !important;
+                }
+                &::-moz-placeholder {
+                    color: #fff !important;
+                }
+                &:-ms-input-placeholder {
+                    color: #fff !important;
+                }
+                &::placeholder {
+                    color: #fff !important;
+                }
+            }
+            .btn-close-search {
+                position: absolute;
+                right: -5rem;
+                .material-icons {
+                    font-size: 4rem;
+                }
+            }
+            .icon {
+                color: #fff;
+            }
+        }
+        .icon {
+            font-size: 2.6rem;
+            color: #808080;
+        }
+        .btn-close-search .icon {
+            font-size: 3rem;
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+    /* 빠른 링크 */
+    .quick-link-box {
+        margin-top: 1.5rem;
+        background: transparent;
+        box-shadow: none;
+        .label {
+            padding: 0.3rem 1.3rem;
+            background: $primaryColor;
+            font-size: 1.8rem;
+        }
+        .mob-scroll-area {
+            max-height: calc(100vh - 16rem);
+            overflow-y: scroll;
+        }
+    }
+    /* 빠른 링크 */
+    .quick-link-list {
+        margin-top: 1rem;
+        > li {
+            margin: 0;
+            > a {
+                display: block;
+                padding: 1.5rem 0 1rem;
+                border-bottom: 0.2rem solid #464646;
+                color: #cacaca;
+                font-size: 1.8rem;
+            }
+        }
+    }
+}
+
+/*=== mobile ===*/
+
+@mixin header-mobile() {
+    .header .logo img {
+        height: 2.1rem;
+    }
+}

@@ -1,0 +1,165 @@
+/*-------------------------------------------------------------------
+    파일정의 : _container.scss # 컨테이너
+-------------------------------------------------------------------*/
+
+html,
+body,
+#__nuxt,
+#__layout,
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* 주 컨테이너 */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* overflow-x: hidden; */
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    /* padding-bottom: 8rem; */
+}
+
+/* 기본 넓이 */
+.default-w {
+    @include w-margin-auto();
+}
+
+/* floating btn */
+.floating-btn {
+    // display: none;
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    z-index: 200;
+
+    &.btn-open {
+        bottom: 11rem;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 6.4rem;
+        height: 6.4rem;
+        background: $primaryColor;
+        border-radius: 50%;
+        box-shadow: 0.3rem 0.5rem 1.656rem 0.144rem rgba(0, 0, 0, 0.2);
+
+        .material-icons {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        &-top {
+            background: #fff;
+
+            .material-icons {
+                font-size: 4rem;
+                color: #959595;
+                transform: rotate(-90deg);
+            }
+        }
+    }
+}
+
+/* fade transition */
+.fade {
+    &-enter-active,
+    &-leave-active {
+        transition: opacity 0.5s;
+    }
+
+    &-enter, &-leave-to /* .fade-leave-active in <2.1.8 */ {
+        opacity: 0;
+    }
+}
+
+/*=== notice-banner ===*/
+.notice-banner {
+    background: #363636;
+    color: #fff;
+
+    .inner {
+        @include flex-item($justify: space-between);
+        padding: 2rem;
+    }
+
+    .tit-area {
+        @include flex-item($justify: flex-start);
+        font-size: 1.8rem;
+
+        .icon {
+            display: inline-block;
+            width: 3.8rem;
+            height: 3.8rem;
+            margin-right: 2rem;
+            background: url(../images/icon/icon_notice.png) 50% 50% no-repeat;
+            background-size: cover;
+        }
+    }
+
+    .info-area {
+        margin: 0 1rem;
+    }
+
+    .txt {
+        font-size: 1.5rem;
+    }
+
+    .btn-close {
+        .material-icons {
+            font-size: 3rem;
+        }
+    }
+}
+
+.web-visible {
+    display: block;
+}
+.mob-visible {
+    display: none !important;
+}
+
+@mixin container-tablet() {
+    .web-visible {
+        display: none !important;
+    }
+
+    .mob-visible {
+        display: block !important;
+    }
+
+    .default-w {
+        @include responsiveTabletDefaultPadding();
+    }
+
+    /*=== notice-banner ===*/
+    .notice-banner {
+        .inner {
+            flex-wrap: wrap;
+        }
+
+        .info-area {
+            width: 100%;
+            margin: 1rem 0 0;
+        }
+
+        .btn-area {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+    }
+}
+
+@mixin container-mobile() {
+    .default-w {
+        @include responsiveMobileDefaultPadding();
+    }
+}

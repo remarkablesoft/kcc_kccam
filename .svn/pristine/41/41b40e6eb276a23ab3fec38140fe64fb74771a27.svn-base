@@ -1,0 +1,418 @@
+/*-------------------------------------------------------------------
+    파일정의 : _buttons.scss # 버튼
+-------------------------------------------------------------------*/
+button:focus {
+    outline: none !important;
+}
+
+.el-button {
+    // el-button 자체는 모양으로 사용하지 않음 :: hover가 너무 겹쳐서.. 기본형 스타일은 default 클래스 붙은 것에 지정.
+    padding: 1.2rem 2rem;
+    font-size: 1.4rem;
+    transition: 0.3s;
+    border-radius: 0.6rem;
+
+    > span {
+        @include flex-item();
+        height: 100%;
+
+        span + span {
+            margin-left: 0.5em;
+        }
+    }
+
+    + .el-button {
+        margin-left: 1rem;
+    }
+
+    &:hover,
+    &:focus,
+    &.active {
+        background-color: #fff;
+        border-color: transparent;
+        // color: $primaryColor;
+    }
+
+    /* fill-bg-color */
+    &--primary {
+        background: $primaryColor;
+        border-color: $primaryColor !important;
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: rgba(85, 81, 247, 0.8);
+        }
+    }
+
+    &--secondary {
+        background-color: $secondaryColor;
+        border-color: $secondaryColor !important;
+        color: $primaryColor !important;
+
+        &:hover,
+        &:focus,
+        &.active {
+            background-color: $primaryColorOpacity2;
+        }
+    }
+
+    &--black {
+        background: #000;
+        border-color: #000 !important;
+        color: #fff !important;
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: rgba(0, 0, 0, 0.7);
+        }
+    }
+
+    &--lgray {
+        background: #f7f7f7;
+        border-color: #f7f7f7 !important;
+        color: #515151;
+
+        &:hover,
+        &:focus,
+        &.active {
+            // background: rgba(247, 247, 247, 0.5);
+            background: $primaryColor;
+            color: #fff;
+        }
+    }
+
+    &--default {
+        /* 기본형 */
+        border-color: #d7d7d7;
+        border-width: 2px; // px로 고정
+
+        &:hover,
+        &:focus,
+        &.active {
+            // background: rgba(0, 0, 0, 0.7);
+            border-color: $primaryColor;
+            color: $primaryColor;
+        }
+    }
+
+    /* stroke */
+    &--st {
+        background: transparent;
+        border-width: 0.2rem;
+    }
+
+    &.st-primary {
+        border-color: $primaryColor;
+        color: $primaryColor !important;
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: $primaryColorOpacity2;
+        }
+    }
+
+    &.st-white {
+        border-color: #fff;
+        color: #fff !important;
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+		&-em {
+			color: #fff !important;
+			border: {
+				width: 2px;
+				color: #fff;
+				style: solid;
+			}
+
+			&:hover,
+			&:focus,
+			&.active {
+				color: #fff !important;
+				background: rgba(255, 255, 255, 0.2);
+			}
+		}
+    }
+
+    &.st-gray {
+        border-color: #e1e1e1;
+        color: #575757;
+
+        span[class^="material-icons"] {
+            color: #9c9c9c;
+        }
+
+        &:hover,
+        &:focus,
+        &.active {
+            border-color: $primaryColor;
+            color: $primaryColor;
+
+            span[class^="material-icons"] {
+                color: $primaryColor;
+            }
+        }
+    }
+
+    /* txt only */
+    &--txt-only {
+        padding: 0;
+        background: transparent;
+        border: 0 none;
+        font-size: 1.5rem;
+        font-weight: 500;
+
+        &.primary {
+            color: $primaryColor;
+        }
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: transparent;
+            color: $primaryColor !important;
+        }
+    }
+
+    /* icon only */
+    &--icon-only {
+        min-height: 3rem;
+        padding: 0;
+        background: transparent;
+        border: 0 none;
+        font-size: 2.6rem;
+
+        &.white {
+            color: #fff;
+        }
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: transparent;
+            color: $primaryColor !important;
+        }
+
+        &.sm {
+            span[class^="material-icons"] {
+                font-size: 1.6rem;
+            }
+        }
+
+        &.lg {
+            span[class^="material-icons"] {
+                font-size: 3rem;
+            }
+        }
+    }
+
+    /* 동그란 화살표 버튼 */
+    &--circle-arrow {
+        width: 6.3rem;
+        height: 6.3rem;
+        padding: 0;
+        border-radius: 50%;
+        background: $primaryColor;
+        box-shadow: 0.3rem 0.5rem 1.4rem 0.09rem rgba(0, 0, 0, 0.12);
+
+        .material-icons {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        &:hover {
+            transform: translateX(0.81rem);
+            background: $primaryColor;
+        }
+
+        &:focus {
+            background: $primaryColor;
+        }
+
+        &.active {
+            background: #fff;
+
+            .material-icons {
+                transform: rotate(180deg);
+                color: #bababa;
+            }
+
+            &:hover {
+                transform: translateX(-0.8rem);
+            }
+        }
+    }
+
+    /* shape, size */
+    &--circle {
+        width: 3.7rem;
+        height: 3.7rem;
+        padding: 0.1rem;
+        border-radius: 50%;
+
+        .material-icons {
+            font-size: 2.1rem;
+        }
+    }
+
+    &.is-round {
+        border-radius: 3rem;
+        padding: 0.5rem 1.5rem;
+    }
+
+    // 텍스트 + icon 인데 텍스트 앞으로 여백이 더 들어가야 할 때
+    &.is-round-alt {
+        border-radius: 3rem;
+        padding: 0.5rem 1.5rem 0.5rem 2.5rem;
+    }
+
+    &--xsmall {
+        height: 2.8rem;
+        padding: 0 1rem;
+        font-size: 1.3rem;
+
+        &.is-round {
+            min-width: 5.5rem;
+            padding: 0.3rem 1rem;
+        }
+    }
+
+    &--small {
+        height: 3.4rem;
+
+        &.is-round {
+            padding: 0.5rem 1rem;
+        }
+    }
+
+    &--medium {
+        height: 4rem;
+        padding: 0.4rem 1.2rem;
+    }
+
+    &--large {
+        height: 5.2rem;
+        padding: 1rem 1.8rem;
+        font-size: 1.5rem;
+
+        &.bar {
+            width: 100%;
+        }
+    }
+
+    &--xlarge {
+        min-width: 18.5rem;
+        height: 5.6rem;
+        padding: 1rem 1.8rem;
+        font-size: 1.6rem;
+    }
+
+    &.bar,
+    &.bar.is-round {
+        padding: 0.5rem 2.8rem;
+    }
+
+    /* 아이콘 사이즈 때문에 버튼 패딩 안맞을 때 */
+    &.is-arrow-icon {
+        .material-icons {
+            margin-left: 0 !important;
+            margin-right: -0.5rem !important;
+        }
+    }
+
+    &.is-shadow-primary {
+        box-shadow: 0.4rem 0.6rem 1.38rem 0.12rem rgba(85, 81, 247, 0.3);
+    }
+}
+
+/* el-button 외 btn */
+.btn {
+    &-wrap {
+        @include flex-item();
+
+        &.top {
+            margin-bottom: 1rem;
+        }
+
+        &.bottom {
+            margin-top: 1rem;
+        }
+
+        &.right {
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        &.center {
+            text-align: center;
+            justify-content: center;
+        }
+    }
+
+    /* special :: hidden text */
+    &-circle-special {
+        @include flex-item();
+        width: 4.7rem;
+        height: 4.7rem;
+        padding: 0;
+        background: transparent;
+        border: 0.2rem solid transparent;
+        border-radius: 50%;
+        box-shadow: 0.3rem 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+
+        .txt-box {
+            @include flex-item();
+            max-width: 0;
+            height: 4.7rem;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #828282;
+        }
+
+        .material-icons {
+            margin-left: 0;
+            font-size: 2rem;
+            // font-weight: 400;
+            background: $primaryColor;
+            padding: 1.3rem;
+            border-radius: 50%;
+            color: #fff;
+        }
+
+        &:hover {
+            width: auto;
+            background: #fff;
+            border-color: $defaultGrayBorderColor;
+            padding-left: 2rem;
+            border-radius: 3rem;
+
+            .txt-box {
+                overflow: visible;
+                max-width: 100%;
+                padding-right: 1rem;
+            }
+        }
+    }
+}
+
+/* */
+.th-is-right-btn {
+    position: relative;
+    height: 100%;
+    padding: 0.3rem 11rem;
+
+    .btn-wrap {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+    }
+}

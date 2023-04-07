@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.mgnt.config.model.impl.EnvConfigDAO">
+
+
+	<sql id="column">
+		  ENV_KEY			envKey
+		  , ENV_VALUE		envValue
+	</sql>
+
+
+   <sql id="searchCnd">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(envKey)"> AND ENV_KEY LIKE '%' || #{envKey} || '%' </if>
+	</sql>
+
+
+	<select id="exist" resultType="java.lang.Integer" parameterType="com.remarkablesoft.framework.service.mgnt.config.vo.EnvConfigInfo">
+		/* com.remarkablesoft.framework.service.mgnt.config.model.impl.EnvConfigDAO.exist(EnvConfigInfo) || ’이균환’ || ’2019-12-15’ */
+		SELECT COUNT(*)
+		FROM TB_ENV_CONFIG
+		WHERE 1=1
+		   AND ENV_KEY = #{envKey}
+	</select>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.mgnt.config.vo.EnvConfigInfo">
+		/* com.remarkablesoft.framework.service.mgnt.config.model.impl.ConfigDAO.insert(ConfigInfo) || ’이균환’ || ’2018-06-07’ */
+		INSERT INTO TB_ENV_CONFIG (
+			   ENV_KEY ,
+		       ENV_VALUE
+		) VALUES (
+		       #{envKey} ,
+		       #{envValue}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.mgnt.config.vo.EnvConfigInfo">
+		/* com.remarkablesoft.framework.service.mgnt.config.model.impl.ConfigDAO.update(ConfigInfo) || ’이균환’ || ’2018-06-07’ */
+		UPDATE TB_ENV_CONFIG
+		   SET ENV_VALUE = #{envValue}
+		WHERE
+			ENV_KEY = #{envKey}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		/* com.remarkablesoft.framework.service.mgnt.config.model.impl.ConfigDAO.delete(String) || ’이균환’ || ’2018-06-07’ */
+		DELETE
+		FROM TB_ENV_CONFIG
+		WHERE 1 = 1
+			ENV_KEY = #{envKey}
+	</delete>
+
+	<select id="get" parameterType="string" resultType="com.remarkablesoft.framework.service.mgnt.config.vo.EnvConfigInfo">
+		/* com.remarkablesoft.framework.service.mgnt.config.model.impl.ConfigDAO.get(String) || ’이균환’ || ’2018-06-07’ */
+		SELECT
+			<include refid="column"/>
+		FROM TB_ENV_CONFIG
+		WHERE
+			ENV_KEY = #{envKey}
+	</select>
+
+	<select id="listAll"  resultType="com.remarkablesoft.framework.service.mgnt.config.vo.EnvConfigInfo">
+		/* com.remarkablesoft.framework.service.mgnt.config.model.impl.ConfigDAO.listAll() || ’이균환’ || ’2018-06-07’ */
+		SELECT
+			<include refid="column"/>
+		FROM TB_ENV_CONFIG
+	</select>
+
+
+
+</mapper>

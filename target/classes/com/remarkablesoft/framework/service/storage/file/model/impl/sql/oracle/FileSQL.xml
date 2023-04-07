@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.storage.file.model.impl.FileDAO">
+
+	<sql id="fileColumn">
+		   OID oid
+	     , STORAGE_FILE_UID storageFileUid
+	     , FILE_TYPE fileType
+	     , TARGET_OBJECT targetObject
+	     , TARGET_OID targetOid
+	     
+	     , CONTAINER_OID containerOid
+		 , FILE_NAME fileName
+		 , FILE_SIZE fileSize
+		 , FILE_EXT fileExt
+		 , FILE_URL fileUrl
+		 
+		 , USE_YN useYn
+		 , THUMB_YN thumbYn
+		 , INPUT_USER inputUser
+		 , INPUT_DATE inputDate
+		 , ORDER_NO orderNo
+		 
+		 , CUSTOM_FIELD1 customField1
+		 , CUSTOM_FIELD2 customField2
+		 , CUSTOM_FIELD3 customField3
+		 , CUSTOM_FIELD4 customField4
+		 , CUSTOM_FIELD5 customField5
+	</sql>
+
+
+	<sql id="searchCnd">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetObject)"> AND TARGET_OBJECT = #{targetObject} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetOid)"> AND TARGET_OID = #{targetOid} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fileType)"> AND FILE_TYPE = #{fileType} </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(containerOid)"> AND CONTAINER_OID = #{containerOid} </if>
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(storageFileUid)"> AND STORAGE_FILE_UID = #{storageFileUid} </if>
+             
+            <if test="fileSize > 0"> AND FILE_SIZE = #{fileSize} </if>
+            <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(fileName)"> AND FILE_NAME = #{fileName} </if>
+
+			<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(targetOidList)">
+				AND TARGET_OID IN
+				<foreach item="targetOid" index="index" collection="targetOidList" open="(" close=")" separator=",">
+			 			 #{targetOid}
+		    	</foreach>
+			</if>
+			
+			<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(storageFileUidList)">
+				AND STORAGE_FILE_UID IN
+				<foreach item="storageFileUid" index="index" collection="storageFileUidList" open="(" close=")" separator=",">
+			 			 #{storageFileUid}
+		    	</foreach>
+			</if>
+	</sql>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.storage.file.vo.FileInfo">
+		INSERT INTO TS02_TB_FILE (
+			   OID
+		     , STORAGE_FILE_UID
+		     , TARGET_OBJECT
+		     , TARGET_OID
+		     , CONTAINER_OID
+
+			 , FILE_NAME
+			 , FILE_SIZE
+			 , FILE_EXT
+			 , FILE_TYPE
+			 , FILE_URL
+			
+			 , USE_YN	
+			 , THUMB_YN
+			 , INPUT_USER
+			 , INPUT_DATE
+			 , ORDER_NO
+			 
+			 , CUSTOM_FIELD1 
+			 , CUSTOM_FIELD2
+			 , CUSTOM_FIELD3
+			 , CUSTOM_FIELD4
+			 , CUSTOM_FIELD5
+		) VALUES (
+		       #{oid}
+		     , #{storageFileUid}
+		     , #{targetObject}
+		     , #{targetOid}
+		     , #{containerOid}
+
+			 , #{fileName}
+			 , #{fileSize}
+			 , #{fileExt}
+			 , #{fileType}
+			 , #{fileUrl}
+			 
+			 , #{useYn}
+			 , #{thumbYn}
+			 , #{inputUser}
+			 , #{inputDate}
+			 , #{orderNo}
+			 
+			 , #{customField1}
+			 , #{customField2}
+			 , #{customField3}
+			 , #{customField4}
+			 , #{customField5}
+		)
+	</insert>
+
+
+	<select id="getByCnd" parameterType="com.remarkablesoft.framework.service.storage.file.vo.FileCnd" resultType="com.remarkablesoft.framework.service.storage.file.vo.FileInfo">
+		 SELECT
+		 		<include refid="fileColumn"/>
+		 FROM TS02_TB_FILE
+		 WHERE 1=1
+		 	<include refid="searchCnd"/>
+		 	AND ROWNUM = 1
+		 ORDER BY INPUT_DATE DESC
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.storage.file.vo.FileCnd" resultType="com.remarkablesoft.framework.service.storage.file.vo.FileInfo">
+		 SELECT
+		 		<include refid="fileColumn"/>
+		 FROM TS02_TB_FILE
+		 WHERE  1 = 1
+		 	<include refid="searchCnd"/>
+		 ORDER BY 
+		 ORDER_NO , INPUT_DATE
+	</select>
+
+	<delete id="deleteByCnd" parameterType="com.remarkablesoft.framework.service.storage.file.vo.FileCnd">
+		DELETE
+		FROM TS02_TB_FILE
+		WHERE 1 = 1
+			<include refid="searchCnd"/>
+	</delete>
+	
+	<select id="exist" parameterType="com.remarkablesoft.framework.service.storage.file.vo.FileCnd" resultType="int">
+		SELECT COUNT(OID)
+		FROM TS02_TB_FILE
+		WHERE 1=1
+		<include refid="searchCnd"/>
+	</select>
+	
+</mapper>	

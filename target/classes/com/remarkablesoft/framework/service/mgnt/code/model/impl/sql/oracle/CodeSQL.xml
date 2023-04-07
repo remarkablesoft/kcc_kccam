@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO">
+
+	<sql id="itemColumn">
+		  OID					oid
+		, CODE					code
+		, CODE_NAME				codeName
+		, CODE_VALUE			codeValue
+		, CODE_LEVEL			codeLevel
+
+		, PARENT_CODE			parentCode
+		, CODE_TYPE				codeType
+		, USE_YN				useYn
+		, DELETE_YN				deleteYn
+		, ORDER_NO 				orderNo
+
+		, CUSTOM_FIELD1 		customField1
+		, CUSTOM_FIELD2 		customField2
+		, CUSTOM_FIELD3 		customField3
+		, CUSTOM_FIELD4 		customField4
+		, CUSTOM_FIELD5 		customField5
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(code)"> AND CODE = #{code} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeSearch)"> AND CODE LIKE  #{codeSearch} || '%' </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeName)"> AND CODE_NAME = #{codeName} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeValue)"> AND CODE_VALUE = #{codeValue} </if>
+
+		<if test="codeLevel gt -1"> AND CODE_LEVEL = #{codeLevel} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentCode)"> AND PARENT_CODE = #{parentCode} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeType)"> AND CODE_TYPE = #{codeType} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND USE_YN = #{useYn} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(deleteYn)"> AND DELETE_YN = #{deleteYn} </if>
+
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> CUSTOM_FIELD4 = #{customField4}, </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> CUSTOM_FIELD5 = #{customField5}, </if>
+
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(itemTypeList)">
+			AND CODE_NAME IN
+			<foreach collection="itemTypeList" item="codeName" open="(" separator="," close=")">
+				#{codeName}
+			</foreach>
+		</if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(codeList)">
+			AND CODE IN
+			<foreach collection="codeList" item="code" open="(" separator="," close=")">
+				#{code}
+			</foreach>
+		</if>
+		<if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+			AND OID IN
+			<foreach collection="oidList" item="oid" open="(" separator="," close=")">
+				#{oid}
+			</foreach>
+		</if>
+	</sql>
+
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.insert(ItemCodeInfo) || '최원준' || '2019-01-23' */
+		INSERT INTO TS02_TB_CODE
+		(
+			OID
+			, CODE
+			, CODE_NAME
+			, CODE_VALUE
+			, CODE_LEVEL
+
+			, PARENT_CODE
+			, CODE_TYPE
+			, USE_YN
+			, DELETE_YN
+			, ORDER_NO
+
+			, CUSTOM_FIELD1
+			, CUSTOM_FIELD2
+			, CUSTOM_FIELD3
+			, CUSTOM_FIELD4
+			, CUSTOM_FIELD5
+		)
+		VALUES
+		(
+			#{oid}
+			, #{code}
+			, #{codeName}
+			, #{codeValue}
+			, #{codeLevel}
+
+			, #{parentCode}
+			, #{codeType}
+			, #{useYn}
+			, #{deleteYn}
+			, #{orderNo}
+
+			, #{customField1}
+			, #{customField2}
+			, #{customField3}
+			, #{customField4}
+			, #{customField5}
+		)
+	</insert>
+
+
+	<insert id="insertBulk" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.insertBulk(List) || '이균환' || '2019-10-03' */
+        INSERT ALL
+	     <foreach collection="list" item="item" >
+	        INTO TS02_TB_CODE
+			(
+				OID
+				, CODE
+				, CODE_NAME
+				, CODE_VALUE
+				, CODE_LEVEL
+	
+				, PARENT_CODE
+				, CODE_TYPE
+				, USE_YN
+				, DELETE_YN
+				, ORDER_NO
+	
+				, CUSTOM_FIELD1
+				, CUSTOM_FIELD2
+				, CUSTOM_FIELD3
+				, CUSTOM_FIELD4
+				, CUSTOM_FIELD5
+			)
+			VALUES 
+			(
+            	#{item.oid}
+	           	, #{item.code}
+	           	, #{item.codeName}
+	           	, #{item.codeValue}
+	           	, #{item.codeLevel}
+	
+	           	, #{item.parentCode}
+	           	, #{item.codeType}
+	           	, #{item.useYn}
+	           	, #{item.deleteYn}
+	           	, #{item.orderNo}
+	
+	           	, #{item.customField1}
+	           	, #{item.customField2}
+	           	, #{item.customField3}
+	           	, #{item.customField4}
+	           	, #{item.customField5}
+            )
+	    </foreach>
+	    SELECT * FROM DUAL
+	</insert>
+
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.update(ItemCodeInfo) || '최원준' || '2019-01-23' */
+		UPDATE TS02_TB_CODE
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(code)"> CODE = #{code}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeValue)"> CODE_VALUE = #{codeValue}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeLevel gt -1)"> CODE_LEVEL = #{codeLevel}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(parentCode)"> PARENT_CODE = #{parentCode}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(codeType)"> CODE_TYPE = #{codeType}, </if>
+
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> USE_YN = #{useYn}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(deleteYn)"> DELETE_YN = #{deleteYn}, </if>
+				<if test="orderNo gt -1"> ORDER_NO = #{orderNo}, </if>
+
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> CUSTOM_FIELD4 = #{customField4}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> CUSTOM_FIELD5 = #{customField5}, </if>
+		</trim>
+		WHERE OID = #{oid}
+	</update>
+
+
+	<sql id="update-bulk-sql">
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.code)"> CODE = #{item.code}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.codeValue)"> CODE_VALUE = #{item.codeValue}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.codeLevel gt -1)"> CODE_LEVEL = #{item.codeLevel}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.parentCode)"> PARENT_CODE = #{item.parentCode}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.useYn)"> USE_YN = #{item.useYn}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.deleteYn)"> DELETE_YN = #{item.deleteYn}, </if>
+
+				<if test="item.orderNo gt -1"> ORDER_NO = #{item.orderNo}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField1)"> CUSTOM_FIELD1 = #{item.customField1}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField2)"> CUSTOM_FIELD2 = #{item.customField2}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField3)"> CUSTOM_FIELD3 = #{item.customField3}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField4)"> CUSTOM_FIELD4 = #{item.customField4}, </if>
+				<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(item.customField5)"> CUSTOM_FIELD5 = #{item.customField5}, </if>
+			</trim>
+	</sql>
+
+
+ 	<update id="updateBulk" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.updateBulk(list) || ’이균환’ || ’2019-10-03’ */
+		<foreach item="item" collection="list" index="index"  separator=";" open="DECLARE BEGIN" close="; END;" >
+		UPDATE 
+			TS02_TB_CODE 
+			<include refid="update-bulk-sql"/>
+	    WHERE 
+	    	OID = #{item.oid}
+     	</foreach>
+	</update>
+
+
+
+	<select id="get" parameterType="String" resultType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo">
+	 /* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.get(String) || ’이균환’ || ’2019-05-13’ */
+	 SELECT <include refid="itemColumn"/>
+	 	FROM TS02_TB_CODE
+	 	WHERE 1=1
+		AND OID = #{oid}
+	</select>
+
+
+	<select id="getByCnd" parameterType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeCnd" resultType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo">
+	 /* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.getByCnd(String) || ’안희홍’ || ’2020-04-01’ */
+	 SELECT <include refid="itemColumn"/>
+	 	FROM TS02_TB_CODE
+	 	WHERE 1=1
+		<include refid="searchCnd"/>
+	</select>
+
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeCnd" resultType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.list(CommonOptionCnd) || '최원준' || '2019-01-23' */
+		SELECT
+			<include refid="itemColumn"/>
+		FROM TS02_TB_CODE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+		ORDER BY ORDER_NO ASC
+	</select>
+
+
+	<select id="pageList" parameterType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeCnd" resultType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeInfo">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.list(CommonOptionCnd) || '최원준' || '2019-01-23' */
+		SELECT * FROM
+		(
+			SELECT 
+				ROW_NUMBER() OVER( ORDER BY OID DESC ) RNUM,
+				<include refid="itemColumn"/> 
+			FROM
+				TS02_TB_CODE
+			WHERE 1=1
+				<include refid="searchCnd"/>
+		) X
+		WHERE RNUM <![CDATA[>=]]> #{startIndex} AND RNUM <![CDATA[<]]>  ( #{startIndex} + #{pageSize} )
+	</select>
+
+
+	<select id="pageList_count" parameterType="com.remarkablesoft.framework.service.mgnt.code.vo.CodeCnd" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TS02_TB_CODE
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+
+	 <delete id="delete" parameterType="String">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.delete(String) || ’이균환’ || ’2019-03-22’ */
+	    DELETE
+	    FROM TS02_TB_CODE
+	    WHERE OID = #{oid}
+	</delete>
+
+
+	 <delete id="deleteByOids" parameterType="java.util.List">
+		/* com.remarkablesoft.framework.service.mgnt.code.model.impl.CodeDAO.deleteByOids(list) || ’이균환’ || ’2019-10-03’ */
+	    DELETE
+	    FROM TS02_TB_CODE
+	    WHERE
+	    OID IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item.oid}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO">
+
+	<sql id="partColumn">
+		OID							oid
+		, SYSTEM_OID				systemOid
+		, NAME						name
+		, CLASS_NAME				className
+
+		, INPUT_USER				inputUser
+		, INPUT_DATE				inputDate
+	</sql>
+
+	<sql id="searchCnd">
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(systemOid)"> AND SYSTEM_OID = #{systemOid} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME = #{name} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(className)"> AND CLASS_NAME = #{className} </if>
+		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> AND INPUT_USER = #{inputUser} </if>
+
+		 <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+			 AND OID IN
+			 <foreach collection="oidList" item="oid" index="index" separator="," open="(" close=")">
+				 #{oid}
+			 </foreach>
+		 </if>
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.mgnt.part.vo.PartInfo">
+		/* com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO.insert(PartInfo) ||'안희홍'|| '2019-12-11' */
+		INSERT INTO TS02_TB_PART
+		(
+			OID
+			, SYSTEM_OID
+			, CLASS_NAME
+			, NAME
+
+			, INPUT_USER
+			, INPUT_DATE
+		)
+		VALUES
+		(
+			#{oid}
+			, #{systemOid}
+			, #{className}
+			, #{name}
+
+			, #{inputUser}
+			, #{inputDate}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.remarkablesoft.framework.service.mgnt.part.vo.PartInfo">
+		/* com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO.update(PartInfo) ||'안희홍'|| '2019-12-11' */
+		UPDATE TS02_TB_PART
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)">  NAME = #{name}, </if>
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(className)">  CLASS_NAME = #{className}, </if>
+		</trim>
+		WHERE 1=1
+		  AND OID = #{oid}
+	</update>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.mgnt.part.vo.PartCnd" resultType="com.remarkablesoft.framework.service.mgnt.part.vo.PartInfo">
+		/* com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO.get(PartCnd) || '안희홍' || '2019-12-11' */
+		SELECT
+			<include refid="partColumn"/>
+		FROM TS02_TB_PART
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="list" parameterType="com.remarkablesoft.framework.service.mgnt.part.vo.PartCnd" resultType="com.remarkablesoft.framework.service.mgnt.part.vo.PartInfo">
+		/* com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO.list(PartCnd) || '안희홍' || '2019-12-11' */
+		SELECT * FROM 
+		(
+			SELECT
+				ROW_NUMBER() OVER( ORDER BY INPUT_DATE DESC ) RNUM,
+				<include refid="partColumn"/>
+			FROM TS02_TB_PART
+			WHERE 1=1
+				<include refid="searchCnd"/>
+		) X
+		WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+	</select>
+
+	<select id="list_count" parameterType="com.remarkablesoft.framework.service.mgnt.part.vo.PartCnd" resultType="int">
+		SELECT COUNT(*)
+		FROM TS02_TB_PART
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.mgnt.part.vo.PartCnd" resultType="com.remarkablesoft.framework.service.mgnt.part.vo.PartInfo">
+		/* com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO.listAll(PartCnd) || '안희홍' || '2019-12-11' */
+		SELECT
+			<include refid="partColumn"/>
+		FROM TS02_TB_PART
+		WHERE 1=1
+			<include refid="searchCnd"/>
+	</select>
+
+	<delete id="delete" parameterType="string">
+		/* com.remarkablesoft.framework.service.mgnt.part.model.impl.PartDAO.delete(PartCnd) || ’안희홍’ || ’2019-12-11’ */
+		DELETE
+		FROM TS02_TB_PART
+		WHERE 1 = 1
+		AND	OID = #{oid}
+	</delete>
+
+</mapper>

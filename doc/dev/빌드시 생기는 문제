@@ -1,0 +1,4 @@
+- pom.xml 에 ojdbc7, remarkable-framework 는 현재 주석처리 되어있습니다.
+-- IntelliJ에서 빌드시 dependency를 찾지 못하는 문제가 있어 IntelliJ 설정에서 /src/main/webapp/lib 의 ojdbc와 remarkable-framework-base 의 소스를 import 합니다.
+
+-- eclipse 에서 빌드할 때는 pom.xml의 주석을 해제한 뒤 build 하시면 됩니다.

@@ -1,0 +1,194 @@
+/*-------------------------------------------------------------------
+    파일정의 : _contact.scss # contact 관련
+-------------------------------------------------------------------*/
+.contact {
+    /* fixed container */
+    &-container {
+        position: fixed;
+        top: 45.7rem;
+        left: 50%;
+        transform: translateX(110%);
+        z-index: 100;
+        // background: #fff;
+        transition: 0.3s;
+
+        &.active {
+            top: 15rem;
+        }
+
+        .inner {
+            width: 28.5rem;
+            background: #fff;
+            border-bottom: 0.2rem solid #555;
+        }
+    }
+
+    /* inner-content */
+    &-content {
+        .division-item {
+            // height: 66rem;
+
+            + .division-item {
+                /* contact-manager */
+                max-width: 50rem;
+                margin-left: 5rem;
+
+                .scroll-element {
+                    height: 57rem;
+                }
+            }
+
+            .scroll-element {
+                height: 66rem;
+            }
+
+            .tit-area {
+                .sub-txt {
+                    color: #a3a3a3;
+                    // font-weight: 400;
+                }
+            }
+
+            .txt {
+                color: #777;
+            }
+        }
+
+        .column-content {
+            + .column-content {
+                margin-top: 2rem;
+            }
+        }
+    }
+
+    &-list-group {
+    }
+
+    &-list {
+        .tit {
+            @include flex-item($justify: flex-start);
+            height: 5rem;
+            padding: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .inner-list {
+            background: #f8f8f8;
+        }
+
+        .list-item {
+            padding: 1rem;
+        }
+
+        .info-list {
+            margin-top: 1rem;
+            li {
+                font-size: 1.5rem;
+                color: #777;
+            }
+        }
+
+        .el-button {
+            @include flex-item()
+            // background: #363636 !important;
+            
+            &:disabled {
+                // background: ;
+                cursor: initial;
+            }
+        }
+    }
+
+    // &-manager-list {
+    //     .list-item {
+    //         margin-bottom: 2rem;
+    //     }
+    // }
+}
+
+/*=== tablet ===*/
+@mixin contact-tablet() {
+    .contact {
+        &-container {
+            // position: absolute;
+            top: 50% !important;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            transition: none;
+            // display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+
+            .inner {
+                position: relative;
+                // height: 100%;
+                // margin: auto;
+            }
+
+            .btn-wrap {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+
+                .material-icons {
+                    font-size: 3rem;
+                }
+            }
+
+            // 모달처럼 열림
+            &.open {
+                display: flex;
+            }
+        }
+
+        &-content {
+            .division-area {
+                flex-direction: column;
+            }
+
+            .division-item {
+                + .division-item {
+                    max-width: 100%;
+                    margin-top: 1rem;
+                    margin-left: 0;
+
+                    .scroll-element {
+                        height: 100%;
+
+                        > div {
+                            max-height: 33.5rem;
+                        }
+                    }
+                }
+
+                .scroll-element {
+                    height: 40rem;
+                }
+            }
+
+            .btn-circle-special {
+                width: auto !important;
+                background: #fff;
+                border-color: #ebebeb;
+                padding-left: 2rem;
+                border-radius: 3rem;
+
+                .txt-box {
+                    overflow: visible;
+                    max-width: 100%;
+                    padding-right: 1rem;
+                }
+
+                .material-icons {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+    }
+}

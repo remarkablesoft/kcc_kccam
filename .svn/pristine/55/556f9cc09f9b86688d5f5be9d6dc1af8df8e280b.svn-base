@@ -1,0 +1,140 @@
+/*-------------------------------------------------------------------
+    파일정의 : _labels.scss # 라벨 모양
+-------------------------------------------------------------------*/
+.label {
+    display: inline-flex;
+    padding: 0.8rem 1.5rem;
+    border-radius: 3rem;
+    font-weight: 500;
+    font-size: $defaultFontSize;
+
+    // size
+    &-xsm {
+        padding: 0.3rem 1rem;
+        font-size: 1.2rem;
+    }
+
+    &-sm {
+        padding: 0.5rem 1.2rem 0.1rem;
+        font-size: 1.4rem;
+    }
+
+    &-md {
+        padding: 0.5rem 1.5rem;
+    }
+
+    // color
+    &-black {
+        background: #000;
+        color: #fff;
+    }
+
+    &-opacity {
+        background: rgba(0, 0, 0, 0.3);
+        color: #fff;
+    }
+
+    &-gray {
+        background-color: $defaultGrayBorderColor;
+        color: #333333;
+    }
+
+    &-lgray {
+        background-color: #f7f7f7;
+        color: #828282;
+    }
+
+    &-group {
+        display: flex;
+        align-items: center;
+
+        > span {
+            display: inline-block;
+
+            + span {
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    // 소재 라벨 관련
+    &-material:not(.el-button) {
+        min-width: 10rem;
+        padding: 0.5rem 1.5rem;
+        justify-content: center;
+        text-align: center;
+
+        &.emc {
+            background: #eeeeff;
+            color: #5551f7;
+        }
+
+        &.adhesive {
+            background: #e7f1ff;
+            color: #2427c5;
+        }
+
+        &.metalized-ceramics {
+            background: #e5f2ee;
+            color: #6d8a81;
+        }
+
+        &.ceramic-substrates {
+            background: #fbede7;
+            color: #e1764a;
+        }
+
+        &.glass-fiber {
+            background: #fde2da;
+            color: #ee410c;
+        }
+    }
+
+    // 소재 라벨 - 버튼일 때 hover, active 색만 따름
+    &-material.el-button {
+        &.emc {
+            &:hover,
+            &:focus,
+            &.active {
+                background: #eeeeff !important;
+                color: #5551f7 !important;
+            }
+        }
+
+        &.adhesive {
+            &:hover,
+            &:focus,
+            &.active {
+                background: #e7f1ff !important;
+                color: #2427c5 !important;
+            }
+        }
+
+        &.metalized-ceramics {
+            &:hover,
+            &:focus,
+            &.active {
+                background: #e5f2ee !important;
+                color: #6d8a81 !important;
+            }
+        }
+
+        &.ceramic-substrates {
+            &:hover,
+            &:focus,
+            &.active {
+                background: #fbede7 !important;
+                color: #e1764a !important;
+            }
+        }
+
+        &.glass-fiber {
+            &:hover,
+            &:focus,
+            &.active {
+                background: #fde2da !important;
+                color: #ee410c !important;
+            }
+        }
+    }
+}

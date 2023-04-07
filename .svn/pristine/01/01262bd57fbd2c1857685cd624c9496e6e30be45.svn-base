@@ -1,0 +1,116 @@
+/*-------------------------------------------------------------------
+    파일정의 : _breadcrumb.scss # breadcrumb
+-------------------------------------------------------------------*/
+
+/*=== 따라다니는 메뉴 경로 ===*/
+$breadcrumbMenuItemSize: 5rem;
+
+.breadcrumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 0.2rem solid #e6e6e6;
+    background: #fff;
+    // transition: 0.3s;
+    font-weight: 500;
+
+    .inner {
+        @include flex-item($justify: space-between);
+        @include w-margin-auto();
+    }
+
+    &-menu-list {
+        border: 0 none !important;
+
+        .el-menu-item {
+            height: $breadcrumbMenuItemSize;
+            line-height: $breadcrumbMenuItemSize;
+            border-bottom: none !important;
+        }
+        > li:first-child {
+            /* home */
+            padding: 0;
+            border-right: 2px solid #e6e6e6;
+            border-left: 2px solid #e6e6e6;
+            color: #838383 !important;
+
+            a {
+                @include flex-item();
+                width: $breadcrumbMenuItemSize;
+                height: $breadcrumbMenuItemSize;
+            }
+        }
+
+        > .el-submenu {
+            .el-submenu__title {
+                @include flex-item($justify: space-between);
+                // min-width: 15rem;
+                min-width: 9rem;
+                height: $breadcrumbMenuItemSize;
+                line-height: $breadcrumbMenuItemSize;
+                padding: 0 1.5rem;
+                border-bottom: 0 none;
+                border-right: 0.2rem solid #ebebeb;
+                font-size: 1.5rem;
+            }
+
+            .el-submenu__icon-arrow {
+                margin-left: 0.8rem;
+                margin-top: 0;
+                font-size: 1.6rem;
+                font-weight: 700;
+                color: #626262;
+            }
+            
+            &.is-active {
+                
+                .el-submenu__title {
+                    border-bottom: 0 none;
+                    background: $primaryColor !important;
+                    color: #fff !important;
+                }
+
+                .el-submenu__icon-arrow {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    &-menu-popper {
+        .el-menu {
+            max-height: 50rem;
+            overflow-y: auto;
+            font-weight: 500;
+        }
+
+        .el-menu-item {
+            a {
+                display: block;
+            }
+
+            &:hover {
+                background-color: #f5f7fa;
+            }
+
+            &:hover a {
+                color: $primaryColor;
+            }
+        }
+    }
+
+    &.sticky {
+        position: fixed;
+        top: $headerHeight;
+        z-index: 900;
+        // box-shadow: 0.3rem 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.16);
+        box-shadow: 0.1rem 0.1rem 0.2rem 0.1rem rgba(222, 222, 222, 0.5);
+    }
+}
+
+@mixin breadcrumb-tablet() {
+    .breadcrumb {
+        display: none;
+    }
+}

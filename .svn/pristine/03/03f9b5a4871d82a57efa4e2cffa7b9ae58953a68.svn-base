@@ -1,0 +1,2 @@
+-- 관련정보 연결 테이블
+DROP TABLE TS02_TB_RELATIONSHIP;

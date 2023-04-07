@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO">
+
+
+    <sql id="selectColumn">
+        PRODUCT_OID			    productOid
+        , TARGET_OID			targetOid
+        , TARGET_OBJECT			targetObject
+        , INPUT_DATE			inputDate
+    </sql>
+
+
+
+    <sql id="searchCnd">
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(productOid)"> AND PRODUCT_OID = #{productOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetOid)"> AND TARGET_OID = #{targetOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetObject)"> AND TARGET_OBJECT = #{targetObject}</if>
+
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+        	AND PRODUCT_OID IN 
+        	<foreach collection="oidList" item="productOid" index="index" separator="," open="(" close=")">
+        		#{productOid} 
+        	</foreach>
+        </if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(targetOidList)">
+        	AND TARGET_OID IN 
+        	<foreach collection="targetOidList" item="targetOid" index="index" separator="," open="(" close=")">
+        		#{targetOid} 
+        	</foreach>
+        </if>
+    </sql>
+
+    <insert id="insert"  parameterType="com.remarkablesoft.site.kccam.service.product.vo.ProductRelInfo"   >
+		/* com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO.input(ProductRelInfo) || ’최원준’ || ’2021-02-25’ */
+        INSERT INTO TS02_AM_PRODUCT_REL (
+            PRODUCT_OID
+            , TARGET_OID
+            , TARGET_OBJECT
+            , INPUT_DATE
+        )
+        VALUES
+        (
+            #{productOid}
+            , #{targetOid}
+            , #{targetObject}
+            , #{inputDate}
+        )
+    </insert>
+
+    <insert id="insertBulk"  parameterType="java.util.List">
+        /* com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO.insertBulk(List) || ’최원준’ || ’2021-02-25’ */
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(list)">
+            INSERT ALL
+            <foreach collection="list" item="item">
+            INTO TS02_AM_PRODUCT_REL (
+                 PRODUCT_OID
+                , TARGET_OID
+                , TARGET_OBJECT
+                , INPUT_DATE
+            )
+            VALUES
+            (
+                #{item.productOid}
+                , #{item.targetOid}
+                , #{item.targetObject}
+                , #{item.inputDate}
+            )
+            </foreach>
+            SELECT * FROM DUAL
+        </if>
+    </insert>
+
+    <delete id="delete" parameterType="com.remarkablesoft.site.kccam.service.product.vo.ProductCnd">
+		/* com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO.delete(ProductRelCnd) || ’최원준’ || ’2021-02-25’ */
+        DELETE
+          FROM TS02_AM_PRODUCT_REL
+         WHERE 1 = 1
+            <include refid="searchCnd"/>
+    </delete>
+
+    <select id="get" parameterType="com.remarkablesoft.site.kccam.service.product.vo.ProductCnd" resultType="com.remarkablesoft.site.kccam.service.product.vo.ProductRelInfo" >
+        /* com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO.get(ProductRelCnd) || ’최원준’ || ’2021-02-25’ */
+        SELECT 
+        	<include refid="selectColumn"/> 
+         FROM TS02_AM_PRODUCT_REL
+        WHERE 1 = 1   
+        	<include refid="searchCnd"/>
+    </select>
+
+    <select id="listAll" parameterType="com.remarkablesoft.site.kccam.service.product.vo.ProductCnd" resultType="com.remarkablesoft.site.kccam.service.product.vo.ProductRelInfo" >
+		/* com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO.listAll(ProductRelCnd) || ’최원준’ || ’2021-02-25’ */
+        SELECT 
+        	<include refid="selectColumn"/> 
+        FROM TS02_AM_PRODUCT_REL
+        WHERE 1 = 1 
+        	<include refid="searchCnd"/>													
+    </select>
+
+    <select id="exist" parameterType="com.remarkablesoft.site.kccam.service.product.vo.ProductCnd" resultType="int">
+        /* com.remarkablesoft.site.kccam.service.product.model.impl.ProductRelDAO.exist(int) || ’최원준’ || ’2021-03-31’ */
+        SELECT COUNT(*)
+        FROM TS02_AM_PRODUCT_REL
+            WHERE 1 = 1
+        <include refid="searchCnd"/>
+    </select>
+    
+</mapper>

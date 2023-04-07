@@ -1,0 +1,66 @@
+/*-------------------------------------------------------------------
+    파일정의 : _variables.scss # sass 변수
+-------------------------------------------------------------------*/
+
+//=============================================
+//         		Color Variables
+//=============================================
+$primaryColor: #5551f7;
+$primaryColorOpacity1: rgba(85, 81, 247, 0.5);
+$primaryColorOpacity2: rgba(85, 81, 247, 0.3);
+$activeColor: #5551f7 !default;
+$secondaryColor: #eaeaff;
+
+$gradientColor1: rgba(186, 152, 234, 1);
+$gradientColor2: rgba(98, 96, 252, 1);
+
+// $secondColor: ;
+$placeholderColor: #808080;
+
+$cbtBlueColor: #094fa3;
+$txtGrayColor: #808080;
+$bgLgrayColor: #f7f7f7;
+
+//=============================================
+//         		Font Variables
+//=============================================
+$defaultFontSize: 1.6rem;
+
+//=============================================
+//         		Layout Variables
+//=============================================
+$defaultWidth: 120rem;
+$headerHeight: 5.8rem;
+$mainContentHeaderHeight: 42rem;
+$breadcrumbHeight: 5.2rem;
+$subContentHeaderSwiperHeight: 34.5rem;
+$sideNavWidth: 20rem;
+
+//=============================================
+//         		Assets Variables
+//=============================================
+// borderColor
+$defaultGrayBorderColor: #ebebeb;
+
+//=============================================
+//         		media query size Variables
+//=============================================
+
+// desktop
+// $desktopLg: 160rem;
+// $desktopMd: 140rem;
+$laptopLg: 1440px;
+$laptopMd: 1300px;
+$laptopSm: 1200px;
+
+// tab
+$tabletLg: 1024px;
+$tabletMd: 768px;
+
+// mob
+$mobileLg: 640px;
+$mobileMd: 375px;
+$mobileSm: 320px;
+
+$responsiveTabletDefaultPadding: 0 3rem;
+$responsiveMobileDefaultPadding: 0 2rem;

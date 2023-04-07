@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.storage.thumbnail.model.impl.ThumbnailDAO">
+
+
+	<sql id="thumbnailColumn">
+		 OID 						oid
+		 , TARGET_OBJECT			targetObject
+	     , TARGET_OID 				targetOid
+		 , STORAGE_FILE_UID 		storageFileUid
+		 , THUMBNAIL_TYPE			thumbnailType
+		 
+		 , THUMBNAIL_BASE64			thumbnailBase64
+		 , USE_YN					useYn
+		 , INPUT_USER 				inputUser
+		 , INPUT_DATE 				inputDate
+
+	</sql>
+
+	<sql id="searchCnd">
+
+	    	<!-- 타겟 타입 -->
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetObject)">AND TARGET_OBJECT = #{targetObject}</if>
+			<!-- 타겟 아이디 -->
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(targetOid)">AND TARGET_OID = #{targetOid}</if>
+			
+			
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(thumbnailType)">AND THUMBNAIL_TYPE = #{thumbnailType}</if>	
+			
+			<!-- STORAGE_FILE_UID  -->
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(storageFileUid)">AND STORAGE_FILE_UID = #{storageFileUid}</if>
+			<!-- 사용여부  -->
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)">AND USE_YN = #{useYn}</if>
+
+	</sql>
+
+	<insert id="insert" parameterType="com.remarkablesoft.framework.service.storage.thumbnail.vo.ThumbnailInfo">
+		INSERT INTO TS02_TB_THUMBNAIL (
+			OID
+			, TARGET_OBJECT
+			, TARGET_OID
+			, STORAGE_FILE_UID
+			, THUMBNAIL_TYPE
+			
+			, THUMBNAIL_BASE64
+			, USE_YN
+			, INPUT_USER
+			, INPUT_DATE
+		) VALUES (
+			#{oid}
+			, #{targetObject}
+			, #{targetOid}
+			, #{storageFileUid}
+			, #{thumbnailType}
+			
+			, #{thumbnailBase64}
+			, #{useYn}
+			, #{inputUser}
+			, #{inputDate}
+		)
+	</insert>
+
+	<delete id="deleteByTargetOid" parameterType="String">
+	    DELETE FROM TS02_TB_THUMBNAIL WHERE TARGET_OID = #{targetOid}
+	</delete>
+
+	<select id="get" parameterType="com.remarkablesoft.framework.service.storage.thumbnail.vo.ThumbnailCnd" resultType="com.remarkablesoft.framework.service.storage.thumbnail.vo.ThumbnailInfo">
+		 SELECT 
+		 	<include refid="thumbnailColumn"/>
+		 FROM TS02_TB_THUMBNAIL
+		 WHERE 1=1
+		 <include refid="searchCnd"/>
+	</select>
+
+	<select id="listAll" parameterType="com.remarkablesoft.framework.service.storage.thumbnail.vo.ThumbnailCnd" resultType="com.remarkablesoft.framework.service.storage.thumbnail.vo.ThumbnailInfo">
+		 SELECT 
+		 	<include refid="thumbnailColumn"/>
+		 FROM TS02_TB_THUMBNAIL
+		 WHERE 1 = 1
+		 <include refid="searchCnd"/>
+		 ORDER BY INPUT_DATE
+	</select>
+
+
+</mapper>
