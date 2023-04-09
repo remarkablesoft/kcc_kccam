@@ -33,12 +33,12 @@ public class DBDevConfig implements DBConfig {
 			hikariConfig.setDriverClassName( "net.sf.log4jdbc.DriverSpy" );
 			/* hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@192.168.0.117:1521:orcl" ); */
 //			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@106.245.152.12:7521:orcl" );
-			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@13.124.157.214:1521:orcl" );
-			hikariConfig.setUsername( "kccemc" );
-			hikariConfig.setPassword( "kccemc" );
+			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
+			hikariConfig.setUsername( "kccam" );
+			hikariConfig.setPassword( "kccam" );
 
-			hikariConfig.setMaximumPoolSize( 10 );
-			hikariConfig.setMinimumIdle( 10 );
+			hikariConfig.setMaximumPoolSize( 1 );
+			hikariConfig.setMinimumIdle( 1 );
 			// 쿼리가 /* ping */ 으로 시작하면 MYSQL JDBC 드라이버는 이 쿼리를 실제로 날리지 않고, MySQL 서버에 살아있는지 여부만 체크하는 통신을 수행한다
 			//hikariConfig.setConnectionTestQuery( "/* ping */ SELECT 1" );
 			hikariConfig.setPoolName( "springHikariCP" );

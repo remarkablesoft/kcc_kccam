@@ -485,8 +485,8 @@
 			<groupId>com.remarkablesoft</groupId>
 			<artifactId>remarkable-framework-base</artifactId>
 			<version>${remarkable.framework.base.version}</version>
-<!--			<scope>system</scope>-->
-<!--			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/remarkable-framework-base-${remarkable.framework.base.version}.jar</systemPath>-->
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/remarkable-framework-base-${remarkable.framework.base.version}.jar</systemPath>
 		</dependency>
 
 

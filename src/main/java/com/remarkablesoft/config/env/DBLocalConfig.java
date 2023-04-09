@@ -27,17 +27,17 @@ public class DBLocalConfig implements DBConfig {
 		@Bean(destroyMethod = "close")
 		public DataSource dataSource(){
 
-				
+
 		    HikariConfig hikariConfig = new HikariConfig();
 
 
 		    hikariConfig.setDriverClassName( "net.sf.log4jdbc.DriverSpy" );
 
 		    // 로컬
-			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@13.124.157.214:1521:orcl" );
-			hikariConfig.setUsername( "kccemc" );
-			hikariConfig.setPassword( "kccemc" );
-			
+			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
+			hikariConfig.setUsername( "kccam" );
+			hikariConfig.setPassword( "kccam" );
+
 			hikariConfig.setMaximumPoolSize( 10 );
 			hikariConfig.setMinimumIdle( 10 );
 			// 쿼리가 /* ping */ 으로 시작하면 MYSQL JDBC 드라이버는 이 쿼리를 실제로 날리지 않고, MySQL 서버에 살아있는지 여부만 체크하는 통신을 수행한다
