@@ -4,15 +4,13 @@ import com.remarkablesoft.config.AppConfig;
 import com.remarkablesoft.framework.util.ApplicationPropertiesUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @ComponentScan( basePackages = "com.remarkablesoft" )
 @Import( { AppConfig.class } )
-public class StartWebApplication extends SpringBootServletInitializer {
+public class KccAmStartWebApplication {
 
 	/**
 	 * 구동하는 방법
@@ -48,7 +46,7 @@ public class StartWebApplication extends SpringBootServletInitializer {
 
 			ApplicationPropertiesUtils2.setSystemPropertis();
 
-			SpringApplication.run( StartWebApplication.class, args );
+			SpringApplication.run( KccAmStartWebApplication.class, args );
 		}
 		catch( Throwable t ) {
 			t.printStackTrace();
@@ -56,9 +54,9 @@ public class StartWebApplication extends SpringBootServletInitializer {
 
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure( SpringApplicationBuilder application ) {
-
-		return application.sources( StartWebApplication.class );
-	}
+//	@Override
+//	protected SpringApplicationBuilder configure( SpringApplicationBuilder application ) {
+//
+//		return application.sources( StartWebApplication.class );
+//	}
 }
