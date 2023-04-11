@@ -3,15 +3,22 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "dev": "nuxt",
-        "build": "nuxt build",
+        "dev": "set NUXT_ENV_STAGE=.local&& nuxt",
+        "dev_mac": "NUXT_ENV_STAGE=.local nuxt",
+        "build": "set NUXT_ENV_STAGE=.real&& nuxt build",
+        "build:dev": "set NUXT_ENV_STAGE=.dev nuxt build",
+        "build:dev_mac": "NUXT_ENV_STAGE=.dev nuxt build",
         "start": "nuxt start",
-        "gen": "nuxt generate"
+        "gen": "nuxt generate",
+        "gen_mac": "NUXT_ENV_STAGE=.real nuxt generate",
+        "gen:dev": "set NUXT_ENV_STAGE=.dev&& nuxt generate",
+        "gen:dev_mac": "NUXT_ENV_STAGE=.dev nuxt generate"
     },
     "dependencies": {
         "@nuxtjs/axios": "^5.12.0",
         "@nuxtjs/gtm": "^2.3.2",
         "@nuxtjs/style-resources": "^1.0.0",
+        "@nuxtjs/dotenv": "^1.4.1",
         "animated-scroll-to": "^2.0.12",
         "cors": "^2.8.5",
         "crypto-js": "^4.0.0",

@@ -21,6 +21,7 @@ export default {
             { "http-equiv": "cache-control", content: "no-cache" },
             { "http-equiv": "expires", content: "0" },
             { name: "viewport", content: "width=device-width, initial-scale=1" },
+	        process.env.NUXT_ENV_STAGE !== 'real' ? { name: 'robots', content: 'noindex' } : null,
             {
                 name: "keywords",
                 content:
@@ -138,7 +139,9 @@ export default {
     components: true,
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-    buildModules: [],
+    buildModules: [
+	    '@nuxtjs/dotenv',
+    ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
 
@@ -204,6 +207,8 @@ export default {
         locale: "ko",
     },
     // Build Configuration: https://go.nuxtjs.dev/config-build
+
+	dotenv: { filename : '/env/.env' + process.env.NUXT_ENV_STAGE},
     axios: {
         proxy: true,
     },
