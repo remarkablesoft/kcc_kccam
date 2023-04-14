@@ -3,6 +3,7 @@ package com.remarkablesoft.config;
 import java.io.IOException;
 import javax.sql.DataSource;
 
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.remarkablesoft.framework.common.constants.*;
 import com.remarkablesoft.framework.common.mybatis.RemarkableSqlSessionTemplate;
+import com.remarkablesoft.framework.module.log.SQLLoggingAspect;
 
 /**
  * @주시스템 :	Heylaw
@@ -73,28 +75,20 @@ public class DBConfig {
 	 * @throws Exception
 	 */
 	@Bean( name = "sqlSessionFactory" )
-	public SqlSessionFactory sqlSessionFactory() throws Exception {
+	public SqlSessionFactory sqlSessionFactory( DataSource ds ) throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		
-		sessionFactory.setDataSource( dataSource );
+		sessionFactory.setDataSource( ds );
 		sessionFactory.setMapperLocations( applicationContext.getResources( "classpath*:com/remarkablesoft/**/oracle/*SQL.xml" ) );
-		
-		sessionFactory.setTypeHandlers( new TypeHandler[]{
-				new TempType.TypeHandler(),
-				new StatusType.TypeHandler(),
-				new PaymentMethodType.TypeHandler(),
-				new PostingActionType.TypeHandler(),
-				new PointType.TypeHandler(),
-				new PointRuleType.TypeHandler(),
-				new TargetType.TypeHandler(),
-				new com.remarkablesoft.framework.common.mybatis.MoneyTypeHandler(),
-				new com.remarkablesoft.framework.common.mybatis.PointTypeHandler()
-		} );
-		
-		SqlSessionFactory sqlSessionFactory = sessionFactory.getObject();
-		sqlSessionFactory.getConfiguration().setJdbcTypeForNull( JdbcType.NULL );
-		
-		return sqlSessionFactory;
+			
+			sessionFactory.setTypeHandlers( getTypeHandler() );
+			
+			sessionFactory.setPlugins(new Interceptor[]{new SQLLoggingAspect()});
+			
+			SqlSessionFactory sqlSessionFactory = sessionFactory.getObject();
+			sqlSessionFactory.getConfiguration().setJdbcTypeForNull( JdbcType.NULL );
+			
+			return sqlSessionFactory;
 	}
 	
 	
@@ -104,14 +98,28 @@ public class DBConfig {
 	 * <constructor-arg index="0"	ref="sqlSessionFactory"/>
 	 * </bean>
 	 *
-	 * @param sqlSessionFactory
 	 * @return
 	 */
 	@Bean( name = "baseSqlSession" )
-	public RemarkableSqlSessionTemplate baseSqlSession( SqlSessionFactory sqlSessionFactory ) {
+	public RemarkableSqlSessionTemplate baseSqlSession() throws Exception {
 		
-		return new RemarkableSqlSessionTemplate( sqlSessionFactory );
+		return new RemarkableSqlSessionTemplate( sqlSessionFactory( dataSource ) );
 	}
+		
+		private TypeHandler[] getTypeHandler() {
+				
+				return new TypeHandler[] {
+							new TempType.TypeHandler(),
+							new StatusType.TypeHandler(),
+							new PaymentMethodType.TypeHandler(),
+							new PostingActionType.TypeHandler(),
+							new PointType.TypeHandler(),
+							new PointRuleType.TypeHandler(),
+							new TargetType.TypeHandler(),
+							new com.remarkablesoft.framework.common.mybatis.MoneyTypeHandler(),
+							new com.remarkablesoft.framework.common.mybatis.PointTypeHandler()
+				};
+		}
 	
 	
 }

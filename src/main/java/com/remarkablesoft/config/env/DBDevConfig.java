@@ -30,10 +30,10 @@ public class DBDevConfig implements DBConfig {
 		public DataSource dataSource(){
 
 			HikariConfig hikariConfig = new HikariConfig();
-			hikariConfig.setDriverClassName( "net.sf.log4jdbc.DriverSpy" );
+		    hikariConfig.setDriverClassName( "oracle.jdbc.driver.OracleDriver" );
 			/* hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@192.168.0.117:1521:orcl" ); */
 //			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@106.245.152.12:7521:orcl" );
-			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
+			hikariConfig.setJdbcUrl( "jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
 			hikariConfig.setUsername( "kccam" );
 			hikariConfig.setPassword( "kccam" );
 

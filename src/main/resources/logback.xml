@@ -1,259 +1,266 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOG_HOME" value="/RemarkableAS/logs/kccam" />
+    <!-- 스프링의 profiles를 이용하여 경로를 변경처리 -->
+    <if condition='isDefined("spring.profiles.active")'>
+        <then>
+            <include resource="./envConfig/${spring.profiles.active}/logback-${spring.profiles.active}.xml" />
+        </then>
+    </if>
 
-    <!-- SQL 로그 -->
-    <appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/SQL.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/SQL_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>1000MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
+<!--    <property name="LOG_HOME" value="/RemarkableAS/logs/kccam" />-->
 
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
-            <!-- <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern> -->
-        </encoder>
-    </appender>
+<!--    &lt;!&ndash; SQL 로그 &ndash;&gt;-->
+<!--    <appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/SQL.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/SQL_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>1000MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
 
-
-    <!-- Service API 로그 -->
-    <appender name="ServiceAPI" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/ServiceAPI.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/ServiceAPI_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
-
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>
-        </encoder>
-    </appender>
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+<!--            &lt;!&ndash; <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern> &ndash;&gt;-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!-- BusinessAPI 로그 -->
-    <appender name="BusinessAPI" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/BusinessAPI.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/BusinessAPI_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
+<!--    &lt;!&ndash; Service API 로그 &ndash;&gt;-->
+<!--    <appender name="ServiceAPI" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/ServiceAPI.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/ServiceAPI_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
 
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>
-        </encoder>
-    </appender>
-
-    <!-- API 로그 -->
-    <appender name="API" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/API.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/API_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
-
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>
-        </encoder>
-    </appender>
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!--  Web 로그 -->
-    <appender name="WEB" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/WEB.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/WEB_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
+<!--    &lt;!&ndash; BusinessAPI 로그 &ndash;&gt;-->
+<!--    <appender name="BusinessAPI" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/BusinessAPI.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/BusinessAPI_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
 
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>#%X{WEBResult}#%6X{WEBElapseTime}#%X{WEBStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{WEBClassName}#%X{WEBName}%n%X{WEBParam}%n%X{WEBReturn}%n</pattern>
-        </encoder>
-    </appender>
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
+<!--    &lt;!&ndash; API 로그 &ndash;&gt;-->
+<!--    <appender name="API" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/API.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/API_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
 
-    <!--  Error 로그 -->
-    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/ERROR.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/ERROR_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
-
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>
-        </encoder>
-    </appender>
-
-    <!--  Schedule 로그 -->
-    <appender name="Schedule" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/Schedule.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/Schedule_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
-
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>
-        </encoder>
-    </appender>
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!--  SendSMS 로그 -->
-    <!--  <appender name="SendSMS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/SendSMS.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/SendSMS_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
+<!--    &lt;!&ndash;  Web 로그 &ndash;&gt;-->
+<!--    <appender name="WEB" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/WEB.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/WEB_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
 
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>
-        </encoder>
-    </appender> -->
-
-
-    <!--  SendEmail 로그 -->
-    <appender name="SendEmail" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/SendEmail.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/SendEmail_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>100</maxHistory>
-        </rollingPolicy>
-
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>
-        </encoder>
-    </appender>
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>#%X{WEBResult}#%6X{WEBElapseTime}#%X{WEBStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{WEBClassName}#%X{WEBName}%n%X{WEBParam}%n%X{WEBReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!--  API-STDOUT  -->
-    <appender name="API-STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>
-        </encoder>
-    </appender>
+<!--    &lt;!&ndash;  Error 로그 &ndash;&gt;-->
+<!--    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/ERROR.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/ERROR_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
+
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash;  Schedule 로그 &ndash;&gt;-->
+<!--    <appender name="Schedule" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/Schedule.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/Schedule_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
+
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!--  STDOUT  -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <!-- <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern> -->
-            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>
-        </encoder>
-    </appender>
+<!--    &lt;!&ndash;  SendSMS 로그 &ndash;&gt;-->
+<!--    &lt;!&ndash;  <appender name="SendSMS" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/SendSMS.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/SendSMS_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
+
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender> &ndash;&gt;-->
 
 
-    <!--  WEB-STDOUT  -->
-    <appender name="WEB-STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>#%X{WEBResult}#%6X{WEBElapseTime}#%X{WEBStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{WEBClassName}#%X{WEBName}%n%X{WEBParam}%n%X{WEBReturn}%n</pattern>
-        </encoder>
-    </appender>
+<!--    &lt;!&ndash;  SendEmail 로그 &ndash;&gt;-->
+<!--    <appender name="SendEmail" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_HOME}/SendEmail.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/SendEmail_%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>100</maxHistory>-->
+<!--        </rollingPolicy>-->
+
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!-- Sql 맵핑된 데이터를 바로 보여주기 위해서. -->
-    <logger name="sqlonly" additivity="false">
-        <level value="INFO" />
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <logger name="jdbc.sqltiming" additivity="false">
-        <level value="INFO" />
-        <appender-ref ref="SQL" />
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <logger name="jdbc.audit" level="OFF"/>
-    <logger name="jdbc.connection" level="OFF"/>
+<!--    &lt;!&ndash;  API-STDOUT  &ndash;&gt;-->
+<!--    <appender name="API-STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>#%X{APIResult}#%6X{APIElapseTime}#%X{APIStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{APIClassName}#%X{APIName}%n%X{APIParam}%n%X{APIReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <logger name="jdbc.resultsettable" additivity="false">
-        <level value="DEBUG" />
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <!--  Spring -->
-    <logger name="org.springframework" level="INFO"></logger>
-
-
-    <!-- ServiceAPI -->
-    <logger name="ServiceAPI" level="DEBUG" additivity="false">
-        <appender-ref ref="ServiceAPI" />
-    </logger>
-
-    <!-- BusinessAPI -->
-    <logger name="BusinessAPI" level="DEBUG" additivity="false">
-        <appender-ref ref="BusinessAPI" />
-    </logger>
+<!--    &lt;!&ndash;  STDOUT  &ndash;&gt;-->
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            &lt;!&ndash; <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern> &ndash;&gt;-->
+<!--            <pattern>%d %-4relative [%thread] %-5level %logger[%method:%line] - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!-- API -->
-    <logger name="API" level="DEBUG" additivity="false">
-        <appender-ref ref="API" />
-    </logger>
+<!--    &lt;!&ndash;  WEB-STDOUT  &ndash;&gt;-->
+<!--    <appender name="WEB-STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>#%X{WEBResult}#%6X{WEBElapseTime}#%X{WEBStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{WEBClassName}#%X{WEBName}%n%X{WEBParam}%n%X{WEBReturn}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
 
-    <!--  WEB -->
-    <logger name="WEB" level="DEBUG" additivity="false">
-        <appender-ref ref="WEB" />
-        <appender-ref ref="WEB-STDOUT" />
-    </logger>
+<!--    &lt;!&ndash; Sql 맵핑된 데이터를 바로 보여주기 위해서. &ndash;&gt;-->
+<!--    <logger name="sqlonly" additivity="false">-->
+<!--        <level value="INFO" />-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </logger>-->
+
+<!--    <logger name="jdbc.sqltiming" additivity="false">-->
+<!--        <level value="INFO" />-->
+<!--        <appender-ref ref="SQL" />-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </logger>-->
+
+<!--    <logger name="jdbc.audit" level="OFF"/>-->
+<!--    <logger name="jdbc.connection" level="OFF"/>-->
 
 
-    <!--  ERROR -->
-    <logger name="ERROR" level="ERROR" additivity="false">
-        <appender-ref ref="ERROR" />
-        <appender-ref ref="STDOUT" />
-    </logger>
+<!--    <logger name="jdbc.resultsettable" additivity="false">-->
+<!--        <level value="DEBUG" />-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </logger>-->
 
-    <!--  Schedule -->
-    <logger name="Schedule" level="DEBUG" additivity="false">
-        <appender-ref ref="Schedule" />
-    </logger>
+<!--    &lt;!&ndash;  Spring &ndash;&gt;-->
+<!--    <logger name="org.springframework" level="INFO"></logger>-->
 
 
-    <!--  SendEmail -->
-    <logger name="com.remarkablesoft.api.mail" level="DEBUG" additivity="false">
-        <appender-ref ref="SendEmail" />
-    </logger>
+<!--    &lt;!&ndash; ServiceAPI &ndash;&gt;-->
+<!--    <logger name="ServiceAPI" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="ServiceAPI" />-->
+<!--    </logger>-->
+
+<!--    &lt;!&ndash; BusinessAPI &ndash;&gt;-->
+<!--    <logger name="BusinessAPI" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="BusinessAPI" />-->
+<!--    </logger>-->
+
+
+<!--    &lt;!&ndash; API &ndash;&gt;-->
+<!--    <logger name="API" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="API" />-->
+<!--    </logger>-->
+
+
+<!--    &lt;!&ndash;  WEB &ndash;&gt;-->
+<!--    <logger name="WEB" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="WEB" />-->
+<!--        <appender-ref ref="WEB-STDOUT" />-->
+<!--    </logger>-->
+
+
+<!--    &lt;!&ndash;  ERROR &ndash;&gt;-->
+<!--    <logger name="ERROR" level="ERROR" additivity="false">-->
+<!--        <appender-ref ref="ERROR" />-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </logger>-->
+
+<!--    &lt;!&ndash;  Schedule &ndash;&gt;-->
+<!--    <logger name="Schedule" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="Schedule" />-->
+<!--    </logger>-->
+
+
+<!--    &lt;!&ndash;  SendEmail &ndash;&gt;-->
+<!--    <logger name="com.remarkablesoft.api.mail" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="SendEmail" />-->
+<!--    </logger>-->
 
 
 

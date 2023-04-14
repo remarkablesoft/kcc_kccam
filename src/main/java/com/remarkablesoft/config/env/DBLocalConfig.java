@@ -29,12 +29,12 @@ public class DBLocalConfig implements DBConfig {
 
 
 		    HikariConfig hikariConfig = new HikariConfig();
-
-
-		    hikariConfig.setDriverClassName( "net.sf.log4jdbc.DriverSpy" );
+				
+				
+			hikariConfig.setDriverClassName( "oracle.jdbc.driver.OracleDriver" );
 
 		    // 로컬
-			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
+			hikariConfig.setJdbcUrl( "jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
 			hikariConfig.setUsername( "kccam" );
 			hikariConfig.setPassword( "kccam" );
 

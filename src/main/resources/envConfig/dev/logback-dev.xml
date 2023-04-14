@@ -18,6 +18,7 @@
             <charset>UTF-8</charset>
             <pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
             <!-- <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%thread#%-10X{UserID} #%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern> -->
+            <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern>
         </encoder>
     </appender>
 
@@ -237,6 +238,12 @@
         </encoder>
     </appender>
 
+    <!--  SQL-STDOUT  -->
+    <appender name="SQL-STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>#%X{SQLResult}#%6X{SQLElapseTime}#%X{SQLStartTime}#%20X{ReqeudtID}#%15X{UserOID}#%15X{UserID}#%15X{ClientIP}#%X{SQLClassName}#%X{SQLName}%n%X{SQLQuery}%n%X{SQLParam}%n%X{SQLReturn}%n</pattern>
+        </encoder>
+    </appender>
 
 	<!--  WEB-STDOUT  -->
     <appender name="WEB-STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -247,25 +254,30 @@
 
 
 	 <!-- Sql 맵핑된 데이터를 바로 보여주기 위해서. -->
-	<logger name="sqlonly" additivity="false">
-	  <level value="INFO" />
-	  <appender-ref ref="STDOUT" />
-	 </logger>
+<!--	<logger name="sqlonly" additivity="false">-->
+<!--	  <level value="INFO" />-->
+<!--	  <appender-ref ref="STDOUT" />-->
+<!--	 </logger>-->
 
-	 <logger name="jdbc.sqltiming" additivity="false">
-	  	<level value="INFO" />
-	  		<appender-ref ref="SQL" />
-			<appender-ref ref="STDOUT" />
-	 </logger>
+<!--	 <logger name="jdbc.sqltiming" additivity="false">-->
+<!--	  	<level value="INFO" />-->
+<!--	  		<appender-ref ref="SQL" />-->
+<!--			<appender-ref ref="STDOUT" />-->
+<!--	 </logger>-->
 
-	 <logger name="jdbc.audit" level="OFF"/>
-	 <logger name="jdbc.connection" level="OFF"/>
+<!--	 <logger name="jdbc.audit" level="OFF"/>-->
+<!--	 <logger name="jdbc.connection" level="OFF"/>-->
 
 
-	 <logger name="jdbc.resultsettable" additivity="false">
-	  <level value="DEBUG" />
-		<appender-ref ref="STDOUT" />
-	</logger>
+<!--	 <logger name="jdbc.resultsettable" additivity="false">-->
+<!--	  <level value="DEBUG" />-->
+<!--		<appender-ref ref="STDOUT" />-->
+<!--	</logger>-->
+    <!--  SQL -->
+    <logger name="SQL" level="DEBUG" additivity="false">
+        <appender-ref ref="SQL" />
+        <appender-ref ref="SQL-STDOUT" />
+    </logger>
 
     <!--  Spring -->
     <logger name="org.springframework" level="INFO"></logger>

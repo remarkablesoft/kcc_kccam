@@ -28,9 +28,9 @@ public class DBRealConfig implements DBConfig {
 		@Bean( destroyMethod = "close" )
 		public DataSource dataSource() {
 				HikariConfig hikariConfig = new HikariConfig();
-				hikariConfig.setDriverClassName( "net.sf.log4jdbc.DriverSpy" );
+				hikariConfig.setDriverClassName( "oracle.jdbc.driver.OracleDriver" );
 				// 운영
-				hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@70.11.11.80:1521/KAIS" );
+				hikariConfig.setJdbcUrl( "jdbc:oracle:thin:@70.11.11.80:1521/KAIS" );
 				hikariConfig.setUsername( "AM_MATERIAL_PUB" );
 				hikariConfig.setPassword( "am3480pub@!" );
 				// 로컬
