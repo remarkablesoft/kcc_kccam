@@ -1,278 +1,244 @@
 <template>
-  <div class="related-sites popup-zone" :class="[isPopupVisible ? 'visible' : '']" v-if="isPopupVisible">
-    <!-- inner-content -->
-    <div class="inner-content">
-      <!-- 목록 -->
-      <div class="detail-content">
-        <div class="tit-area">
-          <div class="tit-item">
-            <h2>
-              POPUP ZONE
-            </h2>
-          </div>
-          <div class="web-visible">
-            <!-- navigation btn -->
-            <div class="navigation-btn-group">
-              <!-- swiper navigation -->
-              <div class="swiper-button-prev site-swiper-prev" slot="button-prev">
-                <span class="material-icons-outlined">arrow_back_ios</span>
-              </div>
-              <div class="sub-icon">
-                <span>|</span>
-              </div>
-              <!-- btn autoplay pause / play -->
-              <div class="swiper-button-next site-swiper-next" slot="button-next">
-                <span class="material-icons-outlined">arrow_forward_ios</span>
-              </div>
-            </div>
-            <div class="button-play">
-              <!-- pause -->
-              <button v-show="popupSwiperPlay" class="swiper-button-pause" @click="popupSwiperPlay = false">
-                <span class="material-icons-outlined">stop</span>
-              </button>
-              <!-- play -->
-              <button v-show="!popupSwiperPlay" class="swiper-button-pause" @click="popupSwiperPlay = true">
+	<div class="related-sites popup-zone" :class="[isPopupVisible ? 'visible' : '']" v-if="isPopupVisible" >
+		<!-- inner-content -->
+		<div class="inner-content">
+			<!-- 목록 -->
+			<div class="detail-content">
+				<div class="tit-area">
+					<div class="tit-item">
+						<h2>
+							POPUP ZONE
+						</h2>
+					</div>
+					<div class="web-visible">
+						<!-- navigation btn -->
+						<div class="navigation-btn-group">
+							<!-- swiper navigation -->
+							<div class="swiper-button-prev site-swiper-prev" slot="button-prev">
+								<span class="material-icons-outlined">arrow_back_ios</span>
+							</div>
+							<div class="sub-icon">
+								<span>|</span>
+							</div>
+							<!-- btn autoplay pause / play -->
+							<div class="swiper-button-next site-swiper-next" slot="button-next">
+								<span class="material-icons-outlined">arrow_forward_ios</span>
+							</div>
+						</div>
+						<div class="button-play">
+							<!-- pause -->
+							<button v-show="popupSwiperPlay" class="swiper-button-pause" @click="popupSwiperPlay = false">
+								<span class="material-icons-outlined">stop</span>
+							</button>
+							<!-- play -->
+							<button v-show="!popupSwiperPlay" class="swiper-button-pause" @click="popupSwiperPlay = true">
 								<span class="material-icons-round">
 									play_arrow
 								</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="list-area">
-          <div class="list-wrapper">
-            <swiper
-              class="swiper list-swiper related-site-list"
-              :options="relatedSitesListSwiperOption"
-              ref="popupSwiper"
-            >
-              <!-- list-item -->
-              <swiper-slide v-for="item in popupList" :key="item.oid">
-                <div class="list-item">
-                  <a @click="setImgUrl(item)">
-                    <img alt="" :src="getImage(item)"/>
-                  </a>
-                </div>
-              </swiper-slide>
-            </swiper>
-          </div>
-        </div>
-      </div>
-      <div class="content-footer">
-        <div class="btn-row">
-          <button v-if="!ignoreCookie" class="btn-close-round" @click="hideToday()">
-            <span class="txt">오늘 하루 열지 않기</span>
-            <i class="material-icons">close</i>
-          </button>
-          <button class="btn-close-round" @click="closePopup()">
-            <span class="txt"> 닫기</span>
-            <i class="material-icons">close</i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="list-area">
+					<div class="list-wrapper">
+						<swiper
+							class="swiper list-swiper related-site-list"
+							:options="relatedSitesListSwiperOption"
+							ref="popupSwiper"
+						>
+							<!-- list-item -->
+							<swiper-slide v-for="item in popupList" :key="item.oid">
+								<div class="list-item">
+									<a @click="setImgUrl(item)">
+										<img alt="" :src="getImage(item)"/>
+									</a>
+								</div>
+							</swiper-slide>
+						</swiper>
+					</div>
+				</div>
+			</div>
+			<div class="content-footer">
+				<div class="btn-row">
+					<button class="btn-close-round" @click="hideToday()">
+						<span class="txt">오늘 하루 열지 않기</span>
+						<i class="material-icons">close</i>
+					</button>
+					<button class="btn-close-round" @click="closePopup()">
+						<span class="txt"> 닫기</span>
+						<i class="material-icons">close</i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 import VClamp from "vue-clamp";
 import theNoData from "~/components/common/nodata/TheNoData";
 import Cookies from "js-cookie";
 
-const OPERATION_USER_LIST = "/api/user/v1/portalUserPopupApi_operationList";
 
 export default {
-  components: {
-    VClamp,
-    theNoData,
-  },
-  props: {
-    popupList : {
-      type: Array,
-      required : false,
-    },
-    ignoreCookie : {
-      type : Boolean,
-      require : false,
-      default : false,
-    }
-  },
+	components: {
+		VClamp,
+		theNoData,
+	},
+	props: {},
 
-  data() {
-    return {
-      // 관련 사이트 목록 스와이퍼 옵션
-      relatedSitesListSwiperOption: {
-        spaceBetween: 20,
-        centerInsufficientSlides: true, // 센터 정렬
-        slidesPerView: 3,
-        slidesPerGroup: 3,
-        // slidesPerView: "auto",
-        // centeredSlides: true,
-        loopFillGroupWithBlank: true,
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: true,
-        },
-        // loop: true,
-        // loopedSlides: 1,
-        // pagination : {
-        // 	el        : ".site-swiper-pagination",
-        // 	clickable : true,
-        // },
-        navigation: {
-          nextEl: ".site-swiper-next",
-          prevEl: ".site-swiper-prev",
-        },
+	data() {
+		return {
+			// 관련 사이트 목록 스와이퍼 옵션
+			relatedSitesListSwiperOption: {
+				// spaceBetween: 20,
+				slidesPerView: 3,
+				slidesPerGroup: 3,
+				centerInsufficientSlides: true, // 센터 정렬
+				// slidesPerView: "auto",
+				// centeredSlides: true,
+				loopFillGroupWithBlank: true,
+				autoplay: {
+					delay: 5000,
+					disableOnInteraction: true,
+				},
+				// loop: true,
+				// loopedSlides: 1,
+				// pagination : {
+				// 	el        : ".site-swiper-pagination",
+				// 	clickable : true,
+				// },
+				navigation: {
+					nextEl: ".site-swiper-next",
+					prevEl: ".site-swiper-prev",
+				},
 
-        breakpoints: {
-          1024: {
-            slidesPerView:  2.3,
-            slidesPerGroup: 1,
-            spaceBetween: 10,
-          },
+				breakpoints: {
+					1024: {
+						slidesPerView: 3,
+						slidesPerGroup: 3,
+					},
 
-          865: {
-            slidesPerView: 2.1,
-            slidesPerGroup: 2,
-            spaceBetween: 10,
-          },
-          430: {
-            slidesPerView: 1.1,
-            slidesPerGroup: 1,
-            spaceBetween: 10,
-          }
+					865: {
+						slidesPerView: 2.2,
+						slidesPerGroup: 1,
+						centeredSlides: false,
+					},
+					430: {
+						slidesPerView: 1.3,
+						slidesPerGroup: 1,
+						centeredSlides: false,
+					}
 
-        }
-      },
+				}
+			},
 
-      // popupList: [],
+			popupList: [],
 
-      // swiper autoplay
-      popupSwiperPlay: true,
-      isPopupVisible: false,
-    };
-  },
-  async fetch() {
-    // await this.listPopup();
-  },
-  computed: {},
-  watch: {
-    // swiper autoplay
-    popupSwiperPlay() {
-      if (true === this.popupSwiperPlay) {
-        this.$refs.popupSwiper.swiper.autoplay.start();
-      }
-      else {
-        this.$refs.popupSwiper.swiper.autoplay.stop();
-      }
-    },
+			// swiper autoplay
+			popupSwiperPlay: true,
+			isPopupVisible: false,
+		};
+	},
+	async fetch() {
+		await this.listPopup();
+	},
+	computed: {},
+	watch: {
+		// swiper autoplay
+		popupSwiperPlay() {
+			if (true === this.popupSwiperPlay) {
+				this.$refs.popupSwiper.swiper.autoplay.start();
+			}
+			else {
+				this.$refs.popupSwiper.swiper.autoplay.stop();
+			}
+		},
 
-    isPopupVisible() {
-      this.setScrollOverflow();
-    },
+		isPopupVisible() {
+			this.setScrollOverflow();
+		},
+	},
+	mounted() {
+		this.setScrollOverflow();
+	},
+	methods: {
 
-    popupList() {
-      if( this.popupList && this.popupList.length > 0 ) {
-        this.isPopupVisible = true;
+		getImage(item) {
+			if (this.$common.isEmpty(item) || this.$common.isEmpty(item.fileList)) {
 
-        if( !this.ignoreCookie ) {
-          this.checkCookie();
-        }
+				return;
+			}
 
-      }
-      else {
-        this.isPopupVisible = false;
-        return;
-      }
-    },
-  },
-  mounted() {
-    this.setScrollOverflow();
-  },
-  methods: {
+			return this.$common.getThumbnailPath( item.fileList[ 0 ].storageFileUid, item.width + "_" + item.height );
+		},
 
-    getImage(item) {
-      if (this.$common.isEmpty(item) || this.$common.isEmpty(item.fileList)) {
+		closePopup() {
 
-        return;
-      }
+			this.isPopupVisible = false;
+		},
 
-      return this.$common.getThumbnailPath( item.fileList[ 0 ].storageFileUid, item.width + "_" + item.height );
-    },
+		setScrollOverflow() {
 
-    closePopup() {
-      this.$emit("close");
-      this.isPopupVisible = false;
-    },
+			if (this.isPopupVisible) {
+				document.querySelector('.wrapper').style.overflow = "hidden"
+			}
+			else {
+				document.querySelector('.wrapper').style.overflow = ""
+			}
+		},
 
-    setScrollOverflow() {
+		// 오늘 하루 열지 않기
+		hideToday() {
 
-      if (this.isPopupVisible) {
-        document.querySelector('.wrapper').style.overflow = "hidden"
-      }
-      else {
-        document.querySelector('.wrapper').style.overflow = ""
-      }
-    },
+			Cookies.set(this.$amConstant.POPUP_HIDE_TODAY_LIST, true, {expires: 1});
+			this.closePopup();
+		},
 
-    // 오늘 하루 열지 않기
-    hideToday() {
+		checkCookie() {
 
-      Cookies.set(this.$amConstant.POPUP_HIDE_TODAY_LIST, true, {expires: 1});
-      this.closePopup();
-    },
+			if (Cookies.get(this.$amConstant.POPUP_HIDE_TODAY_LIST)) {
+				this.closePopup();
+			}
+		},
 
-    checkCookie() {
+		async listPopup() {
 
-      if (Cookies.get(this.$amConstant.POPUP_HIDE_TODAY_LIST)) {
-        this.closePopup();
-      }
-    },
+			let param = {
+				popupViewTypeFlag: this.$amConstant.POPUP_TYPE.VIEW.LIST.KEY,
+			};
 
-    // async listPopup() {
-    //
-    // 	let param = {
-    // 		popupViewTypeFlag: this.$constant.POPUP_TYPE.VIEW.LIST.KEY,
-    // 	};
-    //
-    // 	await this.$axios.post(OPERATION_USER_LIST, param).then(res => {
-    //
-    // 		if (this.$common.isEmpty(res.data)) {
-    // 			this.isPopupVisible = false;
-    // 			return;
-    // 		}
-    //
-    // 		this.popupList = res.data;
-    //
-    // 		this.isPopupVisible = true;
-    // 		this.checkCookie();
-    // 	});
-    // },
+			await this.$axios.post(this.$urlConstant.API_URL_PREFIX.POPUP + this.$urlConstant.API_URL_SUFFIX.POPUP.OPERATION_LIST, param).then(res => {
 
-    /* 링크 타입이 새창인지, 페이지 이동인지 구분하여 이동 */
-    setImgUrl(item) {
+				if (this.$common.isEmpty(res.data)) {
+					this.isPopupVisible = false;
+					return;
+				}
 
-      console.log("item", item);
+				this.popupList = res.data;
 
-      if (this.$common.isEmpty(item) || this.$common.isEmpty(item.linkUrl)) {
-        return;
-      }
+				this.isPopupVisible = true;
+				this.checkCookie();
+			});
+		},
 
-      // 페이지 이동
-      if (this.$constant.POPUP_LINK_TYPE.PAGE_MOVE === item.linkTypeFlag) {
+		/* 링크 타입이 새창인지, 페이지 이동인지 구분하여 이동 */
+		setImgUrl(item) {
 
-        window.location.href = item.linkUrl;
-      }
-      else if (this.$constant.POPUP_LINK_TYPE.NEW === item.linkTypeFlag) {  // 새창
-        this.$common.isMobile() ? this.mobileNoGuide(item.linkUrl) : window.open( item.linkUrl ) ;
-      }
-    },
+			if (this.$common.isEmpty(item) || this.$common.isEmpty(item.linkUrl)) {
+				return;
+			}
 
-    mobileNoGuide( url ) {
-      if ( url.includes("GwNoteDataBoxGuide") ) {
-        this.$common.confirmSwal( "", "해당 기능은 모바일에서 지원하지 않으므로 PC 환경에서 확인해주시기를 바랍니다.", "warning" );
-      }
-    }
-  },
+			// 페이지 이동
+			if (this.$amConstant.POPUP_LINK_TYPE.PAGE_MOVE === item.linkTypeFlag) {
+
+				window.location.href = item.linkUrl;
+			}
+			else if (this.$amConstant.POPUP_LINK_TYPE.NEW === item.linkTypeFlag) {  // 새창
+
+				window.open( item.linkUrl );
+			}
+		},
+	},
 };
 </script>
 <style></style>

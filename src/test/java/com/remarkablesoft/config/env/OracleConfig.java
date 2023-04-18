@@ -21,14 +21,14 @@ public class OracleConfig implements DBConfig {
 
 				
 		    HikariConfig hikariConfig = new HikariConfig();
-
-
-		    hikariConfig.setDriverClassName( "net.sf.log4jdbc.DriverSpy" );
+				
+				
+				hikariConfig.setDriverClassName( "oracle.jdbc.driver.OracleDriver" );
 
 		    // 로컬
-			hikariConfig.setJdbcUrl( "jdbc:log4jdbc:oracle:thin:@13.124.157.214:1521:orcl" );
-			hikariConfig.setUsername( "kccemc" );
-			hikariConfig.setPassword( "kccemc" );
+				hikariConfig.setJdbcUrl( "jdbc:oracle:thin:@116.120.58.157:1521:orcl" );
+				hikariConfig.setUsername( "kccam" );
+				hikariConfig.setPassword( "kccam" );
 			
 			
 			hikariConfig.setMaximumPoolSize( 10 );

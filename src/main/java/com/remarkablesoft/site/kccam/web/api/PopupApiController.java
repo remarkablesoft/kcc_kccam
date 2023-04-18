@@ -1,14 +1,12 @@
 package com.remarkablesoft.site.kccam.web.api;
 
+import com.remarkablesoft.framework.annotation.WEBLog;
 import com.remarkablesoft.framework.service.board.popup.model.PopupService;
 import com.remarkablesoft.framework.service.board.popup.vo.PopupCnd;
 import com.remarkablesoft.framework.service.board.popup.vo.PopupInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,7 @@ import java.util.List;
  * 		1.0  2021. 12. 01.	:	sirena	-	신규생성
  * 		============================================================================
  */
+@WEBLog
 @RestController
 @RequestMapping( "/kccam/api/popup/" )
 public class PopupApiController {
@@ -31,8 +30,8 @@ public class PopupApiController {
 		@Autowired
 		protected PopupService popupService;
 		
-		@GetMapping( "/popup_save" )
-		public ResponseEntity<?> save( PopupInfo popupInfo ) {
+		@PostMapping( "/popupApi_save" )
+		public ResponseEntity<?> save( @RequestBody PopupInfo popupInfo ) {
 				
 				return ResponseEntity.ok( popupService.insertOrUpdate( popupInfo ) );
 		}
@@ -44,7 +43,7 @@ public class PopupApiController {
 		 * @author sirena
 		 * @작성일 2021-09-07
 		 **/
-		@RequestMapping( value = "/popup_operationList" )
+		@RequestMapping( value = "/popupApi_operationList" )
 		public ResponseEntity<?> operationList( @RequestBody PopupCnd popupCnd ) {
 				
 				List<PopupInfo> list = popupService.operationList( popupCnd );

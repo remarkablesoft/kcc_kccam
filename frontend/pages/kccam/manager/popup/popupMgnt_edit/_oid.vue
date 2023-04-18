@@ -76,7 +76,7 @@
 												<em class="required">*</em>
 											</th>
 											<td colspan="3">
-												<el-radio-group v-model="popupInfo.statusTypeFlag">
+												<el-radio-group v-model="popupInfo.useYn">
 													<el-radio label="Y">노출</el-radio>
 													<el-radio label="N">비노출</el-radio>
 												</el-radio-group>
@@ -134,12 +134,12 @@
 											<td colspan="3">
 												<div class="flex-item align-center wd-53">
 													<el-input placeholder="가로 (px)" class="size-sm" v-model.number="popupInfo.positionX"
-													          :disabled="$amConstant.FLAG_YN.YES === popupInfo.customField1"/>
+													          :disabled="$amConstant.FLAG_YN.YES === popupInfo.centerAlignmentYn"/>
 													<span class="hyphen mr5">x</span>
 													<el-input placeholder="세로 (px)" class="size-sm" v-model.number="popupInfo.positionY"
-													          :disabled="$amConstant.FLAG_YN.YES === popupInfo.customField1"/>
+													          :disabled="$amConstant.FLAG_YN.YES === popupInfo.centerAlignmentYn"/>
 													<div class="custom-checkbox">
-														<input type="checkbox" id="checkAll" v-model="popupInfo.customField1"
+														<input type="checkbox" id="checkAll" v-model="popupInfo.centerAlignmentYn"
 														       @change="isFixed"
 														       :true-value="$amConstant.FLAG_YN.YES"
 														       :false-value="$amConstant.FLAG_YN.NO"/>
@@ -249,9 +249,9 @@ export default {
 				oid                   : "",
 				popupContentsTypeFlag : this.$amConstant.POPUP_TYPE.CONTENTS.IMAGE,
 				popupViewTypeFlag     : this.$amConstant.POPUP_TYPE.VIEW.LIST.KEY,
-				statusTypeFlag        : "Y",
+				useYn                 : "Y",
 				linkTypeFlag          : this.$amConstant.POPUP_TYPE.LINK.NEW,
-				customField1          : "N",
+				centerAlignmentYn     : "N",
 				fileList              : [],
 			},
 
@@ -334,7 +334,7 @@ export default {
 				}
 
 				// 가운데 정렬이 아닌 경우
-				if ( !this.popupInfo.customField1 ) {
+				if ( !this.popupInfo.centerAlignmentYn ) {
 
 					if ( !this.popupInfo.positionX ) {
 						this.$common.confirmSwal( "필수 입력", "팝업 가로 위치를 입력해주세요.", "warning" );
@@ -451,7 +451,7 @@ export default {
 		},
 
 		isFixed( e ) {
-			this.popupInfo.customField1 = e.target.checked ? this.$amConstant.FLAG_YN.YES : this.$amConstant.FLAG_YN.NO;
+			this.popupInfo.centerAlignmentYn = e.target.checked ? this.$amConstant.FLAG_YN.YES : this.$amConstant.FLAG_YN.NO;
 			this.$forceUpdate();
 		},
 		/**

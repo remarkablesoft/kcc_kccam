@@ -83,8 +83,6 @@
 <script>
 import Cookies from "js-cookie";
 
-const OPERATION_LIST = "/survey/api/v1/surveyPopupApi_operationList";
-
 export default {
 	props : {
 		visible   : {
@@ -101,9 +99,9 @@ export default {
 			type    : String,
 			default : "",
 		},
-		partOid   : String,
 	},
 	data() {
+
 		return {
 			layerPopupVisible : this.visible,
 			popupList         : [],
@@ -180,7 +178,7 @@ export default {
 				popupViewTypeFlag : this.$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY,
 			};
 
-			await this.$axios.post( OPERATION_LIST, param ).then( res => {
+			await this.$axios.post( this.$urlConstant.API_URL_PREFIX.POPUP + this.$urlConstant.API_URL_SUFFIX.POPUP.OPERATION_LIST, param ).then( res => {
 
 				if ( this.$common.isEmpty( res.data ) ) {
 					this.layerPopupVisible = false;
@@ -205,16 +203,13 @@ export default {
 				return;
 			}
 			let url = "";
-			if ( this.isPortalPopup( item.customField4 ) ) {
 
-				url += process.env.SYSTEM.PORTAL.URL;
-			}
 			return url + this.$common.getThumbnailPath( item.fileList[ 0 ].storageFileUid, item.width + "_" + item.height );
 		},
 
 		setPopupPosition( item ) {
-			const { positionY, positionX, customField1 } = item;
-			if ( this.$common.isEmpty( customField1 ) || this.$amConstant.FLAG_YN.NO === customField1 ) {
+			const { positionY, positionX, centerAlignmentYn } = item;
+			if ( this.$common.isEmpty( centerAlignmentYn ) || this.$amConstant.FLAG_YN.NO === centerAlignmentYn ) {
 				return `top: ${ positionY }px; left: ${ positionX }px;`;
 			}
 			else {

@@ -68,9 +68,6 @@ const common = {
 
 	// Date Type 을 받아 YYYY-MM-DD 형태의 String 으로 Return
 	formatDateToString( value ) {
-		if ( isEmpty( value ) ) {
-			return "";
-		}
 
 		let year = value.getFullYear();
 		let month = value.getMonth() + 1;

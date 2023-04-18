@@ -395,6 +395,11 @@
             </el-button>
             <the-youtube-modal ref="youtubeModal" :youtube-id="youtubeId" />
         </el-dialog>
+
+        <!-- 팝업 (레이어) -->
+	    <the-layer-popup :visible="true"/>
+        <!--popup zone 팝업-->
+	    <the-popup-zone/>
     </div>
 </template>
 <script>
@@ -405,6 +410,8 @@ import theMainVisual from "~/components/kccam/user/main/TheMainVisual.vue";
 import theGlobalNetwork from "~/components/kccam/user/globalNetwork/TheGlobalNetwork.vue";
 import theMainPopup from "~/components/kccam/user/modal/TheMainPopup.vue";
 import theYoutubeModal from "~/components/kccam/user/modal/TheYoutubeModal.vue";
+import TheLayerPopup from "~/components/common/popup/TheLayerPopup.vue";
+import ThePopupZone from "~/components/common/popup/ThePopupZone.vue";
 import Cookie from "js-cookie";
 
 export default {
@@ -422,11 +429,13 @@ export default {
     },
     layout: "userLayout",
     components: {
+	    TheLayerPopup,
         theLoading,
         theMainVisual,
         theGlobalNetwork,
         theMainPopup,
         theYoutubeModal,
+	    ThePopupZone
     },
     data() {
         return {

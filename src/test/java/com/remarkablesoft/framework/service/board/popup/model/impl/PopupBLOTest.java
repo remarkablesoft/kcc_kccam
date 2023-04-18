@@ -81,7 +81,6 @@ public class PopupBLOTest extends BaseModelTest  {
 				PopupInfo result = new PopupInfo();
 				result.setOid( OIDGenerator.generateOID() );
 				result.setName( "[LOCAL]Portal등록" );
-				result.setOrderNo(2);
 				result.setStartDate( LocalDate.now() );
 				result.setEndDate( LocalDate.now().plusMonths( 1L ) );
 				result.setWidth( 300 );

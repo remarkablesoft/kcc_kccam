@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
+import com.remarkablesoft.framework.module.log.SQLLoggingAspect;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
@@ -98,20 +100,22 @@ public class DBConfigTest {
 		public SqlSessionFactory sqlSessionFactory() throws Exception {
 				SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 
-			sessionFactory.setDataSource(dataSource);
-//			sessionFactory.setMapperLocations( applicationContext.getResources( "classpath*:com/remarkablesoft/**/mysql/*SQL.xml" ) );
-			sessionFactory.setMapperLocations( applicationContext.getResources( "classpath*:com/remarkablesoft/**/oracle/*SQL.xml" ) );
+				sessionFactory.setDataSource(dataSource);
+//				sessionFactory.setMapperLocations( applicationContext.getResources( "classpath*:com/remarkablesoft/**/mysql/*SQL.xml" ) );
+				sessionFactory.setMapperLocations( applicationContext.getResources( "classpath*:com/remarkablesoft/**/oracle/*SQL.xml" ) );
 
 				sessionFactory.setTypeHandlers( new TypeHandler[] {
-        				new TempType.TypeHandler(),
-        				new StatusType.TypeHandler(),
-        				new PaymentMethodType.TypeHandler(),
-        				new PostingActionType.TypeHandler(),
-						new PointType.TypeHandler(),
-						new PointRuleType.TypeHandler(),
-        				new com.remarkablesoft.framework.common.mybatis.MoneyTypeHandler(),
-        				new com.remarkablesoft.framework.common.mybatis.PointTypeHandler()
-        		} );
+        	     	new TempType.TypeHandler(),
+        	     	new StatusType.TypeHandler(),
+        	     	new PaymentMethodType.TypeHandler(),
+        	     	new PostingActionType.TypeHandler(),
+			     	new PointType.TypeHandler(),
+			     	new PointRuleType.TypeHandler(),
+        	     	new com.remarkablesoft.framework.common.mybatis.MoneyTypeHandler(),
+        	     	new com.remarkablesoft.framework.common.mybatis.PointTypeHandler()
+        	    } );
+				
+				sessionFactory.setPlugins(new Interceptor[]{new SQLLoggingAspect()});
 
 				SqlSessionFactory sqlSessionFactory = sessionFactory.getObject();
 				sqlSessionFactory.getConfiguration().setJdbcTypeForNull( JdbcType.NULL );
