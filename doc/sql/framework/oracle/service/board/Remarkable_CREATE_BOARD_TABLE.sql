@@ -228,3 +228,68 @@ CREATE TABLE TS02_TB_POSTING_LANG (
    COMMENT ON COLUMN TS02_TB_POSTING_LANG.MOD_DATE IS '수정일시';
    COMMENT ON TABLE TS02_TB_POSTING_LANG IS '게시물 다국어 테이블';
 
+---------------------------------------------------------------
+--  TS02_TB_POPUP : 팝업 테이블
+---------------------------------------------------------------
+CREATE TABLE TS02_TB_POPUP (
+
+                          OID 						VARCHAR2(11) 			NOT NULL,
+                          PART_OID			 		VARCHAR2(11) 			NULL,
+                          NAME 						VARCHAR2(255) 			NULL,
+                          START_DATE 				DATE 					NULL,
+                          END_DATE 					DATE 					NULL,
+
+                          WIDTH 					NUMBER(5)			    NULL,
+                          HEIGHT 					NUMBER(5)		        NULL,
+                          POSITION_X           	 	NUMBER(5)               NULL,
+                          POSITION_Y           		NUMBER(5)               NULL,
+                          ORDER_NO					NUMBER(5)               NULL,
+
+                          POPUP_CONTENTS_TYPE_FLAG 	CHAR(1)  				NULL,
+                          POPUP_VIEW_TYPE_FLAG 	    CHAR(1)  				NULL,
+                          LINK_URL 					VARCHAR2(255)			NULL,
+                          LINK_TYPE_FLAG 			CHAR(1)					NULL,
+                          CENTER_ALIGNMENT_YN       CHAR(1)                 NULL,
+
+                          USE_YN		 			CHAR(1) 				DEFAULT 'Y' NULL,
+                          INPUT_USER 				VARCHAR2(11) 			NULL,
+                          INPUT_DATE 				TIMESTAMP 				NULL,
+
+                          CUSTOM_FIELD1 			VARCHAR2(255) 			NULL,
+                          CUSTOM_FIELD2 			VARCHAR2(255) 			NULL,
+                          CUSTOM_FIELD3 			VARCHAR2(255) 			NULL,
+                          CUSTOM_FIELD4 			VARCHAR2(255) 			NULL,
+                          CUSTOM_FIELD5 			VARCHAR2(255) 			NULL,
+
+                          CONSTRAINT TB_POPUP PRIMARY KEY  ( OID )
+);
+
+COMMENT ON TABLE TS02_TB_POPUP IS '팝업 테이블';
+
+COMMENT ON COLUMN TS02_TB_POPUP.OID IS 'OID';
+COMMENT ON COLUMN TS02_TB_POPUP.PART_OID  IS '파트 OID';
+COMMENT ON COLUMN TS02_TB_POPUP.NAME  IS '팝업명';
+COMMENT ON COLUMN TS02_TB_POPUP.START_DATE IS '팝업 시작일';
+COMMENT ON COLUMN TS02_TB_POPUP.END_DATE IS '팝업 종료일';
+
+COMMENT ON COLUMN TS02_TB_POPUP.WIDTH IS '팝업 넓이';
+COMMENT ON COLUMN TS02_TB_POPUP.HEIGHT IS '팝업 높이';
+COMMENT ON COLUMN TS02_TB_POPUP.POSITION_X IS '가로 위치';
+COMMENT ON COLUMN TS02_TB_POPUP.POSITION_Y IS '세로 위치';
+COMMENT ON COLUMN TS02_TB_POPUP.ORDER_NO IS '정렬 순서';
+
+COMMENT ON COLUMN TS02_TB_POPUP.POPUP_CONTENTS_TYPE_FLAG IS '팝업 콘텐츠 타입  ex) 이미지 팝업 - dropzone(I), 본문 팝업 - editor(C)';
+COMMENT ON COLUMN TS02_TB_POPUP.POPUP_VIEW_TYPE_FLAG IS '팝업 보기 타입  ex) 리스트 타입(L), 일반 타입(G) - 위치, 사이즈 지정';
+COMMENT ON COLUMN TS02_TB_POPUP.LINK_URL IS '연결 URL';
+COMMENT ON COLUMN TS02_TB_POPUP.LINK_TYPE_FLAG IS '링크 타입 (새창 띄우기(N), 페이지 이동(P))';
+COMMENT ON COLUMN TS02_TB_POPUP.CENTER_ALIGNMENT_YN IS '가운데 정렬 적용 여부';
+
+COMMENT ON COLUMN TS02_TB_POPUP.USE_YN IS 'Y 사용중, N 사용안함';
+COMMENT ON COLUMN TS02_TB_POPUP.INPUT_USER IS '등록자';
+COMMENT ON COLUMN TS02_TB_POPUP.INPUT_DATE IS '등록일';
+
+COMMENT ON COLUMN TS02_TB_POPUP.CUSTOM_FIELD1 IS '커스텀 필드1';
+COMMENT ON COLUMN TS02_TB_POPUP.CUSTOM_FIELD2 IS '커스텀 필드2';
+COMMENT ON COLUMN TS02_TB_POPUP.CUSTOM_FIELD3 IS '커스텀 필드3';
+COMMENT ON COLUMN TS02_TB_POPUP.CUSTOM_FIELD4 IS '커스텀 필드4';
+COMMENT ON COLUMN TS02_TB_POPUP.CUSTOM_FIELD5 IS '커스텀 필드5';

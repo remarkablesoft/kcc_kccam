@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO">
+
+
+    <sql id="selectColumn">
+        OID								oid
+        , PART_OID						partOid
+        , NAME							name
+        , START_DATE					startDate
+        , END_DATE						endDate
+
+        , WIDTH							width
+        , HEIGHT						height
+        , POPUP_CONTENTS_TYPE_FLAG		popupContentsTypeFlag
+        , POPUP_VIEW_TYPE_FLAG		    popupViewTypeFlag
+        , LINK_URL			            linkUrl
+        , LINK_TYPE_FLAG			    linkTypeFlag
+
+        , USE_YN						useYn
+        , INPUT_USER					inputUser
+        , INPUT_DATE					inputDate
+        , ORDER_NO                      orderNo
+        , POSITION_X        			positionX
+        , POSITION_Y        			positionY
+        , CENTER_ALIGNMENT_YN           centerAlignmentYn
+
+        , CUSTOM_FIELD1					customField1
+        , CUSTOM_FIELD2					customField2
+        , CUSTOM_FIELD3					customField3
+        , CUSTOM_FIELD4					customField4
+        , CUSTOM_FIELD5					customField5
+    </sql>
+
+
+
+    <sql id="searchCnd">
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(oid)"> AND OID = #{oid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(partOid)"> AND PART_OID = #{partOid}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> AND NAME LIKE '%' || #{name} || '%' </if>
+
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(width)"> AND WIDTH = #{width}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(height)"> AND HEIGHT = #{height}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(popupContentsTypeFlag)"> AND POPUP_CONTENTS_TYPE_FLAG = #{popupContentsTypeFlag}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(popupViewTypeFlag)"> AND POPUP_VIEW_TYPE_FLAG = #{popupViewTypeFlag}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkUrl)"> AND LINK_URL = #{linkUrl}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkTypeFlag)"> AND LINK_TYPE_FLAG = #{linkTypeFlag}</if>
+
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND USE_YN = #{useYn}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(inputUser)"> AND INPUT_USER IN ( SELECT OID FROM TB_USER WHERE NAME LIKE '%' || #{inputUser} || '%' ) </if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> AND CUSTOM_FIELD1 = #{customField1}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> AND CUSTOM_FIELD2 = #{customField2}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> AND CUSTOM_FIELD3 = #{customField3}</if>
+
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> AND CUSTOM_FIELD4 = #{customField4}</if>
+        <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> AND CUSTOM_FIELD5 = #{customField5}</if>
+
+        <if test="startDate != null"> AND START_DATE <![CDATA[>=]]> #{startDate}</if>
+        <if test="endDate != null"> AND END_DATE <![CDATA[<=]]> #{endDate}</if>
+
+        <if test="today != null"> AND START_DATE <![CDATA[<=]]> #{today} AND END_DATE <![CDATA[>=]]> #{today}</if>
+        <if test="expirationDate != null"> AND END_DATE <![CDATA[<]]> #{expirationDate}</if>
+
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(oidList)">
+        	AND OID IN
+        	<foreach collection="oidList" item="item" separator="," open="(" close=")">
+        		#{item}
+        	</foreach>
+        </if>
+        <if test="@com.remarkablesoft.framework.util.CollectionUtils@isNotEmpty(popupViewTypeFlagList)">
+            AND POPUP_VIEW_TYPE_FLAG IN
+            <foreach collection="popupViewTypeFlagList" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <insert id="insert"  parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo"   >
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.input(PopupInfo) || ’이균환’ || ’2021-03-05’ */
+        INSERT INTO TS02_TB_POPUP (
+            OID
+            , PART_OID
+            , NAME
+            , START_DATE
+            , END_DATE
+
+            , WIDTH
+            , HEIGHT
+            , POPUP_CONTENTS_TYPE_FLAG
+            , POPUP_VIEW_TYPE_FLAG
+            , LINK_URL
+            , LINK_TYPE_FLAG
+
+            , USE_YN
+            , INPUT_USER
+            , INPUT_DATE
+            , ORDER_NO
+            , POSITION_X
+            , POSITION_Y
+            , CENTER_ALIGNMENT_YN
+
+            , CUSTOM_FIELD1
+            , CUSTOM_FIELD2
+            , CUSTOM_FIELD3
+            , CUSTOM_FIELD4
+            , CUSTOM_FIELD5
+        )
+        VALUES
+        (
+            #{oid}
+            , #{partOid}
+            , #{name}
+            , #{startDate}
+            , #{endDate}
+
+            , #{width}
+            , #{height}
+
+            , #{popupContentsTypeFlag}
+            , #{popupViewTypeFlag}
+            , #{linkUrl}
+            , #{linkTypeFlag}
+
+            , #{useYn}
+            , #{inputUser}
+            , #{inputDate}
+            , #{orderNo}
+            , #{positionX}
+            , #{positionY}
+            , #{centerAlignmentYn}
+
+            , #{customField1}
+            , #{customField2}
+            , #{customField3}
+            , #{customField4}
+            , #{customField5}
+        )
+    </insert>
+
+    <update id="update"  parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo">
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.update(PopupInfo) || ’이균환’ || ’2021-03-05’ */
+        UPDATE TS02_TB_POPUP
+        	 <trim prefix="SET" suffixOverrides=",">
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(partOid)"> PART_OID = #{partOid}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(name)"> NAME = #{name}, </if>
+               <if test="startDate != null">START_DATE = #{startDate}, </if>
+               <if test="endDate != null">END_DATE = #{endDate}, </if>
+               <if test="width gt -1"> WIDTH = #{width}, </if>
+
+               <if test="height gt -1"> HEIGHT = #{height}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(popupContentsTypeFlag)"> POPUP_CONTENTS_TYPE_FLAG = #{popupContentsTypeFlag}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(popupViewTypeFlag)"> POPUP_VIEW_TYPE_FLAG = #{popupViewTypeFlag}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkUrl)"> LINK_URL = #{linkUrl}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkTypeFlag)"> LINK_TYPE_FLAG = #{linkTypeFlag}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> USE_YN = #{useYn}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(orderNo)"> ORDER_NO = #{orderNo}, </if>
+
+               <if test="positionX gt -1"> POSITION_X = #{positionX}, </if>
+               <if test="positionY gt -1"> POSITION_Y = #{positionY}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(centerAlignmentYn)"> CENTER_ALIGNMENT_YN = #{centerAlignmentYn}, </if>
+
+
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField1)"> CUSTOM_FIELD1 = #{customField1}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField2)"> CUSTOM_FIELD2 = #{customField2}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField3)"> CUSTOM_FIELD3 = #{customField3}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField4)"> CUSTOM_FIELD4 = #{customField4}, </if>
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(customField5)"> CUSTOM_FIELD5 = #{customField5}  </if>
+        	 </trim>
+        WHERE 1 = 1
+          AND OID = #{oid}
+    </update>
+
+	<update id="updateUseYn"  parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo">
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.updateUseYn(PopupInfo) || ’이균환’ || ’2021-03-05’ */
+        UPDATE TS02_TB_POPUP
+        	 <trim prefix="SET" suffixOverrides=",">
+               <if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> USE_YN = #{useYn} </if>
+        	 </trim>
+        WHERE 1 = 1
+          AND OID = #{oid}
+    </update>
+
+    <delete id="delete" parameterType="String">
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.delete(String) || ’이균환’ || ’2021-03-05’ */
+        DELETE
+          FROM TS02_TB_POPUP
+         WHERE OID = #{oid}
+    </delete>
+
+    <select id="get" parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupCnd" resultType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo" >
+        SELECT
+        	<include refid="selectColumn"/>
+         FROM TS02_TB_POPUP
+        WHERE 1 = 1
+        	<include refid="searchCnd"/>
+    </select>
+
+    <select id="list" parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupCnd" resultType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo" >
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.list(PopupCnd) || ’이균환’ || ’2021-03-05’ */
+        SELECT * FROM
+        (
+        SELECT
+        	ROW_NUMBER() OVER(
+        		ORDER BY
+        		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(orderBy)">
+        			${orderBy} DESC
+        		</if>
+        		<if test="@com.remarkablesoft.framework.util.StringUtils@isEmpty(orderBy)">
+        			INPUT_DATE DESC
+        		</if>
+        	) RNUM,
+        	<include refid="selectColumn"/>
+        FROM TS02_TB_POPUP
+        WHERE 1 = 1
+        	<include refid="searchCnd"/>
+        ) x
+        WHERE RNUM BETWEEN ( #{startIndex} ) AND ( #{startIndex} + #{pageSize} )
+    </select>
+
+    <select id="list_count" parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupCnd" resultType="int" >
+        SELECT COUNT(*) AS COUNT
+        FROM TS02_TB_POPUP
+        WHERE 1 = 1
+        	<include refid="searchCnd"/>
+    </select>
+
+    <select id="listAll" parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupCnd" resultType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo" >
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.listAll(PopupCnd) || ’이균환’ || ’2021-03-05’ */
+        SELECT
+        	<include refid="selectColumn"/>
+        FROM TS02_TB_POPUP
+        WHERE 1 = 1
+        	<include refid="searchCnd"/>
+        ORDER BY ORDER_NO ASC, INPUT_DATE ASC
+    </select>
+
+    <select id="exist" resultType="int">
+		/* com.remarkablesoft.framework.service.board.popup.model.impl.PopupDAO.exist(int) || ’이균환’ || ’2021-03-05’ */
+        SELECT COUNT(*)
+          FROM TS02_TB_POPUP
+         WHERE 1 = 1
+           AND OID = #{oid}
+    </select>
+
+	<select id="getPrev" resultType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo" parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupCnd" >
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.getPrev(PostingCnd) || ’황선영’ || ’2018-02-02’ */
+		SELECT * FROM
+		(
+			SELECT
+		 		<include refid="selectColumn"/>
+			 FROM TS02_TB_POPUP
+			 WHERE  1 = 1
+			        AND INPUT_DATE <![CDATA[>]]> ( SELECT INPUT_DATE FROM TS02_TB_POPUP WHERE OID = #{oid} )
+        	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(popupContentsTypeFlag)"> AND POPUP_CONTENTS_TYPE_FLAG = #{popupContentsTypeFlag}</if>
+        	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkUrl)"> AND LINK_URL = #{linkUrl}</if>
+        	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkTypeFlag)"> AND LINK_TYPE_FLAG = #{linkTypeFlag}</if>
+       		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND USE_YN = #{useYn}</if>
+       		ORDER BY INPUT_DATE ASC
+		) X
+		WHERE ROWNUM = 1
+	</select>
+
+	<select id="getNext" resultType="com.remarkablesoft.framework.service.board.popup.vo.PopupInfo" parameterType="com.remarkablesoft.framework.service.board.popup.vo.PopupCnd" >
+		/* com.remarkablesoft.framework.service.board.posting.model.impl.PostingDAO.getNext(PostingCnd) || ’황선영’ || ’2018-02-02’ */
+		 SELECT * FROM
+		 (
+		 	SELECT
+		 		<include refid="selectColumn"/>
+			 FROM TS02_TB_POPUP
+			 WHERE 1= 1
+			 		AND INPUT_DATE <![CDATA[<]]> ( SELECT INPUT_DATE FROM TS02_TB_POPUP WHERE OID = #{oid} )
+			<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(popupContentsTypeFlag)"> AND POPUP_CONTENTS_TYPE_FLAG = #{popupContentsTypeFlag}</if>
+        	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkUrl)"> AND LINK_URL = #{linkUrl}</if>
+        	<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(linkTypeFlag)"> AND LINK_TYPE_FLAG = #{linkTypeFlag}</if>
+       		<if test="@com.remarkablesoft.framework.util.StringUtils@hasText(useYn)"> AND USE_YN = #{useYn}</if>
+			 ORDER BY INPUT_DATE DESC
+		 ) X
+		 WHERE ROWNUM = 1
+	</select>
+
+
+</mapper>

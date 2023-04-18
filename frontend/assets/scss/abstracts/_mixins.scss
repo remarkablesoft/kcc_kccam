@@ -81,6 +81,27 @@
 	font-weight: $fontWeight;
 }
 
+// flexbox ( map 형태 )
+// 예시 : @include flexbox($jc: start, $ai: center);
+$flex-map: (
+	start: flex-start,
+	end: flex-end,
+	between: space-between,
+	around: space-around,
+	stretch: stretch,
+	center: center,
+);
+
+@function _get-flex-value($key) {
+	@return map-get($flex-map, $key);
+}
+
+@mixin flexbox($jc: center, $ai: center) {
+	display: flex;
+	align-items: _get-flex-value($ai);
+	justify-content: _get-flex-value($jc);
+}
+
 @mixin bg-gradient() {
 	background: $gradientColor1;
 	background: -moz-linear-gradient(-45deg, $gradientColor1 0%, $gradientColor2 100%);

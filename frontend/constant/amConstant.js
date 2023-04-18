@@ -229,6 +229,55 @@ export const AM_CONSTANT = {
 		SHARE_TYPE_SHARE           : "FWDS000S",
 		SHARE_TYPE_DOWNLOAD        : "FWDS000D",
 		SHARE_TYPE_EXCEL_DATASHEET : "FWDS000E",
-	}
+	},
+
+	FLAG_YN : {
+
+		YES : "Y",
+		NO  : "N",
+	},
+
+	// 팝업 (시작)
+	POPUP_TYPE: {
+
+		VIEW : {
+
+			LIST : {
+
+				KEY : "L",
+				VALUE : "리스트",
+			},
+			GENERAL : {
+				KEY : "G",
+				VALUE : "일반",
+			}
+		},
+
+		CONTENTS : {
+
+			IMAGE : "I",
+			EDITOR : "E"
+		},
+
+		LINK : {
+
+			NEW : "N",
+			PAGE : "P",
+		},
+	},
+
+	// 쿠키 용도로 활용
+	POPUP_HIDE_TODAY: "POPUP_HT_",
+	POPUP_HIDE_TODAY_LIST : "POPUP_HT_LIST",
+
+	// 조직 변경 모달 쿠키
+	CHANGE_ORG_HIDE_TODAY : "CHANGE_ORG_HT",
+
+	// 링크 타입
+	POPUP_LINK_TYPE : {
+		NEW : "N",
+		PAGE_MOVE : "P",
+	},
+	// 팝업 (종료) -->
 
 };

@@ -49,7 +49,8 @@ public enum SystemConstants {
 		OBJECT_FW_TYPE_CATEGORY( "FWCT", "카테고리 객체" ), OBJECT_FW_TYPE_EBOOK( "FWEB", "EBook 객체" ),
 		OBJECT_FW_TYPE_EBOOK_INDEX( "FWEI", "EBook Index 객체" ), OBJECT_FW_TYPE_EBOOK_PAGE( "FWEP", "EBook Page 객체" ),
 		
-		OBJECT_FW_TYPE_PART( "FWPT", "PART 객체" ), OBJECT_FW_TYPE_BRANCH( "FWBR", "지점 객체" ),
+		OBJECT_FW_TYPE_PART( "FWPT", "PART 객체" ), OBJECT_FW_TYPE_POPUP( "FWPU", "팝업 객체" ),
+		OBJECT_FW_TYPE_BRANCH( "FWBR", "지점 객체" ),
 		OBJECT_FW_TYPE_DOC( "FWDO", "문서 객체" ), OBJECT_FW_TYPE_MESSAGE( "FWMG", "메세지 객체" ),
 	
 		SEARCH_DATE_TYPE_DAY( "FWPOSC1D", "최근 하루" ),

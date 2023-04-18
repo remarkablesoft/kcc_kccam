@@ -53,6 +53,7 @@
         "element-theme-chalk": "^2.14.0",
         "install": "^0.13.0",
         "node-sass": "^4.14.1",
+        "sass": "^1.43.2",
         "sass-loader": "^10.0.4"
     },
     "config": {

@@ -117,6 +117,8 @@ export const URL_CONSTANT = {
 
 		DOC_SHARE_AUDIT: "/kccam/api/docShareAudit/",
 		NEWSROOM: "/kccam/api/newsroom/",
+
+		POPUP: "/kccam/api/popup/"
 	},
 
 	// API URL 접미사
@@ -241,6 +243,13 @@ export const URL_CONSTANT = {
 			GET                     : "newsroom_get",
 			VIEW_WITH_PREV_AND_NEXT : "newsroom_viewWithPrevAndNext",
 			LIST                    : "newsroom_list",
+		},
+		POPUP : {
+			OPERATION_LIST : "popupApi_operationList",
+			SAVE           : "popupApi_save",
+			GET            : "popupApi_get",
+			DELETE         : "popupApi_delete"
+
 		},
     },
 

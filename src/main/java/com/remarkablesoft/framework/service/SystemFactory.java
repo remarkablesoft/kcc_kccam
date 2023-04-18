@@ -12,6 +12,7 @@ import com.remarkablesoft.framework.service.authority.role.vo.RoleUserRelInfo;
 import com.remarkablesoft.framework.service.board.audit.view.vo.PostingAuditViewInfo;
 import com.remarkablesoft.framework.service.board.board.vo.BoardInfo;
 import com.remarkablesoft.framework.service.board.contents.vo.ContentsInfo;
+import com.remarkablesoft.framework.service.board.popup.vo.PopupInfo;
 import com.remarkablesoft.framework.service.board.posting.vo.PostingInfo;
 import com.remarkablesoft.framework.service.doc.doc.vo.DocInfo;
 import com.remarkablesoft.framework.service.doc.doc.vo.DocRelInfo;
@@ -222,6 +223,10 @@ public class SystemFactory  {
 		
 		public static ThumbnailInfo getThumbnailInfo() {
 			return (ThumbnailInfo) ApplicationContextUtil.getContext().getBean( "thumbnailInfo" );
+		}
+		
+		public static PopupInfo getPopupInfo() {
+				return (PopupInfo) ApplicationContextUtil.getContext().getBean( "popupInfo" );
 		}
 		
 }

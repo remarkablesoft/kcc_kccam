@@ -77,6 +77,18 @@
            transactionalMode="off">
     </cache>
 
+    <!-- PopupBLO에서 사용 -->
+    <cache name="popup"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
 	<!-- CodeBLO에서 사용 -->
     <cache name="code"
            maxEntriesLocalHeap="10000"

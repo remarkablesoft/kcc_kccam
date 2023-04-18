@@ -149,6 +149,26 @@ public class FileBLO {
 
 				return fileInfo;
 		}
+		
+		/**
+		 * 삭제 후 등록
+		 *
+		 * @author james
+		 * @param fileList
+		 * @param containerOid
+		 * @param oid
+		 * @param objectType
+		 * @param loginUserOid
+		 */
+		public void deleteAndInsert( List<FileInfo> fileList, String objectType, String oid, String fileType, String containerOid, String loginUserOid ) {
+				
+				// 삭제
+				deleteByTarget( oid, objectType );
+				
+				// 등록
+				insertList( fileList, objectType, oid, fileType, containerOid, loginUserOid );
+				
+		}
 
 
 		public FileInfo get( String oid ) {
@@ -333,8 +353,16 @@ public class FileBLO {
 								);
 
 		}
-
-
+		
+		public int insertList( List<FileInfo> fileList, String targetObject, String targetOid ) {
+				
+				return insertList( fileList, targetObject, targetOid, "" );
+		}
+		
+		public int insertList( List<FileInfo> fileList, String targetObject, String targetOid, String fileType ) {
+				
+				return insertList( fileList, targetObject, targetOid, fileType, "" );
+		}
 
 
 		public int insertList( List<FileInfo> fileList, String containerOid, String targetOid, String targetObject, String inputUser ) {
@@ -355,6 +383,32 @@ public class FileBLO {
 						result += fileDAO.insert( fileInfo );
 				}
 
+				return result;
+		}
+		
+		public int insertList( List<FileInfo> fileList, String targetObject, String targetOid, String fileType, String containerOid, String inputUser ) {
+				
+				if ( CollectionUtils.isEmpty( fileList ) ) {
+						return 0;
+				}
+				
+				int result = 0;
+				
+				for ( FileInfo fileInfo : fileList ) {
+						
+						assertThat( fileInfo.getStorageFileUid() ).as( "StorageFileUid가 없습니다." ).isNotEmpty();
+						
+						fileInfo.setOid( OIDGenerator.generateOID() );
+						fileInfo.setTargetObject( targetObject );
+						fileInfo.setTargetOid( targetOid );
+						fileInfo.setContainerOid( StringUtils.isNotEmpty( containerOid ) ? containerOid : fileInfo.getContainerOid() );
+						fileInfo.setInputUser( StringUtils.isNotEmpty( inputUser ) ? inputUser : fileInfo.getInputUser() );
+						fileInfo.setFileType( StringUtils.isNotEmpty( fileType ) ? fileType : fileInfo.getFileType() );
+						fileInfo.setInputDate( LocalDateTime.now() );
+						
+						result += fileDAO.insert( fileInfo );
+				}
+				
 				return result;
 		}
 

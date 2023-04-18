@@ -100,6 +100,21 @@ public class ContentsBLO {
 
 				return contentsDAO.update( info );
 		}
+		
+		public ContentsInfo save( ContentsInfo info ) {
+				
+				if ( info == null ) {
+						return null;
+				}
+				
+				boolean isOidExist =  StringUtils.isNotEmpty( info.getOid() ) && list( new ContentsCnd().setOid( info.getOid() ) ).size() > 0;
+				if ( isOidExist ) {
+						return 0 < update( info ) ? info : null;
+				}
+				else {
+						return insert( info );
+				}
+		}
 
 		/**
 		 * posting 전용 업데이트 메소드

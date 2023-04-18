@@ -30,7 +30,9 @@ public class ContentsCnd extends SearchCnd {
 		 *
 		 */
 		private static final long serialVersionUID = -2819854032376916316L;
-
+		
+		private String oid;
+		
 		private String targetOid;
 		private String targetObject;
 		private String containerOid;						// 컨테이너 OID - Posting일 경우 boardOid
