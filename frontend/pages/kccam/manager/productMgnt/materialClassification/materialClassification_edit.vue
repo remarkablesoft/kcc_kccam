@@ -160,6 +160,7 @@ import theAddRelatedDocumentModal from "~/components/kccam/manager/modal/TheAddR
 // import theAddReferenceModal from "~/components/kccam/manager/modal/TheAddReferenceModal.vue";
 import theAddInfoEditor from "~/components/kccam/manager/editor/TheAddInfoEditor.vue";
 import theRelatedDoc from "~/components/common/board/manager/TheRelatedDoc.vue";
+import {mapActions} from "vuex";
 
 import Vue from "vue";
 import Highcharts from "highcharts";
@@ -301,8 +302,11 @@ export default {
 			}
 		}
 	},
-
 	methods : {
+		...mapActions ( {
+			setMaterialMenuListEmpty : "menu/setMaterialMenuListEmpty"
+		} ),
+
 		// 목록 페이지로 이동
 		goList() {
 			const urlList = this.$urlConstant.MENU_URL_PREFIX.MANAGER_PRODUCT_MGNT + this.$urlConstant.MENU_URL_SUFFIX.PRODUCT_MGNT.MATERIAL;
@@ -331,6 +335,7 @@ export default {
 			this.$axios.post( url, info ).then( res => {
 				// console.log(res);
 				// this.$common.confirmSwal("소재구분 수정", "저장완료", "success");
+				this.setMaterialMenuListEmpty();
 				this.goList();
 			} );
 		},

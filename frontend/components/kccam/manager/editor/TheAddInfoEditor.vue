@@ -156,7 +156,7 @@ export default {
 		getContentsList() {
 			const _self = this;
 
-			if ( this.$common.isEmpty( this.froalaList ) ) {
+			if ( this.$common.isEmpty( this.froalaList ) || this.$common.isEmpty( this.$refs ) ) {
 				return this.froalaList;
 			}
 			_.each( _self.froalaList, function ( item, index ) {
