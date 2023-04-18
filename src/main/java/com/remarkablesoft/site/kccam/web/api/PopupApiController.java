@@ -1,14 +1,18 @@
 package com.remarkablesoft.site.kccam.web.api;
 
 import com.remarkablesoft.framework.annotation.WEBLog;
+import com.remarkablesoft.framework.module.page.PageList;
 import com.remarkablesoft.framework.service.board.popup.model.PopupService;
 import com.remarkablesoft.framework.service.board.popup.vo.PopupCnd;
 import com.remarkablesoft.framework.service.board.popup.vo.PopupInfo;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -49,5 +53,47 @@ public class PopupApiController {
 				List<PopupInfo> list = popupService.operationList( popupCnd );
 				
 				return ResponseEntity.ok( list );
+		}
+		
+		@RequestMapping( value = "/popupApi_get" )
+		public ResponseEntity<?> getPopup( @RequestBody PopupCnd popupCnd  ) throws Exception {
+				
+				PopupInfo popupInfo = popupService.get( popupCnd );
+				return ResponseEntity.ok( popupInfo );
+		}
+		
+		@PostMapping( "/popupApi_list" )
+		public ResponseEntity<?> list( @RequestBody PopupCnd popupCnd ) throws Exception {
+				
+				Map<String, Object> resultMap = new HashMap<String, Object>();
+				
+				PageList<PopupInfo> list = popupService.list( popupCnd );
+				resultMap.put( "list", list );
+				resultMap.put( "listCount", CollectionUtils.isEmpty( list ) ? 0 : list.getTotalCount() );
+				
+				return ResponseEntity.ok( resultMap );
+		}
+		
+		/**
+		 * oid 리스트에 해당하는 팝업들을 삭제합니다.
+		 *
+		 * @author 윤건희
+		 * @작성일 2023-04-18
+		 *
+		 * @param deleteOidList
+		 * @return
+		 * @throws Exception
+		 */
+		@PostMapping( value = "/popupApi_delete" )
+		public ResponseEntity<?> deletePopup( @RequestBody List<String> deleteOidList ) {
+				
+				int result = 0;
+				
+				for ( String deleteOid : deleteOidList ) {
+						
+						result += popupService.delete( deleteOid );
+				}
+				
+				return ResponseEntity.ok( result );
 		}
 }

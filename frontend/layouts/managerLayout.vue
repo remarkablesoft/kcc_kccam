@@ -40,9 +40,13 @@
                             <li @click="getTopMenuKeyUrl()" :class="getMenuActive('/documentMgnt/', 2)">
                                 <nuxt-link :to="localePath('/kccam/manager/documentMgnt/attachment/attachment_list')">문서관리</nuxt-link>
                             </li>
-                            <li @click="getTopMenuKeyUrl()" :class="getMenuActive('/customerSupportMgnt/', 3)">
+	                        <li @click="getTopMenuKeyUrl()" :class="getMenuActive('/popupMgnt/', 3)">
+		                        <nuxt-link :to="localePath('/kccam/manager/popupMgnt/popup/popup_list')">팝업관리</nuxt-link>
+	                        </li>
+                            <li @click="getTopMenuKeyUrl()" :class="getMenuActive('/customerSupportMgnt/', 4)">
                                 <nuxt-link :to="localePath('/kccam/manager/customerSupportMgnt/personalEnquiry/personalEnquiry_list')">고객지원관리</nuxt-link>
                             </li>
+
                         </ul>
                     </nav>
                 </div>
@@ -88,7 +92,7 @@ export default {
             scroll: false,
             sideMenuProp: "",
 
-            sideNameArray: ["제품관리", "마켓관리", "문서관리", "고객지원관리"],
+            sideNameArray: ["제품관리", "마켓관리", "문서관리", "팝업관리", "고객지원관리"],
             sideName: "",
 
             topMenuProp: "",

@@ -95,6 +95,9 @@ export const AM_CONSTANT = {
 			DOC_SHARE_AUDIT : "다운/공유 이력",
 			HIST_VISIT : "화면 조회 이력",
 		},
+		POPUP_MGNT: {
+			POPUP: "팝업 관리",
+		},
 		CUSTOMER_SUPPORT_MGNT: {
 			PERSONAL: "1:1 문의 관리",
 			CONTACT: "Contact 관리",

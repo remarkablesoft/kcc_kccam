@@ -12,6 +12,7 @@ export const URL_CONSTANT = {
 		MANAGER_PRODUCT_MGNT : "/kccam/manager/productMgnt/",
         MANAGER_MARKET_MGNT: "/kccam/manager/marketMgnt/",
         MANAGER_DOC_MGNT: "/kccam/manager/documentMgnt/",
+		MANAGER_POPUP_MGNT: "/kccam/manager/popupMgnt/",
         MANAGER_CUSTOMER_SUPPORT_MGNT: "/kccam/manager/customerSupportMgnt/",
 	},
 
@@ -79,6 +80,10 @@ export const URL_CONSTANT = {
 	        DOC_SHARE_AUDIT: "docShareAudit/docShareAudit_list",
 	        HIST_VISIT : "histVisit/histVisit_list",
         },
+		POPUP_MGNT: {
+			POPUP: "popup/popup_list",
+			POPUP_EDIT: "popup/popupMgnt_edit",
+		},
         CUSTOMER_SUPPORT_MGNT: {
             PERSONAL: "personalEnquiry/personalEnquiry_list",
 	        PERSONAL_EDIT : "personalEnquiry/personalEnquiry_view",
@@ -248,7 +253,9 @@ export const URL_CONSTANT = {
 			OPERATION_LIST : "popupApi_operationList",
 			SAVE           : "popupApi_save",
 			GET            : "popupApi_get",
-			DELETE         : "popupApi_delete"
+			DELETE         : "popupApi_delete",
+			LIST           : "popupApi_list",
+			UPDATE_STATUS  : "popupApi_updateStatus"
 
 		},
     },
