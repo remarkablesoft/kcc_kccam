@@ -254,6 +254,7 @@ export const URL_CONSTANT = {
 			SAVE           : "popupApi_save",
 			GET            : "popupApi_get",
 			DELETE         : "popupApi_delete",
+			DELETE_LIST    : "popupApi_deleteList",
 			LIST           : "popupApi_list",
 			UPDATE_STATUS  : "popupApi_updateStatus"
 

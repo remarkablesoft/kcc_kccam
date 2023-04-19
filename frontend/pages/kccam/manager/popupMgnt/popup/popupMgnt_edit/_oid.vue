@@ -28,7 +28,7 @@
 										<span class="material-icons">delete_outline</span>
 										<span>삭제</span>
 									</el-button>
-									<el-button size="regular" type="default" @click="goList()">
+									<el-button size="regular" type="default" @click="onClickGoList">
 										<span class="material-icons">menu</span>
 										<span>목록</span>
 									</el-button>
@@ -288,19 +288,25 @@ export default {
 	},
 	methods : {
 
-		// 목록 페이지로 이동.
-		goList() {
+		// 목록 버튼을 클릭 이벤트
+		onClickGoList() {
 			this.$common.swalWithOptions( "정보 손실", "현재 작성 중인 정보는 저장되지 않습니다.\n" +
 				"목록으로 이동하시겠습니까?", "warning" ).then( confirm => {
 
 				if ( confirm ) {
-					const urlList = this.$urlConstant.MENU_URL_PREFIX.MANAGER_PRODUCT_MGNT + this.$urlConstant.MENU_URL_SUFFIX.PRODUCT_MGNT.MATERIAL;
-					this.$router.push( this.localePath( urlList ) );
+
+					this.goList();
 				}
 				else {
 					return false;
 				}
 			} );
+		},
+		// 목록 페이지로 이동.
+		goList() {
+
+			const urlList = this.$urlConstant.MENU_URL_PREFIX.MANAGER_POPUP_MGNT + this.$urlConstant.MENU_URL_SUFFIX.POPUP_MGNT.POPUP;
+			this.$router.push( this.localePath( urlList ) );
 		},
 
 		// 드랍존의 파일리스트를 가져옵니다.
@@ -374,8 +380,7 @@ export default {
 			// 저장 api 호출 후 목록 페이지로 이동
 			this.$axios.post( this.$urlConstant.API_URL_PREFIX.POPUP + this.$urlConstant.API_URL_SUFFIX.POPUP.SAVE, this.popupInfo ).then( res => {
 
-				const urlList = this.$urlConstant.MENU_URL_PREFIX.MANAGER_PRODUCT_MGNT + this.$urlConstant.MENU_URL_SUFFIX.PRODUCT_MGNT.MATERIAL;
-				this.$router.push( this.localePath( urlList ) );
+				this.goList();
 			} );
 		},
 
@@ -481,6 +486,7 @@ export default {
 					return;
 				}
 				this.$common.confirmSwal( "삭제 성공!", "성공적으로 삭제 되었습니다.", "success" );
+				this.goList();
 
 			} ).catch( error => {
 				console.log( error );
