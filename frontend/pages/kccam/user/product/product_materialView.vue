@@ -73,14 +73,8 @@
                                             class="list-item"
                                             v-for="(item, itemIndex) in materialInfo.applicationList"
                                             :key="itemIndex"
-                                            @mouseover="
-                                                item.active = true;
-                                                $forceUpdate();
-                                            "
-                                            @mouseleave="
-                                                item.active = false;
-                                                $forceUpdate();
-                                            "
+                                            @mouseover="onMouseOver( item )"
+                                            @mouseleave="onMouseLeave( item )"
                                         >
                                             <div class="inner">
                                                 <!-- 1depth :: 목록 타이틀 버튼 -->
@@ -153,7 +147,7 @@
                                                 <!-- img -->
                                                 <div class="img-box" @click="goApplicationView(item)">
                                                     <img
-                                                        :src="getImageUrl(itemIndex)"
+                                                        :src="getImageUrl(item)"
                                                         @error="$common.imageError"
                                                         alt="제품 관련 이미지"
                                                         class="img"
@@ -427,6 +421,9 @@ export default {
 
                     if (this.$common.isNotEmpty(materialInfo.applicationList)) {
                         materialInfo.applicationList.forEach(app => {
+							if ( !this.isImgExist( app ) ) {
+								app.active = true;
+							}
                             if (this.$common.isNotEmpty(app.childCategoryList)) {
                                 app.childCategoryList.forEach((child, index) => {
                                     if (0 === index) {
@@ -440,31 +437,50 @@ export default {
                 }
             });
         },
-        getImageUrl(index) {
-            if (isNaN(index)) {
-                return nodataImg;
-            }
 
-            switch (index) {
-                case 0:
-                    return productImg01;
-                    break;
-                case 1:
-                    return productImg02;
-                    break;
-                case 2:
-                    return productImg03;
-                    break;
-                case 3:
-                    return productImg04;
-                    break;
-                case 4:
-                    return productImg05;
-                    break;
-                default:
-                    return nodataImg;
-            }
+	    /**
+	     * Image의 경로를 가져옵니다.
+	     *
+	     * @param item
+	     * @returns {string|*}
+	     */
+        getImageUrl( item ) {
+
+			if ( !this.isImgExist( item ) ) {
+				return nodataImg;
+			}
+	        return "/storage/storageFile_fileView/" + item?.iconFile?.storageFileUid;
         },
+
+	    /**
+	     * application 이미지가 존재하는지 확인합니다.
+	     *
+	     * @param application
+	     * @returns {*}
+	     */
+	    isImgExist( application ) {
+			return this.$common.isNotEmpty( application?.iconFile?.storageFileUid );
+	    },
+	    /**
+	     * application 이미지에 마우스를 올리거나 내렸을 때 발생하는 이벤트입니다.
+	     * application 이미지가 없으면 이벤트가 발동하지 않습니다.
+	     *
+	     * @param application
+	     */
+	    onMouseOver( application ) {
+		    if ( !this.isImgExist(application) ) {
+				return;
+		    }
+		    application.active = true;
+			this.$forceUpdate();
+	    },
+	    onMouseLeave( application ) {
+		    if ( !this.isImgExist(application) ) {
+			    return;
+		    }
+		    application.active = false;
+			this.$forceUpdate();
+	    }
     },
 };
 </script>

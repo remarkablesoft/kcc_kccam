@@ -207,7 +207,7 @@ export default {
 
 		// edit 창으로 이동
 		goEdit() {
-			this.$router.push( this.$urlConstant.MENU_URL_PREFIX.MANAGER_POPUP_MGNT + this.urlConstant.MENU_URL_SUFFIX.POPUP_MGNT.POPUP_EDIT );
+			this.$router.push( this.$urlConstant.MENU_URL_PREFIX.MANAGER_POPUP_MGNT + this.$urlConstant.MENU_URL_SUFFIX.POPUP_MGNT.POPUP_EDIT );
 		},
 
 		// view 창으로 이동
@@ -295,22 +295,13 @@ export default {
 				return;
 			}
 
-			let portalPopupList = this.checkList.filter( popup => this.isPortalPopup( popup ) );
-
-			if ( portalPopupList.length > 0 ) {
-				this.$common.confirmSwal( "삭제 불가",
-					"통합 팝업이 포함되었습니다.\n통합 팝업은 포탈에서 삭제 가능합니다.",
-					"warning" );
-				return;
-			}
-
 			this.$common
 				.swalWithOptions( "삭제 확인", "정말 삭제하시겠습니까?", "warning" )
 				.then( willEdit => {
 					if ( !willEdit ) {
 						return;
 					}
-					this.$axios.post( this.$urlConstant.API_URL_PREFIX.POPUP + this.$urlConstant.API_URL_SUFFIX.POPUP.DELETE, this.checkList.map( popup => popup.oid ) ).then( res => {
+					this.$axios.post( this.$urlConstant.API_URL_PREFIX.POPUP + this.$urlConstant.API_URL_SUFFIX.POPUP.DELETE_LIST, this.checkList.map( popup => popup.oid ) ).then( res => {
 						if ( res.data < 1 ) {
 							return;
 						}
@@ -368,16 +359,9 @@ export default {
 		},
 		setInputUser( popupInfo ) {
 
-			if ( this.isPortalPopup( popupInfo ) ) {
-				return "포탈시스템";
-			}
 			if ( this.$common.isNotEmpty( popupInfo.extraInfoMap ) && this.$common.isNotEmpty( popupInfo.extraInfoMap.inputUserName ) ) {
 				return popupInfo.extraInfoMap.inputUserName;
 			}
-		},
-
-		isPortalPopup( popupInfo ) {
-			return this.$common.isNotEmpty( popupInfo.customField4 );
 		},
 	},
 }

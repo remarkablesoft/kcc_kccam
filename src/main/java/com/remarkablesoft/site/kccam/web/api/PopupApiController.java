@@ -16,14 +16,14 @@ import java.util.Map;
 
 /**
  *
- * 		@주시스템			:	Portal
- * 		@서브 시스템		:	portal - web - api - user - v1
- * 		@프로그램 ID		:	PortalUserPopupAPIController
- * 		@프로그램 개요 	:	사용자 - 팝업존 컨트롤러
+ * 		@주시스템			:	kccam
+ * 		@서브 시스템		:	kccam - web - api
+ * 		@프로그램 ID		:	PopupApiAPIController
+ * 		@프로그램 개요 	:	팝업존 컨트롤러
  *
  * 		@변경이력
  *      ============================================================================
- * 		1.0  2021. 12. 01.	:	sirena	-	신규생성
+ * 		1.0  2023. 04. 19.	:	윤건희 -	신규생성
  * 		============================================================================
  */
 @WEBLog
@@ -75,6 +75,20 @@ public class PopupApiController {
 		}
 		
 		/**
+		 * 팝업 상세 관리화면에서 단 건 삭제 기능을 추가함
+		 * @author cheeeeze
+		 * @param PopupCnd
+		 * @작성일 2021-11-02
+		 **/
+		@RequestMapping( value = "/popupApi_delete" )
+		public ResponseEntity<?> delete( @RequestBody PopupCnd popupCnd ) throws Exception {
+				
+				int result = popupService.delete( popupCnd.getOid() );
+				
+				return ResponseEntity.ok( result );
+		}
+		
+		/**
 		 * oid 리스트에 해당하는 팝업들을 삭제합니다.
 		 *
 		 * @author 윤건희
@@ -84,8 +98,8 @@ public class PopupApiController {
 		 * @return
 		 * @throws Exception
 		 */
-		@PostMapping( value = "/popupApi_delete" )
-		public ResponseEntity<?> deletePopup( @RequestBody List<String> deleteOidList ) {
+		@PostMapping( value = "/popupApi_deleteList" )
+		public ResponseEntity<?> deleteList( @RequestBody List<String> deleteOidList ) {
 				
 				int result = 0;
 				

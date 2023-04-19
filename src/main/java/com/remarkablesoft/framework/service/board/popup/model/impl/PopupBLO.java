@@ -287,7 +287,7 @@ public class PopupBLO {
 	protected List<PopupInfo> commonList( List<PopupInfo> list, PopupCnd cnd ) {
 
 		if ( CollectionUtils.isEmpty( list ) ) {
-				return Collections.emptyList();
+				return new PageList(Collections.emptyList());
 		}
 
         fillFileList( list );

@@ -298,11 +298,6 @@ export default {
 				}
 			}
 		},
-
-		isPortalPopup( portalPopupOid ) {
-			return this.$common.isNotEmpty( portalPopupOid );
-		},
-
 	},
 };
 </script>
