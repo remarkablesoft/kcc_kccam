@@ -102,8 +102,8 @@
 									Ceramic Substrates : "@/assets/images/contents/product/contents_product_mc.png"
 								-->
                                 <button>
-                                    <img
-                                        src="@/assets/images/contents/product/contents_product_emc.png"
+	                                <img
+                                        :src="materialImg"
                                         alt="제품 관련 이미지"
                                         class="img"
                                         @click="$router.push(localePath(selectedMaterial.subMenuUrl))"
@@ -413,6 +413,7 @@ import theYoutubeModal from "~/components/kccam/user/modal/TheYoutubeModal.vue";
 import TheLayerPopup from "~/components/common/popup/TheLayerPopup.vue";
 import ThePopupZone from "~/components/common/popup/ThePopupZone.vue";
 import Cookie from "js-cookie";
+import nodataImg from "~/assets/images/contents/sample/contents_catalog_no_image.png";
 
 export default {
     head: {
@@ -608,6 +609,15 @@ export default {
         menuList() {
             return this.getMenuList();
         },
+
+	    materialImg() {
+
+			if ( this.$common.isNotEmpty( this.selectedMaterial?.mainImg?.storageFileUid ) ) {
+				return "/storage/storageFile_fileView/" + this.selectedMaterial.mainImg.storageFileUid;
+			}
+
+			return nodataImg;
+	    },
     },
     watch: {
         materialMenuList() {
