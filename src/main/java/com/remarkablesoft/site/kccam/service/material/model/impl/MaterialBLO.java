@@ -542,7 +542,7 @@ public class MaterialBLO {
 				ClassificationCnd classificationCnd = new ClassificationCnd();
 				classificationCnd.setPartOid( info.getOid() );
 				classificationCnd.setLang( info.getLang() );
-				
+				classificationCnd.setFillIconFile( true );
 				if ( StringUtils.hasText( cnd.getCategoryType() ) ) {
 						classificationCnd.setCategoryType( cnd.getCategoryType() );
 				}
