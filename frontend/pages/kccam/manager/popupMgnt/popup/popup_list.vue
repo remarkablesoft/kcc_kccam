@@ -1,174 +1,150 @@
 <template>
 	<div class="inner-wrapper">
-		<!-- inner-container main -->
-		<div class="manager-inner-container sub">
-			<!-- content-body -->
-			<div class="content-body">
-				<!-- main-content -->
-				<div class="sub-content popup-mgnt">
-					<div class="inner">
-						<div class="inner-content">
-							<div class="inner-content search-area">
-								<div class="filter-search-box">
-									<div class="input-group">
-										<div class="input-row">
-											<div class="item-label">노출여부</div>
-											<div class="item-data">
-												<div class="check-wrap">
-													<el-radio v-model="statusTypeFlag" label="">전체</el-radio>
-													<el-radio v-model="statusTypeFlag" :label="$amConstant.FLAG_YN.YES">노출</el-radio>
-													<el-radio v-model="statusTypeFlag" :label="$amConstant.FLAG_YN.NO">비노출</el-radio>
-												</div>
-											</div>
-										</div>
-										<div class="input-row">
-											<div class="input-item">
-												<div class="item-label">키워드</div>
-												<div class="item-data">
-													<el-select v-model="selectedKeyword" placeholder="선택" class="size-xsm">
-														<el-option v-for="ref in selectedKeywordList" :value="ref.value" :label="ref.label"
-														           :key="ref.value"></el-option>
-													</el-select>
-													<el-input v-model="searchText" class="size-md" placeholder=""
-													          @keypress.enter.native="search()"></el-input>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="btn-area right">
-										<el-button size="small" type="gray" @click="reset()">초기화</el-button>
-										<el-button size="small" type="primary" @click="search()">검색</el-button>
-									</div>
-								</div>
-							</div>
-							<!-- list-area -->
-							<div class="list-area">
-								<div class="list-header">
-									<div class="left-area">
-									</div>
-									<div class="right-area">
-										<el-button
-											class="mr05"
-											size="xregular"
-											type="default"
-											@click="goEdit()">
-											<span class="material-icons">assignment_turned_in</span>
-											<span>등록</span>
-										</el-button>
-										<el-button size="xregular" type="default" @click="deletePopup()">
-											<span class="material-icons">delete_outline</span>
-											<span>삭제</span>
-										</el-button>
-									</div>
-								</div>
-								<div class="list-body">
-									<!-- table-center -->
-									<!-- boardLeftListData.size = col 갯수 결정 -->
-									<div class="table-custom-theme theme-gray">
-										<table class="table-normal">
-											<caption class="hidden">
-												팝업 관리
-											</caption>
-											<colgroup>
-												<col style="width: 5%"/>
-												<col style="width: 5%"/>
-												<col style="width: auto"/>
-												<col style="width: 15%"/>
-												<col style="width: 20%"/>
-												<!-- 5 -->
-												<col style="width: 8%"/>
-												<col style="width: 10%"/>
-												<col style="width: 9%"/>
-											</colgroup>
-											<thead>
-											<tr>
-												<th scope="col">
-													<el-checkbox v-model="allCheck" @change="setAllChecked()"></el-checkbox>
-												</th>
-												<th scope="col">No.</th>
-												<th scope="col">제목</th>
-												<th scope="col">노출기간</th>
-												<th scope="col">노출여부</th>
-												<th scope="col">보기 타입</th>
-												<th scope="col">등록자</th>
-												<th scope="col">등록일</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr class="no-data" v-if="$fetchState.pending || 1 > listCount">
-												<td colspan="8">
-													<!-- no-data(loading) -->
-													<div class="no-data" v-if="$fetchState.pending">
-														<div class="loading-sm">
-															<img src="~/assets/images/loading/loading_sm.svg" alt="Loading"/>
-														</div>
-														<p>데이터 로딩중입니다.</p>
-													</div>
-													<!-- no-data -->
-													<div class="no-data" v-if="0 === listCount && !$fetchState.pending">
-														<i class="material-icons">error_outline</i>
-														<p>데이터가 없습니다.</p>
-													</div>
-												</td>
-											</tr>
-											<tr class="list-item" v-for="item in popupList" :key="item.oid">
-												<!-- check -->
-												<td>
-													<el-checkbox-group v-model="checkList">
-														<el-checkbox :label="item" class="no-label">{{ }}</el-checkbox>
-													</el-checkbox-group>
-												</td>
-												<!-- no -->
-												<td>
-													<span v-text="item.no"></span>
-												</td>
-												<!-- title -->
-												<td class="tl active txt-hover" @click="goModify(item)">
-													<span v-text="item.name"></span>
-												</td>
-												<!-- 노출기간 -->
-												<td>
-													<span v-text="displayPeriodDate(item)"></span>
-												</td>
-												<!-- 노출여부 -->
-												<td>
-													<el-switch
-														:value="displayUseYn(item)"
-														active-text="노출"
-														inactive-text="비노출"
-														style="display: block"
-														@change="updateStatusTypeFlag(item)"
-													>
-													</el-switch>
-												</td>
-												<td>
-													<span v-text="setPopupViewTypeFlag(item)"></span>
-												</td>
-												<!-- 등록자 -->
-												<td>
-													<span v-text="setInputUser( item )">유재석</span>
-												</td>
-												<!-- 등록일 -->
-												<td>
-													<span v-text="$common.formatDate(item.inputDate)"></span>
-												</td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<the-pagination
-									v-if="0 < listCount"
-									:current-page="currentPage"
-									:page-size="pageSize"
-									:total-count="listCount"
-									:visible-buttons-count="5"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        <!-- manager-content-body -->
+        <div class="manager-content-body">
+            <div class="content-title">
+                <div class="sub-title">
+                    <h2>팝업관리 목록</h2>
+                </div>
+            </div>
+            <div class="content-detail">
+                <div class="search-area">
+                    <div class="input-row">
+                        <div class="label">노출여부</div>
+                        <div class="data">
+                            <el-radio v-model="statusTypeFlag" label="">전체</el-radio>
+                            <el-radio v-model="statusTypeFlag" :label="$amConstant.FLAG_YN.YES">노출</el-radio>
+                            <el-radio v-model="statusTypeFlag" :label="$amConstant.FLAG_YN.NO">비노출</el-radio>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label">키워드</div>
+                        <div class="data">
+                            <el-select v-model="selectedKeyword" placeholder="선택" class="size-xsm">
+                                <el-option v-for="ref in selectedKeywordList" :value="ref.value" :label="ref.label"
+                                           :key="ref.value"></el-option>
+                            </el-select>
+                            <el-input v-model="searchText" class="size-md" placeholder=""
+                                      @keypress.enter.native="search()"></el-input>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <el-button size="small" type="gray" @click="reset()">초기화</el-button>
+                        <el-button size="small" type="primary" @click="search()">검색</el-button>
+                    </div>
+                </div>
+                <div class="btn-wrap-md">
+                    <el-button class="mr05" type="primary" size="small" @click="goEdit()">
+                        <span class="material-icons">assignment_turned_in</span>
+                        <span>등록</span>
+                    </el-button>
+
+                    <el-button type="gray" size="small" @click="deletePopup()">
+                        <span class="material-icons">delete_outline</span>
+                        <span>삭제</span>
+                    </el-button>
+                </div>
+                <!-- table -->
+                <div class="manager-table-normal">
+                    <table>
+                        <caption class="hidden">
+                            팝업 관리
+                        </caption>
+                        <colgroup>
+                            <col style="width: 5%"/>
+                            <col style="width: 5%"/>
+                            <col style="width: auto"/>
+                            <col style="width: 20%"/>
+                            <col style="width: 20%"/>
+                            <!-- 5 -->
+                            <col style="width: 8%"/>
+                            <col style="width: 8%"/>
+                            <col style="width: 10%"/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <el-checkbox v-model="allCheck" @change="setAllChecked()"></el-checkbox>
+                            </th>
+                            <th scope="col">No.</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">노출기간</th>
+                            <th scope="col">노출여부</th>
+                            <th scope="col">보기 타입</th>
+                            <th scope="col">등록자</th>
+                            <th scope="col">등록일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="no-data" v-if="$fetchState.pending || 1 > listCount">
+                            <td colspan="8">
+                                <!-- no-data(loading) -->
+                                <div class="no-data" v-if="$fetchState.pending">
+                                    <div class="loading-sm">
+                                        <img src="~/assets/images/loading/loading_sm.svg" alt="Loading"/>
+                                    </div>
+                                    <p>데이터 로딩중입니다.</p>
+                                </div>
+                                <!-- no-data -->
+                                <div class="no-data" v-if="0 === listCount && !$fetchState.pending">
+                                    <i class="material-icons">error_outline</i>
+                                    <p>데이터가 없습니다.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="list-item" v-for="item in popupList" :key="item.oid">
+                            <!-- check -->
+                            <td>
+                                <el-checkbox-group v-model="checkList">
+                                    <el-checkbox :label="item" class="no-label">{{ }}</el-checkbox>
+                                </el-checkbox-group>
+                            </td>
+                            <!-- no -->
+                            <td>
+                                <span v-text="item.no"></span>
+                            </td>
+                            <!-- title -->
+                            <td class="tl active txt-hover" @click="goModify(item)">
+                                <span v-text="item.name"></span>
+                            </td>
+                            <!-- 노출기간 -->
+                            <td>
+                                <span v-text="displayPeriodDate(item)"></span>
+                            </td>
+                            <!-- 노출여부 -->
+                            <td>
+                                <el-switch
+                                    :value="displayUseYn(item)"
+                                    active-text="노출"
+                                    inactive-text="비노출"
+                                    style="display: block"
+                                    @change="updateStatusTypeFlag(item)"
+                                >
+                                </el-switch>
+                            </td>
+                            <td>
+                                <span v-text="setPopupViewTypeFlag(item)"></span>
+                            </td>
+                            <!-- 등록자 -->
+                            <td>
+                                <span v-text="setInputUser( item )">유재석</span>
+                            </td>
+                            <!-- 등록일 -->
+                            <td>
+                                <span v-text="$common.formatDate(item.inputDate)"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <the-pagination
+                    v-if="0 < listCount"
+                    :current-page="currentPage"
+                    :page-size="pageSize"
+                    :total-count="listCount"
+                    :visible-buttons-count="5"/>
+            </div>
+        </div>
 	</div>
 </template>
 <script>

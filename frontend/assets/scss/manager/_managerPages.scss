@@ -330,7 +330,6 @@
         }
     }
 
-
 	.inner-row-column {
 		border-top: 0 none;
 
@@ -343,6 +342,7 @@
 			font-size: 1.4rem;
 		}
 	}
+
 	// preview components
 	.prev-box{
 		border: 0.2rem solid #ddd;
@@ -351,4 +351,35 @@
 		width: 100%;
 		min-height: 32rem;
 	}
+
+    /*=== popup mgmt ===*/
+    .popup-mgmt {
+        .custom {
+            &.btn-wrap-md {
+                justify-content: space-between;
+            }
+
+            &.input-data {
+                &.froala {
+                    > div,
+                    .fr-box {
+                        width: 100%;
+                    }
+                }
+
+                .el-input {
+                    width: 20rem;
+                }
+
+                .vue-dropzone {
+                    width: 100%;
+                }
+
+                .hyphen {
+                    margin: 0 1rem;
+                }
+            }
+        }
+
+    }
 }

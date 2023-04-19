@@ -1,6 +1,6 @@
 <template>
 	<!-- overlay-container :: 레이어 팝업 -->
-	<div :class="[layerPopupVisible ? 'visible' : '']" class="popup-container layer-popup" v-if="layerPopupVisible">
+	<div :class="[layerPopupVisible ? 'visible' : '', pcimValue ? 'is-pcim' : '']" class="popup-container layer-popup" v-if="layerPopupVisible">
 		<div class="inner-wrap">
 			<!-- 컨텐츠 -->
 			<div class="popup-content" v-for="item in popupList" :key="item.oid" :style="setPopupPosition(item)">
@@ -22,7 +22,7 @@
 						</div>
 						<!-- 이미지 + 글이나 글만 있을 경우 :: scroll 만드는 엘리먼트 있음. -->
 						<!-- 2021.06.22 froala editor 컨텐츠는 출력 안함 -->
-						<div class="contents-box" v-if="$common.isNotEmpty( item.contents ) ">
+						<div class="contents-box" v-if="$common.isNotEmpty( item.contents ) " :style="setPopupSize(item)">
 							<!-- scroll area -->
 							<div class="scroll-element" v-bar="{ preventParentScroll: true }">
 								<!-- el1 -->
@@ -39,8 +39,7 @@
 											<!-- <i class="material-icons-round" style="font-size: 10rem;">
 												construction
 											</i> -->
-											<p v-html="item.contents">
-											</p>
+											<p v-html="item.contents"></p>
 										</div>
 									</div>
 								</div>
@@ -48,7 +47,7 @@
 						</div>
 					</div>
 					<div class="content-footer">
-						<div class="btn-row">
+                        <div class="btn-row">
 							<button class="btn-close-round" @click="hideToday(item)" round v-if="type !== 'preview'">
 								<span class="txt">오늘 하루 열지 않기</span>
 								<i class="material-icons">close</i>
@@ -101,10 +100,10 @@ export default {
 		},
 	},
 	data() {
-
 		return {
 			layerPopupVisible : this.visible,
 			popupList         : [],
+            pcimValue         : false,
 		};
 	},
 	watch : {
@@ -218,8 +217,13 @@ export default {
 		},
 
 		setPopupSize( item ) {
-			const { width, height } = item;
-			return `width : ${ width }px; height: ${ height }px;`;
+            let { width } = item;
+
+            if ( item.contents.includes("pcim") ) {
+                this.pcimValue = item.contents.includes("pcim");
+            }
+
+            return `width : ${ width }px;  height : auto;`;
 		},
 
 		/**

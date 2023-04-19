@@ -1,232 +1,204 @@
 <template>
-	<div>
-		<div class="inner-content sub manager">
-			<section class="division-section default-w sub-content survey-popup-edit">
-				<!-- content-body -->
-				<div class="content-body popup-edit">
-					<!-- main-content -->
-					<div class="sub-content">
-						<div class="inner">
-							<div class="inner-content-header">
-								<div class="left-area flex">
-									<h3 class="tit" v-text="popupInfo.oid ? '팝업 수정' : '팝업 등록'"></h3>
-									<!--							<em class="em-txt ml0 required">* 필수 입력값입니다.</em>-->
-								</div>
-								<div class="right-area">
-									<span><b>※ 팝업 보기 타입이 '일반 타입'일 경우에만, 미리보기가 가능합니다. </b></span>
-									<el-button size="regular" type="default" @click="openPreviewModal()">
-										<span class="material-icons-outlined">preview</span>
-										<span>미리보기</span>
-									</el-button>
-									<el-button size="regular" type="default" @click="save()">
-										<i v-if="popupInfo.oid === ''" class="material-icons">assignment_turned_in</i>
-										<i v-else class="material-icons-outlined">create</i>
-										<span v-text="popupInfo.oid === '' ? '등록' : '수정'">등록</span>
-									</el-button>
-									<el-button v-if="popupInfo.oid" class="flex-size min-wd8 red" size="regular" type="default"
-									           @click="deleteOnePopUp()">
-										<span class="material-icons">delete_outline</span>
-										<span>삭제</span>
-									</el-button>
-									<el-button size="regular" type="default" @click="goList()">
-										<span class="material-icons">menu</span>
-										<span>목록</span>
-									</el-button>
-								</div>
-							</div>
-							<div class="inner-content">
-								<!-- table-center -->
-								<div class="table-normal board-edit">
-									<table>
-										<caption class="hidden">
-											팝업 등록
-										</caption>
-										<colgroup>
-											<col style="width: 5%"/>
-											<col style="width: 10%"/>
-											<col style="width: 10%"/>
-											<col style="width: auto"/>
-										</colgroup>
-										<tbody>
-										<tr>
-											<th scope="col">
-												<span>제목<em class="required">*</em></span>
-											</th>
-											<td colspan="3">
-												<el-input placeholder="제목을 입력하세요" v-model="popupInfo.name"/>
-											</td>
-										</tr>
-										<tr>
-											<th scope="col">
-												<span>노출 기간<em class="required">*</em></span>
-											</th>
-											<td colspan="3">
-												<el-date-picker
-													v-model="displayPeriodValue"
-													type="daterange"
-													range-separator="~"
-													start-placeholder="시작일"
-													end-placeholder="종료일"
-													class="size-md">
-												</el-date-picker>
-											</td>
-										</tr>
-										<tr>
-											<th scope="col">노출 여부
-												<em class="required">*</em>
-											</th>
-											<td colspan="3">
-												<el-radio-group v-model="popupInfo.useYn">
-													<el-radio label="Y">노출</el-radio>
-													<el-radio label="N">비노출</el-radio>
-												</el-radio-group>
-											</td>
-										</tr>
-										<tr>
-											<th scope="col">팝업 보기 타입
-												<em class="required">*</em>
-											</th>
-											<td colspan="3">
-												<el-radio-group v-model="popupInfo.popupViewTypeFlag">
-													<el-radio :label="$amConstant.POPUP_TYPE.VIEW.LIST.KEY">리스트 타입</el-radio>
-													<el-radio :label="$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY">일반 타입 (사이즈, 위치 지정)</el-radio>
-												</el-radio-group>
-											</td>
-										</tr>
-										<tr v-show="$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY === popupInfo.popupViewTypeFlag">
-											<th scope="col">
-												<div class="flex-item center flex center">
-													<span>팝업 사이즈<em class="required">*</em></span>
-													<div class="popover-item border ml5" style="line-height: 1;">
-														<el-popover :append-to-body="false" placement="top-start" trigger="hover">
-															<div class="flex">
-																<em class="em-txt">※</em>
-																팝업 사이즈를 pc의 화면사이즈보다 크게 지정할 경우, 화면 최대사이즈로 표시됩니다.
-															</div>
-															<i slot="reference" class="material-icons-outlined primary">error_outline</i>
-														</el-popover>
-													</div>
-												</div>
-											</th>
-											<td colspan="3">
-												<div class="flex-item align-center wd-40">
-													<el-input placeholder="가로 (px)" class="size-sm" v-model.number="popupInfo.width"/>
-													<span class="hyphen mr5">x</span>
-													<el-input placeholder="세로 (px)" class="size-sm" v-model.number="popupInfo.height"/>
-												</div>
-											</td>
-										</tr>
-										<tr v-show="$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY === popupInfo.popupViewTypeFlag">
-											<th scope="col">
-												<div class="flex-item center flex-center">
-													<span>팝업 위치<em class="required">*</em></span>
-													<div class="popover-item border ml5" style="line-height: 1;">
-														<el-popover placement="top-start" trigger="hover" :append-to-body="false">
-															<div class="flex">
-																<em class="em-txt">※</em>
-																화면 왼쪽 상단 기준입니다. px 단위로 작성해주세요.
-															</div>
-															<i slot="reference" class="material-icons-outlined primary">error_outline</i>
-														</el-popover>
-													</div>
-												</div>
-											</th>
-											<td colspan="3">
-												<div class="flex-item align-center wd-53">
-													<el-input placeholder="가로 (px)" class="size-sm" v-model.number="popupInfo.positionX"
-													          :disabled="$amConstant.FLAG_YN.YES === popupInfo.centerAlignmentYn"/>
-													<span class="hyphen mr5">x</span>
-													<el-input placeholder="세로 (px)" class="size-sm" v-model.number="popupInfo.positionY"
-													          :disabled="$amConstant.FLAG_YN.YES === popupInfo.centerAlignmentYn"/>
-													<div class="custom-checkbox">
-														<input type="checkbox" id="checkAll" v-model="popupInfo.centerAlignmentYn"
-														       @change="isFixed"
-														       :true-value="$amConstant.FLAG_YN.YES"
-														       :false-value="$amConstant.FLAG_YN.NO"/>
-														<label for="checkAll">
-															<i></i>
-															<span class="txt csr-pointer">팝업 가운데 고정</span>
-														</label>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<th scope="col">팝업 콘텐츠 타입
-												<em class="required">*</em>
-											</th>
-											<td colspan="3">
-												<el-radio-group v-model="popupInfo.popupContentsTypeFlag">
-													<el-radio :label="$amConstant.POPUP_TYPE.CONTENTS.IMAGE">이미지 팝업</el-radio>
-													<el-radio :label="$amConstant.POPUP_TYPE.CONTENTS.EDITOR">에디터 팝업</el-radio>
-												</el-radio-group>
-											</td>
-										</tr>
-										<tr v-show="$amConstant.POPUP_TYPE.CONTENTS.IMAGE === popupInfo.popupContentsTypeFlag">
-											<th scope="col">링크 URL
-											</th>
-											<td colspan="3">
-												<el-input placeholder="URL 입력 시 http://(또는 https://)를 포함한 전체 URL을 입력해주세요"
-												          v-model="popupInfo.linkUrl"></el-input>
-											</td>
-										</tr>
-										<tr v-show="$amConstant.POPUP_TYPE.CONTENTS.IMAGE === popupInfo.popupContentsTypeFlag">
-											<th scope="col">링크 타입
-											</th>
-											<td colspan="3">
-												<el-radio-group v-model="popupInfo.linkTypeFlag">
-													<el-radio :label="$amConstant.POPUP_TYPE.LINK.NEW">새창 띄우기</el-radio>
-													<el-radio :label="$amConstant.POPUP_TYPE.LINK.PAGE">페이지 이동</el-radio>
-												</el-radio-group>
-											</td>
-										</tr>
-										<tr v-show="$amConstant.POPUP_TYPE.CONTENTS.IMAGE === popupInfo.popupContentsTypeFlag">
-											<th scope="col">
-												<div class="flex-item center flex-center">
-													<span>대표 이미지</span>
-													<div class="popover-item border ml5" style="line-height: 1;">
-														<el-popover placement="top-start"
-														            trigger="hover" :append-to-body="false">
-															<div class="flex">
-																<em class="em-txt">※</em>
-																대표 이미지 한장만 넣어주세요.
-															</div>
-															<i slot="reference" class="material-icons-outlined primary">error_outline</i>
-														</el-popover>
-													</div>
-												</div>
-											</th>
-											<td colspan="3">
-												<the-drop-zone
-													:drop-zone-style="dropZoneStyle"
-													ref="dropzoneFile"
-													:max-files="1"
-													acceptedFiles=".doc,.docx,.xls,.xlsx,.ppt,.pptx,.hwp,.pdf,.txt,.jpeg,.jpg,.png,.gif"
-													@setUploadFile="setStorageFileList"
-												/>
-											</td>
-										</tr>
-										<tr v-show="$amConstant.POPUP_TYPE.CONTENTS.EDITOR === popupInfo.popupContentsTypeFlag">
-											<td colspan="4">
-												<div class="editor-area">
-													<the-editor-script ref="froalaEditor"></the-editor-script>
-												</div>
-											</td>
-										</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-		<!-- 미리보기 모달 -->
-		<!-- 팝업 (레이어) -->
-		<the-layer-popup type="preview" :popup-info="popupInfo" :visible="layerPopupVisible" v-if="layerPopupVisible"
-		                 @close="layerPopupVisible=false;"/>
-	</div>
+    <div class="inner-wrapper popup-mgmt">
+        <!-- manager-content-body -->
+        <div class="manager-content-body">
+            <!-- contents 내용 -->
+            <div class="content-title">
+                <div class="sub-title">
+                    <h2 class="tit" v-text="popupInfo.oid ? '팝업 수정' : '팝업 등록'"></h2>
+                </div>
+            </div>
+            <div class="content-detail">
+                <!-- btn -->
+                <div class="btn-wrap-md custom">
+                    <span><b>※ 팝업 보기 타입이 '일반 타입'일 경우에만, 미리보기가 가능합니다. </b></span>
+                    <div>
+                        <el-button type="gray" size="small" @click="openPreviewModal()">
+                            <span class="material-icons-outlined">preview</span>
+                            <span>미리보기</span>
+                        </el-button>
+                        <el-button type="primary" size="small" @click="save()">
+                            <i v-if="popupInfo.oid === ''" class="material-icons">assignment_turned_in</i>
+                            <i v-else class="material-icons-outlined">create</i>
+                            <span v-text="popupInfo.oid === '' ? '등록' : '수정'">등록</span>
+                        </el-button>
+                        <el-button type="gray" size="small" v-if="popupInfo.oid" class="flex-size min-wd8 red"
+                                   @click="deleteOnePopUp()">
+                            <span class="material-icons">delete_outline</span>
+                            <span>삭제</span>
+                        </el-button>
+                        <el-button type="gray" size="small" @click="goList()">
+                            <span class="material-icons">menu</span>
+                            <span>목록</span>
+                        </el-button>
+                    </div>
+                </div>
+                <div class="input-area">
+                    <div class="input-row-md">
+                        <div class="left-area">
+                            <div class="input-label">
+                                <span>제목<em class="required">*</em></span>
+                            </div>
+                            <div class="input-data">
+                                <el-input placeholder="제목을 입력하세요" v-model="popupInfo.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-row-md">
+                        <div class="input-label">
+                            <span>노출 기간<em class="required">*</em></span>
+                        </div>
+                        <div class="input-data">
+                            <el-date-picker
+                                v-model="displayPeriodValue"
+                                type="daterange"
+                                range-separator="~"
+                                start-placeholder="시작일"
+                                end-placeholder="종료일"
+                                class="size-md">
+                            </el-date-picker>
+                        </div>
+                    </div>
+                    <div class="input-row-md">
+                        <div class="input-label">
+                            <span>노출 여부<em class="required">*</em></span>
+                        </div>
+                        <div class="input-data">
+                            <el-radio-group v-model="popupInfo.useYn">
+                                <el-radio label="Y">노출</el-radio>
+                                <el-radio label="N">비노출</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                    <div class="input-row-md">
+                        <div class="input-label">
+                            <span>팝업 보기 타입<em class="required">*</em></span>
+                        </div>
+                        <div class="input-data">
+                            <el-radio-group v-model="popupInfo.popupViewTypeFlag">
+                                <el-radio :label="$amConstant.POPUP_TYPE.VIEW.LIST.KEY">리스트 타입</el-radio>
+                                <el-radio :label="$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY">일반 타입 (사이즈, 위치 지정)</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                    <div class="input-row-md" v-show="$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY === popupInfo.popupViewTypeFlag">
+                        <div class="input-label">
+                            <span>팝업 사이즈<em class="required">*</em></span>
+                            <div class="popover-item border ml5" style="line-height: 1;">
+                                <el-popover :append-to-body="false" placement="top-start" trigger="hover">
+                                    <div class="flex">
+                                        <em class="em-txt">※</em>
+                                        팝업 사이즈를 pc의 화면사이즈보다 크게 지정할 경우, 화면 최대사이즈로 표시됩니다.
+                                    </div>
+                                    <i slot="reference" class="material-icons-outlined primary">error_outline</i>
+                                </el-popover>
+                            </div>
+                        </div>
+                        <div class="input-data custom">
+                            <el-input placeholder="가로 (px)" class="" v-model.number="popupInfo.width"/>
+                            <span class="hyphen mr5">x</span>
+                            <el-input placeholder="세로 (px)" class="" v-model.number="popupInfo.height"/>
+                        </div>
+                    </div>
+                    <div class="input-row-md" v-show="$amConstant.POPUP_TYPE.VIEW.GENERAL.KEY === popupInfo.popupViewTypeFlag">
+                        <div class="input-label">
+                            <span>팝업 위치<em class="required">*</em></span>
+                            <div class="popover-item border ml5" style="line-height: 1;">
+                                <el-popover placement="top-start" trigger="hover" :append-to-body="false">
+                                    <div class="flex">
+                                        <em class="em-txt">※</em>
+                                        화면 왼쪽 상단 기준입니다. px 단위로 작성해주세요.
+                                    </div>
+                                    <i slot="reference" class="material-icons-outlined primary">error_outline</i>
+                                </el-popover>
+                            </div>
+                        </div>
+                        <div class="input-data custom">
+                            <el-input placeholder="가로 (px)" class="size-sm" v-model.number="popupInfo.positionX"
+                                      :disabled="$amConstant.FLAG_YN.YES === popupInfo.centerAlignmentYn"/>
+                            <span class="hyphen mr5">x</span>
+                            <el-input placeholder="세로 (px)" class="size-sm" v-model.number="popupInfo.positionY"
+                                      :disabled="$amConstant.FLAG_YN.YES === popupInfo.centerAlignmentYn"/>
+                            <div class="custom-checkbox">
+                                <input type="checkbox" id="checkAll" v-model="popupInfo.centerAlignmentYn"
+                                       @change="isFixed"
+                                       :true-value="$amConstant.FLAG_YN.YES"
+                                       :false-value="$amConstant.FLAG_YN.NO"/>
+                                <label for="checkAll">
+                                    <i></i>
+                                    <span class="txt csr-pointer">팝업 가운데 고정</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-row-md">
+                        <div class="input-label">
+                            <span>팝업 콘텐츠 타입<em class="required">*</em></span>
+                        </div>
+                        <div class="input-data">
+                            <el-radio-group v-model="popupInfo.popupContentsTypeFlag">
+                                <el-radio :label="$amConstant.POPUP_TYPE.CONTENTS.IMAGE">이미지 팝업</el-radio>
+                                <el-radio :label="$amConstant.POPUP_TYPE.CONTENTS.EDITOR">에디터 팝업</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                    <div class="input-row-md" v-show="$amConstant.POPUP_TYPE.CONTENTS.IMAGE === popupInfo.popupContentsTypeFlag">
+                        <div class="input-label">
+                            <span>링크 URl</span>
+                        </div>
+                        <div class="input-data">
+                            <el-input placeholder="URL 입력 시 http://(또는 https://)를 포함한 전체 URL을 입력해주세요"
+                                      v-model="popupInfo.linkUrl"></el-input>
+                        </div>
+                    </div>
+                    <div class="input-row-md" v-show="$amConstant.POPUP_TYPE.CONTENTS.IMAGE === popupInfo.popupContentsTypeFlag">
+                        <div class="input-label">
+                            <span>링크 타입</span>
+                        </div>
+                        <div class="input-data">
+                            <el-radio-group v-model="popupInfo.linkTypeFlag">
+                                <el-radio :label="$amConstant.POPUP_TYPE.LINK.NEW">새창 띄우기</el-radio>
+                                <el-radio :label="$amConstant.POPUP_TYPE.LINK.PAGE">페이지 이동</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                    <div class="input-row-md" v-show="$amConstant.POPUP_TYPE.CONTENTS.IMAGE === popupInfo.popupContentsTypeFlag">
+                        <div class="input-label">
+                            <span>대표 이미지</span>
+                            <div class="popover-item border ml5" style="line-height: 1;">
+                                <el-popover placement="top-start"
+                                            trigger="hover" :append-to-body="false">
+                                    <div class="flex">
+                                        <em class="em-txt">※</em>
+                                        대표 이미지 한장만 넣어주세요.
+                                    </div>
+                                    <i slot="reference" class="material-icons-outlined primary">error_outline</i>
+                                </el-popover>
+                            </div>
+                        </div>
+                        <div class="input-data custom">
+                            <the-drop-zone
+                                :drop-zone-style="dropZoneStyle"
+                                ref="dropzoneFile"
+                                :max-files="1"
+                                acceptedFiles=".doc,.docx,.xls,.xlsx,.ppt,.pptx,.hwp,.pdf,.txt,.jpeg,.jpg,.png,.gif"
+                                @setUploadFile="setStorageFileList"
+                            />
+                        </div>
+                    </div>
+                    <div class="input-row-md" v-show="$amConstant.POPUP_TYPE.CONTENTS.EDITOR === popupInfo.popupContentsTypeFlag">
+                        <div class="input-data custom froala">
+                            <the-editor-script ref="froalaEditor"></the-editor-script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 미리보기 모달 -->
+        <!-- 팝업 (레이어) -->
+        <the-layer-popup type="preview" :popup-info="popupInfo" :visible="layerPopupVisible" v-if="layerPopupVisible"
+                         @close="layerPopupVisible=false;"/>
+    </div>
 </template>
 <script>
 import TheEditorScript from "~/components/common/board/TheEditorScript.vue";
@@ -234,7 +206,7 @@ import TheDropZone from "~/components/common/dropzone/TheDropZone.vue";
 import theLayerPopup from "~/components/common/popup/TheLayerPopup.vue";
 
 export default {
-	// layout     : "managerLayout",
+	layout     : "managerLayout",
 	components : {
 		TheEditorScript,
 		TheDropZone,
