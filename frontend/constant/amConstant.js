@@ -229,6 +229,34 @@ export const AM_CONSTANT = {
 		SHARE_TYPE_SHARE           : "FWDS000S",
 		SHARE_TYPE_DOWNLOAD        : "FWDS000D",
 		SHARE_TYPE_EXCEL_DATASHEET : "FWDS000E",
-	}
+	},
+
+	MATERIAL_MARKET_MAP: {
+		"EMC" : {
+			"ko" : "반도체",
+			"en" : "Semiconductor",
+			"cn" : "半導體",
+		},
+		"Ceramic Substrates" : {
+			"ko" : "반도체",
+			"en" : "Semiconductor",
+			"cn" : "半導體",
+		},
+		"Adhesive" : {
+			"ko" : "반도체",
+			"en" : "Semiconductor",
+			"cn" : "半導體",
+		},
+		"Metalized Ceramics" : {
+			"ko" : "전기전자/가전",
+			"en" : "Electrical/Electronic Appliances",
+			"cn" : " 電器/電子設備",
+		},
+		"Glass Fiber" : {
+			"ko" : "일반산업",
+			"en" : "General Industry",
+			"cn" : "一般工業",
+		},
+	},
 
 };

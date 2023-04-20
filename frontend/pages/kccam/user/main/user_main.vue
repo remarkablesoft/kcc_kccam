@@ -198,7 +198,7 @@
                                 <div class="detail-box">
                                     <!-- title 추가 -->
                                     <div class="tit-wrap">
-                                        <span class="tit" v-text="selectedMarket.title"></span>
+                                        <span class="tit" v-text="$common.isNotEmpty(selectedMarket) ? selectedMarket.title : ''"></span>
                                     </div>
                                     <div class="descr-wrap">
                                         <!-- scroll area -->
@@ -206,7 +206,7 @@
                                             <!-- el1 -->
                                             <div>
                                                 <!-- 내용은 이 안으로. -->
-                                                <p v-html="selectedMarket.descr"></p>
+                                                <p v-html="$common.isNotEmpty(selectedMarket) ? selectedMarket.descr : ''"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +215,7 @@
                                     <!--  v-show="false" -->
                                     <swiper class="swiper" :options="marketListswiperOption" ref="marketListSwiper">
                                         <!-- 개발 들어간 것 -->
-                                        <swiper-slide class="list-item" v-for="(market, marketIndex) in this.marketList" :key="marketIndex">
+	                                    <swiper-slide class="list-item" v-for="(market, marketIndex) in this.marketList" :key="marketIndex">
                                             <el-button type="white" size="small" v-text="market.title"></el-button>
                                         </swiper-slide>
                                         <!-- 이전/다음 버튼 -->
@@ -581,10 +581,6 @@ export default {
                 return;
             }
 
-            if (this.$common.isNotEmpty(this.$store.state.classification.marketList[0])) {
-                this.selectedMarket = this.$store.state.classification.marketList[0];
-            }
-
             return this.$store.state.classification.marketList;
         },
 
@@ -603,7 +599,7 @@ export default {
 
 	    materialImg() {
 
-			if ( this.$common.isNotEmpty( this.selectedMaterial?.mainImg?.storageFileUid ) ) {
+			if ( this.$common.isNotEmpty( this.selectedMaterial.mainImg.storageFileUid ) ) {
 				return "/storage/storageFile_fileView/" + this.selectedMaterial.mainImg.storageFileUid;
 			}
 
@@ -614,6 +610,22 @@ export default {
         materialMenuList() {
             this.functionListData();
         },
+
+	    selectedMaterial() {
+
+		    // const lang = Cookie.get(this.$amConstant.AM_I18N_COOKIE_KEY);
+			// const relativeMarketTitle = this.$amConstant.MATERIAL_MARKET_MAP[ this.selectedMaterial.subMenuName ][lang];
+
+			// const relativeMarket = marketList?.find( market => market?.title === relativeMarketTitle );
+			const relativeMarket = this.findRelativeMarket( this.selectedMaterial );
+			this.selectedMarket = this.$common.isNotEmpty( relativeMarket ) ? relativeMarket : this.marketList[0];
+
+			this.slideTo( this.selectedMarket );
+
+		    // const activeIndex = this.swiper.activeIndex - this.swiper.realIndex;
+			// this.marketListActiveIndex = this.marketList.indexOf( this.selectedMarket ) + activeIndex;
+			// this.swiper.slideTo( this.marketListActiveIndex );
+	    }
     },
 
     methods: {
@@ -671,15 +683,6 @@ export default {
         closePopup() {
             this.popupShowYn = false;
         },
-        // active toggle
-        activeToggle(market, marketList) {
-            for (let i = 0; i < marketList.length; i++) {
-                marketList[i].activeYn = false;
-            }
-
-            market.activeYn = true;
-            this.selectedMarket = market;
-        },
 
         classToKebabCase(itemName) {
             return _.kebabCase(_.lowerCase(itemName));
@@ -736,10 +739,33 @@ export default {
 		        this.youtubeId = "kIno6n61_Xw";
 	        }
         },
-        onSwipe(varuable) {
-            let index = varuable.swiper.realIndex;
+	    onSwipe(variable) {
+            let index = variable.swiper.realIndex;
             this.selectedMarket = this.marketList[index];
         },
+
+	    /**
+	     * selectedMarket 에 해당하는 슬라이드로 이동합니다.
+	     */
+	    slideTo( selectedMarket ) {
+
+			if ( this.$common.isEmpty( this.swiper ) ) {
+				return;
+			}
+		    const activeIndex = this.swiper.activeIndex - this.swiper.realIndex;
+		    const marketListActiveIndex = this.marketList.indexOf( selectedMarket ) + activeIndex;
+		    this.swiper.slideTo( marketListActiveIndex );
+	    },
+
+	    findRelativeMarket( selectedMaterial ) {
+			if ( this.$common.isEmpty( selectedMaterial.subMenuName ) ) {
+				return this.marketList[0];
+			}
+
+		    const lang = Cookie.get(this.$amConstant.AM_I18N_COOKIE_KEY);
+		    const relativeMarketTitle =  this.$amConstant.MATERIAL_MARKET_MAP[ selectedMaterial.subMenuName ][lang];
+		    return this.marketList.find( market => market.title === relativeMarketTitle );
+	    }
     },
 };
 </script>
