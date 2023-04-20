@@ -622,18 +622,10 @@ export default {
 
 	    selectedMaterial() {
 
-		    // const lang = Cookie.get(this.$amConstant.AM_I18N_COOKIE_KEY);
-			// const relativeMarketTitle = this.$amConstant.MATERIAL_MARKET_MAP[ this.selectedMaterial.subMenuName ][lang];
-
-			// const relativeMarket = marketList?.find( market => market?.title === relativeMarketTitle );
 			const relativeMarket = this.findRelativeMarket( this.selectedMaterial );
 			this.selectedMarket = this.$common.isNotEmpty( relativeMarket ) ? relativeMarket : this.marketList[0];
 
 			this.slideTo( this.selectedMarket );
-
-		    // const activeIndex = this.swiper.activeIndex - this.swiper.realIndex;
-			// this.marketListActiveIndex = this.marketList.indexOf( this.selectedMarket ) + activeIndex;
-			// this.swiper.slideTo( this.marketListActiveIndex );
 	    }
     },
 
