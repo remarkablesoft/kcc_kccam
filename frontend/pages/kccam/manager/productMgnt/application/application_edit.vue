@@ -254,6 +254,7 @@ import theAddProductModal from "~/components/kccam/manager/modal/TheAddProductMo
 import theAddInfoEditor from "~/components/kccam/manager/editor/TheAddInfoEditor.vue";
 import theAddApplicationModal from "~/components/kccam/manager/modal/TheAddApplicationModal.vue";
 import ThePreview from "~/components/common/board/manager/ThePreview";
+import { mapActions } from "vuex";
 
 export default {
     layout: "managerLayout",
@@ -364,6 +365,10 @@ export default {
     },
 
     methods: {
+	    ...mapActions( {
+		    setMaterialMenuListEmpty : "menu/setMaterialMenuListEmpty"
+	    } ),
+
         openParentApplicationModal() {
             this.$refs.addApplicationModal.open();
         },
@@ -444,6 +449,8 @@ export default {
                 }
 
                 this.applicationInfo = res.data;
+				// 스토어에 저장되어있는 제품 메뉴 리스트 초기화
+				this.setMaterialMenuListEmpty();
                 // console.log("등록 정보 : ", res.data);
                 this.$common.confirmSwal("Aapplication 정보 저장", "저장완료", "success").then(result => {
 					this.$router.push( this.localePath( { path : this.$urlConstant.MENU_URL_PREFIX.MANAGER_PRODUCT_MGNT + this.$urlConstant.MENU_URL_SUFFIX.PRODUCT_MGNT.APPLICATION_EDIT,
@@ -514,6 +521,9 @@ export default {
                     this.applicationInfo = {};
                     return;
                 }
+
+	            // 스토어에 저장되어있는 제품 메뉴 리스트 초기화
+	            this.setMaterialMenuListEmpty();
 
                 this.getApplicationInfo();
 

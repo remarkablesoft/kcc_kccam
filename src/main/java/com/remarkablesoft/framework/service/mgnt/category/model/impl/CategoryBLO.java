@@ -263,14 +263,29 @@ public class CategoryBLO {
 
 						return 0;
 				}
-
-				fileBLO.deleteByTarget( oid, CategoryInfo.getObjectType() );
-
-
-				int result = categoryDAO.delete( oid );
-				categoryLangDAO.deleteAll( oid );
-
-				return result;
+				
+				CategoryCnd cnd = new CategoryCnd();
+				cnd.setOid( oid );
+				CategoryInfo categoryInfo = get( cnd );
+				
+				if ( categoryInfo == null) {
+						return 0;
+				}
+				
+				// 하위 카테고리가 있다면 모두 삭제처리
+				cnd.setOid( "" ); // 지우지마세요.
+				cnd.setFullPathIndex( categoryInfo.getFullPathIndex() );
+				
+				List<CategoryInfo> list = listAll( cnd );
+				
+				list.stream().forEach( category -> {
+						
+						fileBLO.deleteByTarget( category.getOid(), CategoryInfo.getObjectType() );
+						categoryDAO.delete( category.getOid() );
+						categoryLangDAO.deleteAll( category.getOid() );
+				});
+				
+				return list.size();
 		}
 
 

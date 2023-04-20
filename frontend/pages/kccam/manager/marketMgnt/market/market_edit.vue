@@ -255,6 +255,7 @@ import theAddProductModal from "~/components/kccam/manager/modal/TheAddProductMo
 import theAddInfoEditor from "~/components/kccam/manager/editor/TheAddInfoEditor.vue";
 import theAddMarketModal from "~/components/kccam/manager/modal/TheAddMarketModal.vue";
 import ThePreview from "~/components/common/board/manager/ThePreview";
+import { mapActions } from "vuex";
 
 export default {
     layout: "managerLayout",
@@ -361,6 +362,10 @@ export default {
 
     },
     methods: {
+	    ...mapActions ( {
+		    setClassificationListEmpty : "classification/setClassificationListEmpty"
+	    } ),
+
         // 상위 마켓 모달 오픈
         openParentMarketModal() {
             this.$refs.addMarketModal.open();
@@ -530,6 +535,7 @@ export default {
                     this.marketInfo = {};
                     return;
                 }
+		        this.setClassificationListEmpty();
                 this.goList();
             });
         },
@@ -574,6 +580,7 @@ export default {
                 }
 
                 this.marketInfo = res.data;
+	            this.setClassificationListEmpty();
                 // this.$common.confirmSwal("Market 정보 저장", "저장완료", "success").then(result => {
                 //     this.goList();
                 // });
@@ -607,6 +614,7 @@ export default {
 				    this.$axios.post(URL_DELETE, param).then(res => {
 					    if (1 === res.data.success) {
 
+							this.setClassificationListEmpty();
 							this.goList();
 					    }
 					    else {

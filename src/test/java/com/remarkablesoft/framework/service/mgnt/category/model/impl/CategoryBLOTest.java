@@ -15,6 +15,8 @@ import com.remarkablesoft.framework.service.SystemFactory;
 import com.remarkablesoft.framework.service.mgnt.category.vo.CategoryCnd;
 import com.remarkablesoft.framework.service.mgnt.category.vo.CategoryInfo;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**                                                            
  * 	                                                           
  * 		@주시스템			:	framework-web 	                   
@@ -228,5 +230,26 @@ public class CategoryBLOTest extends BaseModelTest{
 		
 		list.forEach( s -> System.out.println( s ) );
 	}
-	
+		
+    /**
+     * 삭제 전 하위 카테고리가 포함되어 리스트를 가져오는지 테스트
+     */
+	@Test
+    public void 하위카테고리_포함_테스트() {
+	    String oid = "1SUX7DRL00G";
+	    CategoryCnd cnd = new CategoryCnd();
+	    cnd.setOid( oid );
+	    CategoryInfo categoryInfo = categoryBLO.get( cnd );
+			
+		assertThat( categoryInfo ).isNotNull();
+	    
+	    // 하위 카테고리가 있다면 모두 삭제처리
+	    cnd.setOid( "" ); // 지우지마세요.
+	    cnd.setFullPathIndex( categoryInfo.getFullPathIndex() );
+	    
+	    List<CategoryInfo> list = categoryBLO.listAll( cnd );
+			
+		assertThat( list.size() ).isEqualTo( 2 );
+		list.forEach( System.out::println );
+	}
 }
