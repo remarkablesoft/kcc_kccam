@@ -283,4 +283,32 @@ export const AM_CONSTANT = {
 	},
 	// 팝업 (종료) -->
 
+	MATERIAL_MARKET_MAP: {
+		"EMC" : {
+			"ko" : "반도체",
+			"en" : "Semiconductor",
+			"cn" : "半導體",
+		},
+		"Ceramic Substrates" : {
+			"ko" : "반도체",
+			"en" : "Semiconductor",
+			"cn" : "半導體",
+		},
+		"Adhesive" : {
+			"ko" : "반도체",
+			"en" : "Semiconductor",
+			"cn" : "半導體",
+		},
+		"Metalized Ceramics" : {
+			"ko" : "전기전자/가전",
+			"en" : "Electrical/Electronic Appliances",
+			"cn" : " 電器/電子設備",
+		},
+		"Glass Fiber" : {
+			"ko" : "일반산업",
+			"en" : "General Industry",
+			"cn" : "一般工業",
+		},
+	},
+
 };
