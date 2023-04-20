@@ -49,11 +49,11 @@
 					<div class="content-footer">
                         <div class="btn-row">
 							<button class="btn-close-round" @click="hideToday(item)" round v-if="type !== 'preview'">
-								<span class="txt">오늘 하루 열지 않기</span>
+								<span class="txt">Don't open it today</span>
 								<i class="material-icons">close</i>
 							</button>
 							<button class="btn-close-round" @click="close(item)" round>
-								<span class="txt"> 닫기</span>
+								<span class="txt">close</span>
 								<i class="material-icons">close</i>
 							</button>
 						</div>
@@ -62,7 +62,8 @@
 			</div>
 		</div>
 		<!-- 모바일 버전일 때만 보이는 footer입니다 -->
-		<div class="container-footer mob-visible" v-if="type !== 'preview' || $common.isMobile()">
+<!--        v-if="type !== 'preview' || $common.isMobile()"-->
+		<div class="container-footer mob-visible" v-if="false">
 			<div class="btn-row">
 				<button class="btn-close-round" round @click="hideAllToday()">
 					<span class="txt">전체 팝업 하루동안 열지 않기</span>

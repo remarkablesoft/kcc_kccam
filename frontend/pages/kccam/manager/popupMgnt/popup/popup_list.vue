@@ -76,7 +76,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="no-data" v-if="$fetchState.pending || 1 > listCount">
+                        <tr v-if="$fetchState.pending || 1 > listCount">
                             <td colspan="8">
                                 <!-- no-data(loading) -->
                                 <div class="no-data" v-if="$fetchState.pending">
