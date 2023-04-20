@@ -151,6 +151,7 @@ import theAddRelatedDocumentModal from "~/components/kccam/manager/modal/TheAddR
 import theAddParentProductClassificationModal from "~/components/kccam/manager/modal/TheAddParentProductClassificationModal";
 import theRelateDoc from "~/components/common/board/manager/TheRelatedDoc.vue";
 import ThePreview from "~/components/common/board/manager/ThePreview";
+import { mapActions } from "vuex";
 
 export default {
 	layout     : "managerLayout",
@@ -247,6 +248,9 @@ export default {
 		},
 	},
 	methods  : {
+		...mapActions( {
+			setMaterialMenuListEmpty : "menu/setMaterialMenuListEmpty"
+		} ),
 		/**
 		 * 목록 페이지로 이동
 		 */
@@ -547,6 +551,7 @@ export default {
 			let param = info;
 			const url = this.$urlConstant.API_URL_PREFIX.CLASSIFICATION + this.$urlConstant.API_URL_SUFFIX.CLASSIFICATION.INSERT;
 			this.$axios.post( url, param ).then( res => {
+					this.setMaterialMenuListEmpty();
 					this.goList();
 				} ).catch( error => {
 					console.log( error );
@@ -560,6 +565,7 @@ export default {
 			let param = info;
 			const url = this.$urlConstant.API_URL_PREFIX.CLASSIFICATION + this.$urlConstant.API_URL_SUFFIX.CLASSIFICATION.UPDATE;
 			this.$axios.post( url, param ).then( res => {
+				this.setMaterialMenuListEmpty();
 				this.goList();
 			} ).catch( error => {
 				console.log( error );
@@ -674,27 +680,28 @@ export default {
 		/**
 		 * 제품 정보를 삭제합니다.
 		 */
-		remove() {
-			this.$common.swalWithOptions( "삭제 확인", "이 제품 구분 정보를 삭제하시겠습니까?", "info" ).then( isDelete => {
-				if ( isDelete ) {
-					const url = this.$urlConstant.API_URL_PREFIX.CLASSIFICATION
-						+ this.$urlConstant.API_URL_SUFFIX.CLASSIFICATION.DELETE;
-					let param = {
-						oid : this.$route.query.oid,
-					};
-					this.$axios.post( url, param ).then( res => {
-						if ( 1 === res.data.success ) {
-							const redirectUrl = this.$urlConstant.MENU_URL_PREFIX.MANAGER_PRODUCT_MGNT
-								+ this.$urlConstant.MENU_URL_SUFFIX.PRODUCT_MGNT.PRODUCT_CLASSIFICATION;
-							this.$router.push( redirectUrl );
-						}
-						else {
-							console.log( res );
-						}
-					} ).catch( error => {
-						console.log( error );
-					} );
+		async remove() {
+			await this.$common.swalWithOptions( "삭제 확인", "이 제품 구분 정보를 삭제하시겠습니까?", "info" ).then( isDelete => {
+				if (!isDelete ) {
+					return;
 				}
+				const url = this.$urlConstant.API_URL_PREFIX.CLASSIFICATION
+					+ this.$urlConstant.API_URL_SUFFIX.CLASSIFICATION.DELETE;
+				let param = {
+					oid : this.$route.query.oid,
+				};
+				this.$axios.post( url, param ).then( res => {
+					if ( 1 !== res.data.success ) {
+						console.log( res );
+						return;
+					}
+					this.setMaterialMenuListEmpty();
+					const redirectUrl = this.$urlConstant.MENU_URL_PREFIX.MANAGER_PRODUCT_MGNT
+						+ this.$urlConstant.MENU_URL_SUFFIX.PRODUCT_MGNT.PRODUCT_CLASSIFICATION;
+					this.$router.push( redirectUrl );
+				} ).catch( error => {
+					console.log( error );
+				} );
 			} );
 		},
 		setHtmlContents() {
