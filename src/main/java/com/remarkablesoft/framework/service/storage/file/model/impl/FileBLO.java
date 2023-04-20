@@ -46,7 +46,7 @@ public class FileBLO {
 						inputUser = AutheUtils.getLoginUserOid();
 				}
 
-				return insertList( user.getFileList(), containerOid, targetOid, targetObject, inputUser );
+				return insertList( user.getFileList(), targetObject, targetOid, "", containerOid, inputUser );
 		}
 
 		public int insert( List<FileInfo> fileInfoList, String targetObject, String targetOid, String containerOid ) {
@@ -360,30 +360,14 @@ public class FileBLO {
 		}
 		
 		public int insertList( List<FileInfo> fileList, String targetObject, String targetOid, String fileType ) {
-				
+
 				return insertList( fileList, targetObject, targetOid, fileType, "" );
 		}
 
 
-		public int insertList( List<FileInfo> fileList, String containerOid, String targetOid, String targetObject, String inputUser ) {
-
-				int result = 0 ;
-
-				for ( FileInfo fileInfo : fileList ) {
-
-						assertThat( fileInfo.getStorageFileUid() ).as( "StorageFileUid가 없습니다." ).isNotEmpty();
-						
-						fileInfo.setContainerOid( containerOid );
-						fileInfo.setOid( OIDGenerator.generateOID() );
-						fileInfo.setTargetObject( targetObject );
-						fileInfo.setTargetOid( targetOid );
-						fileInfo.setInputUser( inputUser );
-						fileInfo.setInputDate( LocalDateTime.now() );
-						
-						result += fileDAO.insert( fileInfo );
-				}
-
-				return result;
+		public int insertList( List<FileInfo> fileList, String targetObject, String targetOid, String fileType, String containerOid ) {
+				
+				return insertList( fileList, targetObject, targetOid, fileType, containerOid, "" );
 		}
 		
 		public int insertList( List<FileInfo> fileList, String targetObject, String targetOid, String fileType, String containerOid, String inputUser ) {
