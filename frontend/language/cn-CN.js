@@ -138,7 +138,7 @@ export default {
 
 	user_intro_introAM_body_content1_tit : '有機材料',
 	user_intro_introAM_body_content1_subtxt : 'KCC有機材料包括半導體密封劑（EMC）和電氣和電子粘合劑。\ n'
-											+'KCC有機材料用於大多數使用半導體的產品，包括手機，冰箱和電視等一般家用電器，工業設備和汽車。\ n'
+											+'KCC有機材料用於大多數使用半導體的產品，冰箱和電視等一般家用電器，工業設備和汽車。\ n'
 											+'隨著反映先進IT技術的產品數量的增加，全球半導體市場正在擴大，對KCC有機材料的需求也在增加。\ n \ n'
 											+'半導體材料包括各種粘合劑（DAP，底部填充膠）。\ nKCC半導體材料針對世界一流的半導體製造商的工藝進行了優化，與其他公司相比，表現出卓越的性能。\ n'
 											+'顯示材料包括UV成型材料和UV密封材料，並以更高的質量和先進的技術向國內外領先的客戶進行銷售和推廣。',
@@ -293,11 +293,11 @@ export default {
 
 	//### 헤더
 	user_market_main_header_tit : 'Market',
-	user_market_main_header_subtxt : 'KCC的先進材料被用於在半導體，手機，汽車，電氣/電子/家用電器，<br/>建築和船舶等各個行業中實現完美的性能。',
+	user_market_main_header_subtxt : 'KCC的先進材料被用於在半導體，汽車，電氣/電子/家用電器，<br/>建築和船舶等各個行業中實現完美的性能。',
 	user_market_list_header_subtxt : '市場 羅列.',
 	user_market_view_header_subtxt : 'KCC为半导体、移动、汽车、电子/家电、建筑、船舶等多种产业提供最尖端材料。 KCC通过变化和革新，通过最好的尖端素材提高顾客的未来价值',
 
-	user_market_main_descr1 : 'KCC為各種行業提供最先進的材料，例如半導體，手機，汽車，電氣/電子/家用電器，建築和船舶。',
+	user_market_main_descr1 : 'KCC為各種行業提供最先進的材料，例如半導體，汽車，電氣/電子/家用電器，建築和船舶。',
 	user_market_main_descr2 : 'KCC通過最好的高科技材料通過變革和創新來提高客戶的未來價值。',
 
 	user_market_main_function_tit : 'Function',

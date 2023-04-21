@@ -296,12 +296,12 @@ export default {
 
 	//### 헤더
 	user_market_main_header_tit : 'Market',
-	user_market_main_header_subtxt : 'KCC 첨단 소재는 반도체, 모바일, 자동차, 전기전자/가전, 건축, 선박 등<br>다양한 산업에서 완벽한 성능을 구현하기 위해 적용되고 있습니다.',
+	user_market_main_header_subtxt : 'KCC 첨단 소재는 반도체, 자동차, 전기전자/가전, 건축, 선박 등<br>다양한 산업에서 완벽한 성능을 구현하기 위해 적용되고 있습니다.',
 	user_market_list_header_subtxt : 'Market 목록입니다.',
-	user_market_view_header_subtxt : 'KCC 첨단 소재는 반도체, 모바일, 자동차, 전기전자/가전, 건축, 선박 등<br> 다양한 산업에서 완벽한 성능을 구현하기 위해 적용되고 있습니다.<br>'
+	user_market_view_header_subtxt : 'KCC 첨단 소재는 반도체, 자동차, 전기전자/가전, 건축, 선박 등<br> 다양한 산업에서 완벽한 성능을 구현하기 위해 적용되고 있습니다.<br>'
 										+'KCC는 변화와 혁신을 통한 최고의 첨단소재를 통해 고객의 미래가치를 향상시키고 있습니다.',
 
-	user_market_main_descr1 : 'KCC는 반도체, 모바일, 자동차, 전기전자/가전, 건축, 선박 등 다양한 산업에 최첨단 소재를 공급하고 있습니다.',
+	user_market_main_descr1 : 'KCC는 반도체, 자동차, 전기전자/가전, 건축, 선박 등 다양한 산업에 최첨단 소재를 공급하고 있습니다.',
 	user_market_main_descr2 : 'KCC는 변화와 혁신을 통한 최고의 첨단소재를 통해 고객의 미래가치를 향상시키고 있습니다.',
 
 	user_market_main_function_tit : 'Function',

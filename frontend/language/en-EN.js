@@ -296,12 +296,12 @@ export default {
 
 	//### 헤더
 	user_market_main_header_tit : 'Market',
-	user_market_main_header_subtxt : 'KCC\'s advanced materials are applied to realize perfect performance </br> in various industries such as semiconductors, mobiles, automobiles, electric/electronics/home appliances, architecture, and ships.',
+	user_market_main_header_subtxt : 'KCC\'s advanced materials are applied to realize perfect performance </br> in various industries such as semiconductors, automobiles, electric/electronics/home appliances, architecture, and ships.',
 	user_market_list_header_subtxt : 'Market List',
-	user_market_view_header_subtxt : 'KCC’s advanced materials are applied to achieve perfect functionalities across a wide range of industries, including semiconductors, mobile, automotive, electric, electronic, construction, marine and home applications.'
+	user_market_view_header_subtxt : 'KCC’s advanced materials are applied to achieve perfect functionalities across a wide range of industries, including semiconductors, automotive, electric, electronic, construction, marine and home applications.'
 									+'<br/><br/>KCC is enhancing customers’ future value with cutting-edge materials technology developed through change and innovation.',
 
-	user_market_main_descr1 : 'KCC supplies state-of-the-art materials to various industries such as semiconductors, mobiles, automobiles, electric/electronics/home appliances, construction, and ships.',
+	user_market_main_descr1 : 'KCC supplies state-of-the-art materials to various industries such as semiconductors, automobiles, electric/electronics/home appliances, construction, and ships.',
 	user_market_main_descr2 : 'KCC is improving the future value of customers through the best high-tech materials through change and innovation.',
 
 	user_market_main_function_tit : 'Function',
