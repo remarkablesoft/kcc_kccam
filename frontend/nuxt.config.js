@@ -25,13 +25,13 @@ export default {
             {
                 name: "keywords",
                 content:
-                    "KCC, KCC Advanced Materials, KCC materials, Product, Market, 건축, 모바일, 반도체, 선박/해양플랜트, 일반산업, 자동차, 전기전자/가전, EMC, Adhesive, Metalized Ceramics, Ceramic Substrates, Glass Fiber",
+                    "KCC, KCC Advanced Materials, KCC materials, Product, Market, 건축, 반도체, 선박/해양플랜트, 일반산업, 자동차, 전기전자/가전, EMC, Adhesive, Metalized Ceramics, Ceramic Substrates, Glass Fiber",
             },
             {
                 hid: "description",
                 name: "description",
                 content:
-                    "KCC 첨단소재(Advanced materials)는 반도체,모바일,자동차,전기전자/가전,건축,선박 등 다양한 산업에서 완벽한 성능을 구현 노력",
+                    "KCC 첨단소재(Advanced materials)는 반도체,자동차,전기전자/가전,건축,선박 등 다양한 산업에서 완벽한 성능을 구현 노력",
             },
             // { name: "google-site-verification", content: "jyVzBemZTV44zZBoFeUfdHR2IAh9k6ARhjqdtAVfYt8" }, // 구글 검색
 
@@ -41,7 +41,7 @@ export default {
             {
                 property: "og:description",
                 content:
-                    "KCC 첨단소재(Advanced materials)는 반도체,모바일,자동차,전기전자/가전,건축,선박 등 다양한 산업에서 완벽한 성능을 구현 노력",
+                    "KCC 첨단소재(Advanced materials)는 반도체,자동차,전기전자/가전,건축,선박 등 다양한 산업에서 완벽한 성능을 구현 노력",
             },
             { property: "og:image", content: "/logo_am_thumb.png" }, // 대표 이미지(로고)
             { property: "og:url", content: "https://www.kccmaterials.co.kr" },
@@ -51,7 +51,7 @@ export default {
             {
                 name: "twitter:description",
                 content:
-                    "KCC 첨단소재(Advanced materials)는 반도체,모바일,자동차,전기전자/가전,건축,선박 등 다양한 산업에서 완벽한 성능을 구현 노력",
+                    "KCC 첨단소재(Advanced materials)는 반도체,자동차,전기전자/가전,건축,선박 등 다양한 산업에서 완벽한 성능을 구현 노력",
             },
             { name: "twitter:image", content: "/logo_am_thumb.png" }, // 대표 이미지(로고)
             { name: "twitter:domain", content: "https://www.kccmaterials.co.kr" },
