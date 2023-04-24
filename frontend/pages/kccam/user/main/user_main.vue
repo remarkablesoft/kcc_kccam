@@ -608,7 +608,7 @@ export default {
 
 	    materialImg() {
 
-			if ( this.$common.isNotEmpty( this.selectedMaterial.mainImg.storageFileUid ) ) {
+			if ( this.$common.isNotEmpty( this.selectedMaterial.mainImg?.storageFileUid ) ) {
 				return "/storage/storageFile_fileView/" + this.selectedMaterial.mainImg.storageFileUid;
 			}
 
