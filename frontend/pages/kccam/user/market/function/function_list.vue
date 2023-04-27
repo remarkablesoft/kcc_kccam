@@ -196,13 +196,15 @@ export default {
 
             switch (index) {
                 case 0:
-                    return functionImg01;
+                    // return functionImg01;
+                    return functionImg02;
                 case 1:
                     return functionImg02;
                 case 2:
                     return functionImg03;
                 case 3:
-                    return functionImg04;
+                    // return functionImg04;
+                    return functionImg01;
                 default:
                     return functionImg04;
             }
