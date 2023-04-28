@@ -302,7 +302,7 @@ export const AM_CONSTANT = {
 		"Metalized Ceramics" : {
 			"ko" : "전기전자/가전",
 			"en" : "Electrical/Electronic Appliances",
-			"cn" : " 電器/電子設備",
+			"cn" : "電器/電子設備",
 		},
 		"Glass Fiber" : {
 			"ko" : "일반산업",
