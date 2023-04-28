@@ -104,7 +104,7 @@ public class PopupBLO {
         return info;
     }
 		
-		@CacheEvict( value = "popup", allEntries = true )
+	@CacheEvict( value = "popup", allEntries = true )
     public PopupInfo update( PopupInfo info ) {
 
 		if ( info == null || StringUtils.isEmpty( info.getOid() ) ) {
@@ -118,7 +118,7 @@ public class PopupBLO {
 				if ( PopupInfo.POPUP_CONTENTS_TYPE_FLAG_EDITOR.equals( info.getPopupContentsTypeFlag() ) ) {
 
 						// 처음에 에디터 팝업이 아니었다면, contents가 없기 때문에 insertOrUpdate로 변경
-						contentsBLO.save( convertContentsInfo( info ) );
+						saveContents( info );
 				}
 				// 이미지 팝업으로 바꿨다면 ? contents 삭제해주기
 				else {
@@ -135,7 +135,7 @@ public class PopupBLO {
 
 		return info;
     }
-
+		
 	@CacheEvict( value = "popup", allEntries = true )
     public int delete( String oid ) {
 
@@ -364,5 +364,27 @@ public class PopupBLO {
 										.filter( user -> popup.getInputUser().equals( user.getOid() ) )
 										.forEach( user -> popup.setExtraInfoMap( "inputUserName", user.getName() ) ) );
 	}
-
+	
+	/**
+	 * 팝업의 에디터 내용을 저장합니다.
+	 *
+	 * @param popupInfo
+	 * @author 윤건희
+	 * @작성일 2023-04-28
+	 */
+    private void saveContents( PopupInfo popupInfo ) {
+		
+	    if ( popupInfo == null || StringUtils.isEmpty( popupInfo.getOid() ) ) {
+		    return;
+		}
+		
+		ContentsInfo contentsInfo = convertContentsInfo( popupInfo );
+		ContentsInfo existedContentsInfo = contentsBLO.get( new ContentsInfo().setTargetObject( PopupInfo.getObjectType() ).setTargetOid( popupInfo.getOid() ) );
+		
+		// update를 위한 oid 세팅
+		if ( existedContentsInfo != null ) {
+			contentsInfo.setOid( existedContentsInfo.getOid() );
+		}
+		contentsBLO.save( contentsInfo );
+    }
 }
