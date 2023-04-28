@@ -32,14 +32,14 @@
                             </div>
                             <div class="img-descr-group">
                                 <!-- img -->
-                                <div class="img-box">
-                                    <!-- 샘플 이미지 -->
-                                    <img
-                                        src="@/assets/images/contents/product/contents_product_adhesive.png"
-                                        alt="application 관련 이미지"
-                                        class="img"
-                                    />
-                                </div>
+<!--                                <div class="img-box">-->
+<!--                                    &lt;!&ndash; 샘플 이미지 &ndash;&gt;-->
+<!--                                    <img-->
+<!--                                        src="@/assets/images/contents/product/contents_product_adhesive.png"-->
+<!--                                        alt="application 관련 이미지"-->
+<!--                                        class="img"-->
+<!--                                    />-->
+<!--                                </div>-->
                                 <!-- descr -->
                                 <div class="descr">
                                     <h3 class="tit lg" v-text="productInfo.name"></h3>
