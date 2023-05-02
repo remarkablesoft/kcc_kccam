@@ -397,7 +397,7 @@
         </el-dialog>
 
         <!-- 팝업 (레이어) -->
-	    <the-layer-popup :visible="true"/>
+	    <the-layer-popup/>
         <!--popup zone 팝업-->
 	    <the-popup-zone/>
     </div>

@@ -85,10 +85,6 @@ import Cookies from "js-cookie";
 
 export default {
 	props : {
-		visible   : {
-			type    : Boolean,
-			default : false,
-		},
 		popupInfo : {
 			type : Object,
 			default() {
@@ -102,7 +98,7 @@ export default {
 	},
 	data() {
 		return {
-			layerPopupVisible : this.visible,
+			layerPopupVisible : false,
 			popupList         : [],
             pcimValue         : false,
 		};
@@ -112,9 +108,6 @@ export default {
 		layerPopupVisible() {
 			this.setScrollOverflow();
 		},
-		visible() {
-			this.layerPopupVisible = this.visible;
-		}
 	},
 	mounted() {
 		this.setScrollOverflow();
@@ -181,9 +174,10 @@ export default {
 			await this.$axios.post( this.$urlConstant.API_URL_PREFIX.POPUP + this.$urlConstant.API_URL_SUFFIX.POPUP.OPERATION_LIST, param ).then( res => {
 
 				if ( this.$common.isEmpty( res.data ) ) {
-					this.layerPopupVisible = false;
 					return;
 				}
+
+				this.layerPopupVisible = true;
 
 				this.popupList = res.data;
 
