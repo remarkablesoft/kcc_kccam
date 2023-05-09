@@ -588,6 +588,15 @@
 			</properties>
 		</profile>
 
+		<profile>
+			<id>real2</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+				<deploy.phase>real2</deploy.phase>
+				<spring.boot.mainclass>com.remarkablesoft.site.kccam.web.StartWebApplication</spring.boot.mainclass>
+			</properties>
+		</profile>
+
 
 	</profiles>
 
