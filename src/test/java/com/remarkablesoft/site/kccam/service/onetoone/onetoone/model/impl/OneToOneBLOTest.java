@@ -127,10 +127,11 @@ public class OneToOneBLOTest extends BaseModelTest {
 				otoInfo.setDescr( "설명설명" );
 				otoInfo.setInputUser( "11111111111" );
 				otoInfo.setInputDate( LocalDateTime.now() );
-				otoInfo.setReceiverEmail( "nyj9349@hanmail.net" );
-				
+//				otoInfo.setReceiverEmail( "nyj9349@hanmail.net" );
+				otoInfo.setReceiverEmail( "gh.yoon93@gmail.com" );
+
 				OneToOneConfigInfo otoConfigInfo = new OneToOneConfigInfo();
-				otoConfigInfo.setConfigReceiverEmail( "nyj9349@hanmail.net" );
+				otoConfigInfo.setConfigReceiverEmail( "gh.yoon93@gmail.com" );
 				
 				List<OneToOneConfigInfo> configList = new ArrayList<>();
 				configList.add( otoConfigInfo );
@@ -149,7 +150,7 @@ public class OneToOneBLOTest extends BaseModelTest {
 				otoInfo.addOneToOneDetailList( oneToOneDetailInfo2 );
 				
 				UserInfo user = SystemFactory.getUserInfo();
-				user.setEmail( "nyj9349@hanmail.net" );
+				user.setEmail( "gh.yoon93@gmail.com" );
 				user.setOrganizationName( "리마커블소프트" );
 				user.setPhonePart1( "010" ).setPhonePart2( "1234" ).setPhonePart3( "5678" );
 				user.setName( "질문자" );

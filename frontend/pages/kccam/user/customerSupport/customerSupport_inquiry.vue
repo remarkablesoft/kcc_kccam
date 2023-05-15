@@ -366,7 +366,7 @@
 
                             <!-- 완료 버튼 -->
                             <div class="btn-wrap center">
-                                <el-button type="primary" size="xlarge" @click="save">{{ $t("user_common_complete") }}</el-button>
+                                <el-button type="primary" size="xlarge" @click="sendRequestEmail">{{ $t("user_common_complete") }}</el-button>
                             </div>
                         </form>
                     </div>
@@ -548,7 +548,7 @@ export default {
         /**
          * 1대1 문의 정보를 저장합니다.
          */
-        save() {
+        sendRequestEmail() {
             const _self = this;
             this.oneToOneInfo.oneToOneDetailList = this.setOtoDetailList();
             let validationResult = this.validationOtoInfo();
@@ -560,13 +560,13 @@ export default {
             this.oneToOneInfo.inputUserInfo.name = this.familyNameInput + this.firstNameInput;
             this.oneToOneInfo.configOid = this.selectedQuestionOid;
 
-            const url = this.$urlConstant.API_URL_PREFIX.ONE_TO_ONE + this.$urlConstant.API_URL_SUFFIX.ONE_TO_ONE.SAVE;
+            const url = this.$urlConstant.API_URL_PREFIX.ONE_TO_ONE + this.$urlConstant.API_URL_SUFFIX.ONE_TO_ONE.SEND_REQUEST_MAIL;
 
             let reqParam = this.oneToOneInfo;
             this.$axios
                 .post(url, reqParam)
                 .then(res => {
-                    if (!_self.$common.isEmpty(res.data.oid)) {
+                    if (!_self.$common.isEmpty(res.data)) {
                         _self.$common.confirmSwal(
                             _self.$t("user_customerSupportInquiry_swal_inquiry_save"),
                             _self.$t("user_customerSupportInquiry_swal_save_success"),

@@ -73,7 +73,7 @@ export default {
 				return;
 			}
 
-			const url = this.$urlConstant.API_URL_PREFIX.ONE_TO_ONE + this.$urlConstant.API_URL_SUFFIX.ONE_TO_ONE.SEND_MAIL;
+			const url = this.$urlConstant.API_URL_PREFIX.ONE_TO_ONE + this.$urlConstant.API_URL_SUFFIX.ONE_TO_ONE.SEND_RESPONSE_MAIL;
 
 			let param = {
 				// receiverEmailList : [

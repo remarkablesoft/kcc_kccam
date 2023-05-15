@@ -174,7 +174,8 @@ export const URL_CONSTANT = {
 			SAVE : "onetoone_save",
 			LIST : "onetoone_list",
 			GET : "onetoone_get",
-			SEND_MAIL : "onetoone_sendEmail",
+			SEND_RESPONSE_MAIL : "onetoone_sendResponseEmail",
+			SEND_REQUEST_MAIL : "onetoone_sendRequestEmail",
 		},
 		ONE_TO_ONE_CONFIG : {
 			SAVE : "onetooneconfig_save",

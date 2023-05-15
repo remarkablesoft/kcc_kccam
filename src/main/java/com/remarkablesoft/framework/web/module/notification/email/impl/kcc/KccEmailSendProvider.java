@@ -11,6 +11,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.mail.util.ByteArrayDataSource;
 
+import com.remarkablesoft.framework.util.ApplicationPropertiesUtils;
 import com.remarkablesoft.framework.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Primary;
@@ -39,15 +40,15 @@ import com.remarkablesoft.framework.web.module.notification.email.impl.kcc.excep
 public class KccEmailSendProvider implements MessageSendProvider  {
 
 	protected static final Logger logger = CommonLoggerFactory.getLogger( "EmailSend" );
-	
-	private final static String host = "mail.kccworld.co.kr";
-	private final static String port = "25";
-	private final static String userName = "smartbook";
-	private final static String password = "smart3480";
-	private final static String EMAIL_FROM = "kccmaterials@kccworld.co.kr";
-	
-	private final static String EMAIL_NAME = "KCC Advanced Materials"; 
-	
+
+	private final static String host = ApplicationPropertiesUtils.getValue("mail.hostName");
+	private final static String port = ApplicationPropertiesUtils.getValue("mail.port");
+	private final static String userName = ApplicationPropertiesUtils.getValue("mail.auth.userName");
+	private final static String password = ApplicationPropertiesUtils.getValue("mail.auth.password");
+	private final static String EMAIL_FROM = ApplicationPropertiesUtils.getValue("mail.displaySendMail");
+
+	private final static String EMAIL_NAME = ApplicationPropertiesUtils.getValue("mail.displaySendName");
+
 	@Override
 	public void send( MessageInfo message, UserInfo user ) {
 
@@ -96,12 +97,12 @@ public class KccEmailSendProvider implements MessageSendProvider  {
 		try {
 			logger.debug("start mail function");
 			Properties prop = System.getProperties();
-			//prop.setProperty( "mail.smtp.starttls.enable", "true" );
-			prop.setProperty( "mail.debug", "true" );
-//         prop.setProperty("mail.smtp.auth", "true");
-			prop.setProperty( "mail.smtp.auth", "false" );
-			prop.setProperty( "mail.smtp.ehlo", "false");
 			prop.setProperty( "mail.smtp.host", host );
+			prop.setProperty( "mail.smtp.port", port );
+			prop.setProperty( "mail.smtp.auth", "false" );
+//			prop.setProperty( "mail.smtp.ehlo", "false");
+			prop.setProperty( "mail.debug", "true" );
+
 			Authenticator auth = new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication( userName, password );
@@ -131,7 +132,7 @@ public class KccEmailSendProvider implements MessageSendProvider  {
 			}
 			else {
 				// mbp1.setText(content.replaceAll(" ","&nbsp;"),"UTF-8");
-				mbp1.setText( content, "UTF-8" );
+					mbp1.setText( content, "UTF-8" );
 				
 			}
 			

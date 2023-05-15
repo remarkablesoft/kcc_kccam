@@ -50,7 +50,7 @@ public class OneToOneController extends BaseController {
 		 * @return HashMap<String, Object>
 		 * @author 남윤재
 		 */
-		@RequestMapping( value = "onetoone_list" )
+		@RequestMapping( value = "/onetoone_list" )
 		public ResponseEntity<HashMap<String, Object>> list( @RequestBody OneToOneCnd cnd ) {
 				
 				HashMap<String, Object> resultMap = new HashMap<>();
@@ -68,7 +68,7 @@ public class OneToOneController extends BaseController {
 		 *  @return info
 		 *  @author 남윤재
 		 */
-		@RequestMapping( value = "onetoone_get" )
+		@RequestMapping( value = "/onetoone_get" )
 		public ResponseEntity<OneToOneInfo> get( @RequestBody OneToOneCnd cnd ) {
 				
 				return ResponseEntity.ok( oneToOneService.get( cnd ) );
@@ -81,8 +81,14 @@ public class OneToOneController extends BaseController {
 		 * @param info
 		 * @return
 		 */
-		@RequestMapping( value = "onetoone_sendEmail" )
+		@RequestMapping( value = "/onetoone_sendResponseEmail" )
 		public void sendEmail( @RequestBody OneToOneInfo info ) {
 				oneToOneService.sendEmailToCustomer( info );
+		}
+
+		@RequestMapping( value = "/onetoone_sendRequestEmail" )
+		public ResponseEntity<OneToOneInfo> sendRequestEmail( @RequestBody OneToOneInfo info ) {
+			oneToOneService.sendEmail( info );
+			return ResponseEntity.ok( info );
 		}
 }
